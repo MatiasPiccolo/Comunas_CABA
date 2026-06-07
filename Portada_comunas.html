@@ -10,83 +10,82 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Barlow Condensed', sans-serif; background: #ffffff; min-height: 100vh; }
+  
+  /* BARRA SUPERIOR: Ajustada a celeste y blanco */
   .topbar { background: #1c9eda; padding: .6rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
-  .topbar-left { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: rgba(232,220,200,.45); }
+  .topbar-left { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #ffffff; }
+  
+  /* HERO: Círculos decorativos ajustados a blanco con sutil transparencia */
   .hero { background: #1c9eda; padding: 3.5rem 2rem 3rem; position: relative; overflow: hidden; }
-  .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:400px; height:400px; border:1px solid rgba(232,220,200,.05); border-radius:50%; pointer-events:none; }
-  .hero::after  { content:''; position:absolute; top:-40px; right:-40px; width:220px; height:220px; border:1px solid rgba(232,220,200,.04); border-radius:50%; pointer-events:none; }
+  .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:400px; height:400px; border:1px solid rgba(255,255,255,.08); border-radius:50%; pointer-events:none; }
+  .hero::after  { content:''; position:absolute; top:-40px; right:-40px; width:220px; height:220px; border:1px solid rgba(255,255,255,.06); border-radius:50%; pointer-events:none; }
   .hero-eyebrow { font-size: 30px; letter-spacing: .15em; text-transform: uppercase; color: #ffffff; margin-bottom: .5rem; }
-  .hero-org { 
-    font-size: 12px; 
-    color: #ffffff; 
-    margin-bottom: .2rem; 
-  }
- .hero-sub-org { 
-    font-size: 12px; 
-    color: #ffffff; 
-    margin-bottom: 0.3rem; 
-  }
+  .hero-org { font-size: 12px; color: #ffffff; margin-bottom: .2rem; }
+  .hero-sub-org { font-size: 12px; color: #ffffff; margin-bottom: 0.3rem; }
   .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; color: #ffffff; line-height: 1.15; margin: 0 0 .75rem; max-width: 560px; }
-  .hero-desc { font-size: 14px; color: rgba(232,220,200,.5); max-width: 480px; line-height: 1.35; margin-bottom: 2rem;}
+  .hero-desc { font-size: 14px; color: rgba(255,255,255,.8); max-width: 480px; line-height: 1.35; margin-bottom: 2rem;}
+  
+  /* LÍNEA DE ACENTO: Tu amarillo característico */
   .accent-bar { height: 3px; background-color: #fec700;}
-  .content { padding: 2rem; max-width: 1100px; }
-  .section-label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #ffffff; margin-bottom: 1.25rem; }
+  
+  /* CONTENIDO: Fondo gris sutil para que contrasten las tarjetas blancas */
+  .content { padding: 2rem; max-width: 1100px; background: #f8fafc; }
+  .section-label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #1c9eda; margin-bottom: 1.25rem; font-weight: 600; }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
   
-  /* Borde de la tarjeta en gris oscuro */
-  .card { background: #fff; border-radius: 12px; border: 1px solid #4a4a4a; padding: 1.5rem 1.5rem 1.25rem; transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; text-decoration: none; display: block; }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,.07); }
+  /* TARJETAS: Borde unificado al celeste de tu marca */
+  .card { background: #ffffff; border-radius: 12px; border: 1px solid #1c9eda; padding: 1.5rem 1.5rem 1.25rem; transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; text-decoration: none; display: block; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(28, 158, 218, .12); }
   
-  /* Detalle de arriba fijado en amarillo #fec700 */
+  /* Detalle superior en amarillo fijo */
   .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: #fec700; }
   
-  /* CAMBIO: Fondo del logo celeste translúcido e icono celeste (#1c9eda) */
-  .card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(28, 158, 218, 0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+  /* Elementos internos de las tarjetas en celeste */
+  .card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(28, 158, 218, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
   .card-icon i { font-size: 20px; color: #1c9eda; }
-  
-  /* CAMBIO: Texto de la sección (ej: "Sección 1") cambiado a celeste (#1c9eda) */
-  .card-tag { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #1c9eda; margin-bottom: .4rem; font-weight: 500; }
+  .card-tag { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #1c9eda; margin-bottom: .4rem; font-weight: 600; }
   .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; color: #1a1a1a; margin: 0 0 .5rem; line-height: 1.2; }
   
-  /* Texto descriptivo en gris oscuro para legibilidad */
-  .card-desc { font-size: 12.5px; color: #555555; line-height: 1.6; margin: 0 0 1.25rem; }
+  /* Texto descriptivo limpio */
+  .card-desc { font-size: 12.5px; color: #4a5568; line-height: 1.6; margin: 0 0 1.25rem; }
   
-  /* Borde del footer de la tarjeta cambiado a gris suave */
-  .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: .5px solid #e0e0e0; padding-top: .9rem; }
-  
-  /* CAMBIO: Texto "Ver informe" y flecha cambiados a celeste (#1c9eda) */
-  .card-cta { font-size: 12px; color: #1c9eda; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+  /* Footer interno de la tarjeta */
+  .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(28, 158, 218, 0.15); padding-top: .9rem; }
+  .card-cta { font-size: 12px; color: #1c9eda; font-weight: 600; display: flex; align-items: center; gap: 4px; }
   .card-cta i { font-size: 14px; transition: transform .2s; }
   .card:hover .card-cta i { transform: translateX(3px); }
+  .card-update { font-size: 11px; color: #718096; }
   
-  /* Texto de actualización cambiado a gris oscuro */
-  .card-update { font-size: 11px; color: #777777; }
   .card-soon { opacity: .7; cursor: default; }
   .card-soon:hover { transform: none; box-shadow: none; }
-  .badge-soon { position:absolute; top:12px; right:12px; background:#ffffff; color:#aaa; font-size:10px; padding:2px 8px; border-radius:20px; }
-  .bottom-strip { background: #1c9eda; padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-top: auto; }
-  .bottom-strip p { font-size: 11px; color: rgba(232,220,200,.3); }
-  .dot { color: rgba(232,220,200,.2); margin: 0 .4rem; }
-
-  .dark-toggle { background: none; border: 1px solid rgba(232,220,200,.15); border-radius: 20px; padding: 4px 10px; cursor: pointer; color: rgba(232,220,200,.5); font-size: 11px; font-family: 'Barlow Condensed', sans-serif; display: flex; align-items: center; gap: 5px; transition: all .15s; }
-  .dark-toggle:hover { color: rgba(232,220,200,.9); border-color: rgba(232,220,200,.4); }
+  .badge-soon { position:absolute; top:12px; right:12px; background:#ffffff; border: 1px solid #1c9eda; color:#1c9eda; font-size:10px; padding:2px 8px; border-radius:20px; }
   
-  :root { --bg:#f7f5f0; --bg2:#fff; --border:#4a4a4a; --text:#1a1a1a; --text2:#888; --text3:#aaa; }
-  [data-theme="dark"] { --bg:#0f1923; --bg2:#1a2530; --border:#243040; --text:#e8dcc8; --text2:#8a9bb0; --text3:#567; }
+  /* PIE DE PÁGINA: Totalmente limpio en celeste y blanco */
+  .bottom-strip { background: #1c9eda; padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-top: auto; }
+  .bottom-strip p { font-size: 11px; color: #ffffff; }
+  .dot { color: rgba(255, 255, 255, 0.5); margin: 0 .4rem; }
+
+  /* BOTÓN MODO OSCURO: Ajustado a bordes y textos blancos de alto contraste */
+  .dark-toggle { background: none; border: 1px solid rgba(255,255,255,.3); border-radius: 20px; padding: 4px 10px; cursor: pointer; color: #ffffff; font-size: 11px; font-family: 'Barlow Condensed', sans-serif; display: flex; align-items: center; gap: 5px; transition: all .15s; }
+  .dark-toggle:hover { background: rgba(255,255,255,.1); border-color: #ffffff; }
+  
+  /* VARIABLES DEL MODO OSCURO (Mantiene tus paletas nocturnas independientes) */
+  :root { --bg:#ffffff; --bg2:#fff; --border:#1c9eda; --text:#1a1a1a; --text2:#4a5568; --text3:#718096; }
+  [data-theme="dark"] { --bg:#0f1923; --bg2:#1a2530; --border:#243040; --text:#ffffff; --text2:#8a9bb0; --text3:#a0aec0; }
   [data-theme="dark"] body { background: var(--bg); }
+  [data-theme="dark"] .content { background: var(--bg); }
+  [data-theme="dark"] .section-label { color: #ffffff; }
   [data-theme="dark"] .card { background: var(--bg2); border-color: var(--border); }
   [data-theme="dark"] .card-title { color: var(--text); }
   [data-theme="dark"] .card-desc { color: var(--text2); }
   [data-theme="dark"] .card-update { color: var(--text3); }
   [data-theme="dark"] .card-footer { border-color: var(--border); }
-  [data-theme="dark"] .section-label { color: var(--text3); }
-  [data-theme="dark"] .content { background: var(--bg); }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <span>Fundación para el Desarrollo Humano Integral · FDHI</span>
+  <span class="topbar-left">Fundación para el Desarrollo Humano Integral · FDHI</span>
   <button class="dark-toggle" onclick="toggleDark()"><span id="dark-icon">🌙</span> Modo oscuro</button>
 </div>
 
