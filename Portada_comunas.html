@@ -33,33 +33,33 @@
   .section-label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #ffffff; margin-bottom: 1.25rem; }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
   
-  /* MODIFICADO: Borde gris oscuro cambiado de #ffffff a #4a4a4a */
+  /* Borde de la tarjeta en gris oscuro */
   .card { background: #fff; border-radius: 12px; border: 1px solid #4a4a4a; padding: 1.5rem 1.5rem 1.25rem; transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; text-decoration: none; display: block; }
   .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,.07); }
   
-  /* MODIFICADO: Detalle superior fijado en tu color amarillo #fec700 */
+  /* Detalle de arriba fijado en amarillo #fec700 */
   .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: #fec700; }
   
-  /* MODIFICADO: Los iconos y sus fondos ahora son consistentes con el color amarillo */
-  .card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(254, 199, 0, 0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
-  .card-icon i { font-size: 20px; color: #fec700; }
+  /* CAMBIO: Fondo del logo celeste translúcido e icono celeste (#1c9eda) */
+  .card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(28, 158, 218, 0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+  .card-icon i { font-size: 20px; color: #1c9eda; }
   
-  /* MODIFICADO: Etiquetas del reporte en color amarillo */
-  .card-tag { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #fec700; margin-bottom: .4rem; font-weight: 500; }
+  /* CAMBIO: Texto de la sección (ej: "Sección 1") cambiado a celeste (#1c9eda) */
+  .card-tag { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #1c9eda; margin-bottom: .4rem; font-weight: 500; }
   .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; color: #1a1a1a; margin: 0 0 .5rem; line-height: 1.2; }
   
-  /* MODIFICADO: Texto de descripción cambiado a gris para legibilidad en tarjetas claras */
+  /* Texto descriptivo en gris oscuro para legibilidad */
   .card-desc { font-size: 12.5px; color: #555555; line-height: 1.6; margin: 0 0 1.25rem; }
   
-  /* MODIFICADO: Borde del pie de la tarjeta cambiado a gris suave */
+  /* Borde del footer de la tarjeta cambiado a gris suave */
   .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: .5px solid #e0e0e0; padding-top: .9rem; }
   
-  /* MODIFICADO: Flechas de llamada a la acción en amarillo */
-  .card-cta { font-size: 12px; color: #fec700; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+  /* CAMBIO: Texto "Ver informe" y flecha cambiados a celeste (#1c9eda) */
+  .card-cta { font-size: 12px; color: #1c9eda; font-weight: 500; display: flex; align-items: center; gap: 4px; }
   .card-cta i { font-size: 14px; transition: transform .2s; }
   .card:hover .card-cta i { transform: translateX(3px); }
   
-  /* MODIFICADO: Texto de actualización cambiado a gris oscuro */
+  /* Texto de actualización cambiado a gris oscuro */
   .card-update { font-size: 11px; color: #777777; }
   .card-soon { opacity: .7; cursor: default; }
   .card-soon:hover { transform: none; box-shadow: none; }
