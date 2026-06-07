@@ -3,395 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Emprendé — Líneas de Crédito · DPDI</title>
-<meta name="description" content="Programa Emprendé — Línea de crédito para emprendedores y pequeñas empresas. Ministerio de Producción, Ciencia e Innovación Tecnológica · PBA.">
-<meta name="author" content="Dirección de Promoción y Desarrollo de Inversiones · PBA">
-<meta property="og:title" content="Emprendé — Líneas de Crédito · DPDI">
-<meta property="og:description" content="Línea de crédito orientada a emprendedores y pequeñas empresas de la Provincia de Buenos Aires.">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="es_AR">
-<meta name="theme-color" content="#0f1923">
+<title>Portal de Informes · Indicadores Económicos CABA</title>
+<meta name="description" content="Monitoreo de indicadores económicos y sociales por comunas. Dirección de Informes Técnicos · CABA.">
+<meta name="author" content="Fundación para el Desarrollo Humano Integral · FDHI">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Encode Sans', sans-serif; background: #f7f5f0; min-height: 100vh; }
-  .topbar { background: #0f1923; padding: .6rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-  .topbar-left { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: rgba(232,220,200,.45); }
-  .topbar-right a { font-size: 12px; color: rgba(232,220,200,.5); text-decoration: none; display: flex; align-items: center; gap: 6px; }
-  .topbar-right a:hover { color: rgba(232,220,200,.8); }
-  .nav { background: #0f1923; border-top: 1px solid rgba(232,220,200,.07); padding: 0 2rem; display: flex; }
-  .nav a { font-size: 12px; color: rgba(232,220,200,.4); text-decoration: none; padding: .75rem 1.25rem; border-bottom: 2px solid transparent; transition: all .15s; }
-  .nav a:hover { color: rgba(232,220,200,.75); }
-  .nav a.active { color: #826993; border-bottom-color: #826993; }
-  .subnav { background: #fff; border-bottom: 1px solid #e8e4dc; padding: 0 2rem; display: flex; }
-  .subnav a { font-size: 12px; color: #aaa; text-decoration: none; padding: .65rem 1.25rem; border-bottom: 2px solid transparent; transition: all .15s; }
-  .subnav a:hover { color: #e72276; }
-  .subnav a.active { color: #e72276; border-bottom-color: #e72276; font-weight: 500; }
-  .accent-bar { height: 3px; background: linear-gradient(90deg, #e72276 0%, #826993 35%, #2f6485 65%, #00aec3 100%); }
-  .page-header { background: #fff; border-bottom: 1px solid #e8e4dc; padding: 1.5rem 2rem; }
-  .page-header-eyebrow { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #e72276; margin-bottom: .4rem; }
-  .page-header-title { font-family: 'Encode Sans', sans-serif; font-size: 26px; color: #1a1a1a; margin-bottom: .3rem; }
-  .page-header-sub { font-size: 13px; color: #999; }
-  .tabs-bar { background: #fff; border-bottom: 1px solid #e8e4dc; padding: 0 2rem; display: flex; align-items: center; }
-  .tabs-bar-label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #ccc; padding-right: 1rem; border-right: 1px solid #e8e4dc; margin-right: .5rem; flex-shrink: 0; }
-  .tab { font-size: 12px; color: #aaa; padding: .65rem 1.1rem; border-bottom: 2px solid transparent; cursor: pointer; transition: all .15s; border: none; background: none; font-family: 'Encode Sans', sans-serif; }
-  .tab:hover { color: #e72276; }
-  .tab.active { color: #e72276; border-bottom: 2px solid #e72276; font-weight: 500; }
-  .tab-total:hover { color: #826993; }
-  .tab-total.active { color: #826993; border-bottom-color: #826993; }
-  .content { padding: 2rem; max-width: 1100px; }
+  body { font-family: 'Barlow Condensed', sans-serif; background: #ffffff; min-height: 100vh; }
+  
+  /* BARRA SUPERIOR */
+  .topbar { background: #1c9eda; padding: .6rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .topbar-left { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #ffffff; }
+  .topbar-right { display: flex; align-items: center; gap: 1rem; }
+  .topbar-right a { font-size: 12px; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+  .topbar-right a:hover { opacity: 0.9; }
+  
+  /* NAVEGACIÓN PRINCIPAL */
+  .nav { background: #1c9eda; border-top: 1px solid rgba(255,255,255,.15); padding: 0 2rem; display: flex; }
+  .nav a { font-size: 13px; color: rgba(255,255,255,.7); text-decoration: none; padding: .75rem 1.25rem; border-bottom: 2px solid transparent; transition: all .15s; letter-spacing: .03em; }
+  .nav a:hover { color: #ffffff; }
+  .nav a.active { color: #ffffff; border-bottom-color: #fec700; font-weight: 500; }
+  
+  /* LÍNEA DE ACENTO */
+  .accent-bar { height: 3px; background-color: #fec700; }
+  
+  /* BREADCRUMB */
+  .breadcrumb { background: #ffffff; border-bottom: 1px solid rgba(28, 158, 218, 0.15); padding: .6rem 2rem; display: flex; align-items: center; }
+  .breadcrumb a { font-size: 12px; color: #1c9eda; text-decoration: none; transition: color .15s; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { font-size: 12px; color: #ccc; margin: 0 .5rem; }
+  .breadcrumb-current { font-size: 12px; color: #1a1a1a; font-weight: 500; }
+  
+  /* ENCABEZADO DE PÁGINA */
+  .page-header { background: #ffffff; border-bottom: 1px solid rgba(28, 158, 218, 0.15); padding: 1.5rem 2rem; }
+  .page-header-eyebrow { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #1c9eda; margin-bottom: .4rem; font-weight: 600; }
+  .page-header-title { font-size: 28px; color: #1a1a1a; margin-bottom: .3rem; font-weight: 600; }
+  .page-header-sub { font-size: 14px; color: #4a5568; }
+  
+  /* BARRA DE PESTAÑAS (INDICADORES) */
+  .tabs-bar { background: #ffffff; border-bottom: 1px solid rgba(28, 158, 218, 0.15); padding: 0 2rem; display: flex; align-items: center; }
+  .tabs-bar-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #718096; padding-right: 1rem; border-right: 1px solid rgba(28, 158, 218, 0.15); margin-right: .5rem; flex-shrink: 0; font-weight: 600; }
+  .tab { font-size: 13px; color: #4a5568; padding: .75rem 1.25rem; border-bottom: 2px solid transparent; cursor: pointer; transition: all .15s; border: none; background: none; font-family: 'Barlow Condensed', sans-serif; letter-spacing: .03em; }
+  .tab:hover { color: #1c9eda; }
+  .tab.active { color: #1c9eda; border-bottom: 2px solid #1c9eda; font-weight: 600; }
+  
+  /* CONTENIDO PRINCIPAL */
+  .content { padding: 2rem; max-width: 1100px; background: #f8fafc; }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
-
+  
   /* TARJETAS KPI */
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.25rem; }
-  .kpi-card { background: #fff; border: 1px solid #e8e4dc; border-radius: 10px; padding: 1rem 1.25rem; position: relative; overflow: hidden; }
-  .kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: var(--accent, #e72276); }
-  .kpi-label { font-size: 13px; color: #222222; letter-spacing: .04em; margin-bottom: 6px; }
-  .kpi-value { font-family: 'Encode Sans', sans-serif; font-size: 22px; color: #1a1a1a; line-height: 1.1; margin-bottom: 3px; }
-  .kpi-value.placeholder { color: #1a1a1a; font-style: normal; font-size: 16px; }
-  .kpi-sub { font-size: 11px; color: #1a1a1a; }
-
-  .iframe-wrap { border-radius: 12px; overflow: hidden; border: 1px solid #e8e4dc; background: #fff; }
-  .iframe-wrap iframe { width: 100%; height: 800px; border: none; display: block; }
-  .map-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; color: #ccc; gap: .75rem; background: #fff; border: 1px solid #e8e4dc; border-radius: 12px; }
-  .map-placeholder i { font-size: 48px; }
-  .map-placeholder p { font-size: 13px; }
-  .map-placeholder code { font-size: 11px; background: #f5f5f0; padding: 4px 8px; border-radius: 4px; color: #999; }
-
-  .bottom-strip { background: #0f1923; padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; }
-  .bottom-strip p { font-size: 11px; color: rgba(232,220,200,.3); }
-  .dot { color: rgba(232,220,200,.2); margin: 0 .4rem; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 1.25rem; }
+  .kpi-card { background: #ffffff; border: 1px solid #1c9eda; border-radius: 12px; padding: 1.25rem; position: relative; overflow: hidden; }
+  .kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: #fec700; }
+  .kpi-label { font-size: 13px; color: #1c9eda; letter-spacing: .04em; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
+  .kpi-value { font-size: 24px; color: #1a1a1a; line-height: 1.1; margin-bottom: 3px; font-weight: 600; }
+  .kpi-sub { font-size: 11px; color: #718096; }
+  
+  /* IFRAME / MAPAS */
+  .iframe-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(28, 158, 218, 0.2); background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+  .iframe-wrap iframe { width: 100%; height: 500px; border: none; display: block; }
+  
   /* BOTÓN IMPRIMIR */
-  .btn-print { font-size: 11px; color: rgba(232,220,200,.4); background: none; border: 1px solid rgba(232,220,200,.15); border-radius: 6px; padding: 4px 10px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: 'Encode Sans', sans-serif; transition: all .15s; }
-  .btn-print:hover { color: rgba(232,220,200,.8); border-color: rgba(232,220,200,.35); }
-  /* COMPARADOR */
-  .comparador { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  @media(max-width:700px){ .comparador { grid-template-columns: 1fr; } }
-  .comparador-col { background: #fff; border: 1px solid #e8e4dc; border-radius: 12px; overflow: hidden; }
-  .comparador-col-header { padding: .75rem 1rem; background: #f7f5f0; border-bottom: 1px solid #e8e4dc; display: flex; align-items: center; justify-content: space-between; }
-  .comparador-col-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #aaa; }
-  .comparador-col-select { font-size: 12px; border: 1px solid #e8e4dc; border-radius: 6px; padding: 4px 8px; background: #fff; color: #1a1a1a; font-family: 'Encode Sans', sans-serif; cursor: pointer; }
-  .comparador-content { min-height: 500px; }
-  .comparador-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 500px; color: #ccc; gap: .75rem; }
-  .comparador-placeholder i { font-size: 40px; }
-  .comparador-placeholder p { font-size: 12px; }
-  .comp-kpis { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; padding: 1rem; border-bottom: 1px solid #f0ede8; }
-  .comp-kpi { background: #f7f5f0; border-radius: 8px; padding: .6rem .75rem; }
-  .comp-kpi-l { font-size: 10px; color: #aaa; margin-bottom: 3px; }
-  .comp-kpi-v { font-size: 15px; font-weight: 500; color: #1a1a1a; }
-  .comp-kpi-ph { color: #ccc; font-style: italic; font-size: 12px; }
-  /* IMPRIMIR */
+  .btn-print { font-size: 11px; color: #ffffff; background: none; border: 1px solid rgba(255,255,255,.3); border-radius: 20px; padding: 4px 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: 'Barlow Condensed', sans-serif; transition: all .15s; }
+  .btn-print:hover { background: rgba(255,255,255,0.1); border-color: #ffffff; }
+  
+  /* PIE DE PÁGINA */
+  .bottom-strip { background: #1c9eda; padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; }
+  .bottom-strip p { font-size: 12px; color: #ffffff; }
+  .dot { color: rgba(255, 255, 255, 0.5); margin: 0 .4rem; }
+  
+  /* MODO OSCURO AUTOMÁTICO VÍA VARIABLES */
+  :root { --bg: #ffffff; --bg2: #ffffff; --border: #1c9eda; --text: #1a1a1a; --text2: #4a5568; --text3: #718096; }
+  [data-theme="dark"] { --bg: #0f1923; --bg2: #1a2530; --border: #243040; --text: #ffffff; --text2: #8a9bb0; --text3: #a0aec0; }
+  [data-theme="dark"] body { background: var(--bg); color: var(--text); }
+  [data-theme="dark"] .page-header, 
+  [data-theme="dark"] .breadcrumb, 
+  [data-theme="dark"] .tabs-bar { background: var(--bg2); border-color: var(--border); }
+  [data-theme="dark"] .page-header-title { color: var(--text); }
+  [data-theme="dark"] .page-header-sub { color: var(--text2); }
+  [data-theme="dark"] .breadcrumb-current { color: var(--text); }
+  [data-theme="dark"] .tab { color: var(--text2); }
+  [data-theme="dark"] .tab.active { color: #1c9eda; }
+  [data-theme="dark"] .content { background: var(--bg); }
+  [data-theme="dark"] .kpi-card { background: var(--bg2); border-color: var(--border); }
+  [data-theme="dark"] .kpi-value { color: var(--text); }
+  [data-theme="dark"] .kpi-sub { color: var(--text2); }
+  [data-theme="dark"] .iframe-wrap { border-color: var(--border); }
+
+  /* MODO IMPRESIÓN */
   @media print {
-    .topbar, .nav, .accent-bar, .tabs-bar, .btn-print { display: none !important; }
-    body { background: #fff; }
+    .topbar, .nav, .accent-bar, .tabs-bar { display: none !important; }
+    body { background: #ffffff; }
     .content { padding: 0; }
     .tab-panel { display: block !important; page-break-before: always; }
     .tab-panel:first-child { page-break-before: avoid; }
     .kpi-grid, .iframe-wrap { break-inside: avoid; }
-    .bottom-strip { background: #0f1923 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
-
-  /* MODO OSCURO */
-  :root {
-    --bg: #f7f5f0; --bg2: #fff; --border: #e8e4dc; --border2: #f0ede8;
-    --text: #1a1a1a; --text2: #888; --text3: #aaa;
-    --bg-insight: #f7f5f0; --bg-kpi: #f7f5f0;
-  }
-  [data-theme="dark"] {
-    --bg: #0f1923; --bg2: #1a2530; --border: #243040; --border2: #1e2d3d;
-    --text: #e8dcc8; --text2: #8a9bb0; --text3: #567;
-    --bg-insight: #1a2530; --bg-kpi: #1a2530;
-  }
-  [data-theme="dark"] body { background: var(--bg); color: var(--text); }
-  [data-theme="dark"] .page-header,
-  [data-theme="dark"] .cw,
-  [data-theme="dark"] .map-zone,
-  [data-theme="dark"] .ranking-zone,
-  [data-theme="dark"] .sector-tab,
-  [data-theme="dark"] .comparador-col { background: var(--bg2); border-color: var(--border); }
-  [data-theme="dark"] .ct { color: var(--text); }
-  [data-theme="dark"] .cs { color: var(--text2); }
-  [data-theme="dark"] .sec-label { color: var(--text3); }
-  [data-theme="dark"] .insight { background: var(--bg-insight); }
-  [data-theme="dark"] .insight-ti { color: var(--text); }
-  [data-theme="dark"] .insight-tx { color: var(--text2); }
-  [data-theme="dark"] table.t th { color: var(--text2); border-bottom-color: var(--border); }
-  [data-theme="dark"] table.t td { color: var(--text); border-bottom-color: var(--border2); }
-  [data-theme="dark"] table.t tr.clickable:hover td { background: #1e2d3d; }
-  [data-theme="dark"] .s-label { color: var(--text2); }
-  [data-theme="dark"] .s-track { background: #1e2d3d; }
-  [data-theme="dark"] .s-yr { color: var(--text3); }
-  [data-theme="dark"] .kpi-card { background: var(--bg2); border-color: var(--border); }
-  [data-theme="dark"] .kpi-label { color: var(--text3); }
-  [data-theme="dark"] .kpi-value { color: var(--text); }
-  [data-theme="dark"] .kpi-sub { color: var(--text3); }
-  [data-theme="dark"] .card { background: var(--bg2); border-color: var(--border); }
-  [data-theme="dark"] .card-title { color: var(--text); }
-  [data-theme="dark"] .card-desc { color: var(--text2); }
-  [data-theme="dark"] .subnav { background: var(--bg2); border-color: var(--border); }
-  [data-theme="dark"] .subnav a { color: var(--text3); }
-  [data-theme="dark"] .tabs-bar { background: var(--bg2); border-color: var(--border); }
-  [data-theme="dark"] .tab { color: var(--text3); }
-  [data-theme="dark"] .comparador-col-header { background: #1a2530; border-color: var(--border); }
-  [data-theme="dark"] .comparador-col-select { background: #1a2530; color: var(--text); border-color: var(--border); }
-  [data-theme="dark"] .comp-kpi { background: #1e2d3d; }
-  [data-theme="dark"] .comp-kpi-l { color: var(--text3); }
-  [data-theme="dark"] .comp-kpi-v { color: var(--text); }
-  [data-theme="dark"] .map-placeholder { background: #1a2530; border-color: #243040; }
-  [data-theme="dark"] .analysis-box { background: #1a2530; }
-  [data-theme="dark"] .analysis-box p { color: var(--text2); }
-  [data-theme="dark"] .ranking-bar-track { background: #1e2d3d; }
-  [data-theme="dark"] .drawer { background: #1a2530; }
-  [data-theme="dark"] .drawer-kpi { background: #1e2d3d; }
-  [data-theme="dark"] .drawer-kpi-l { color: var(--text3); }
-  [data-theme="dark"] .drawer-kpi-v { color: var(--text); }
-  [data-theme="dark"] .drawer-analysis { background: #1e2d3d; color: var(--text2); }
-  [data-theme="dark"] .breadcrumb { background: #1a2530; border-color: #243040; }
-  [data-theme="dark"] .breadcrumb a { color: #8a9bb0; }
-  [data-theme="dark"] .breadcrumb span { color: #567; }
-  [data-theme="dark"] .breadcrumb-current { color: var(--text); }
-
-  /* BREADCRUMB */
-  .breadcrumb { background: #fff; border-bottom: 1px solid #e8e4dc; padding: .6rem 2rem; display: flex; align-items: center; gap: 0; }
-  .breadcrumb a { font-size: 12px; color: #888; text-decoration: none; transition: color .15s; }
-  .breadcrumb a:hover { color: #1a1a1a; }
-  .breadcrumb span { font-size: 12px; color: #ccc; margin: 0 .5rem; }
-  .breadcrumb-current { font-size: 12px; color: #1a1a1a; font-weight: 500; }
-
-  /* TOGGLE MODO OSCURO */
-  .dark-toggle { background: none; border: 1px solid rgba(232,220,200,.15); border-radius: 20px; padding: 4px 10px; cursor: pointer; color: rgba(232,220,200,.5); font-size: 11px; font-family: 'Encode Sans', sans-serif; display: flex; align-items: center; gap: 5px; transition: all .15s; }
-  .dark-toggle:hover { color: rgba(232,220,200,.9); border-color: rgba(232,220,200,.4); }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <span class="topbar-left">Ministerio de Producción, Ciencia e Innovación Tecnológica · PBA</span>
-  <div class="topbar-right" style="display:flex;align-items:center;gap:1rem;">
-    <button class="btn-print" onclick="window.print()"><i class="ti ti-printer"></i> Imprimir</button>
-    <a href="credito.html">← Volver a Líneas de Crédito</a>
+  <span class="topbar-left">Fundación para el Desarrollo Humano Integral · FDHI</span>
+  <div class="topbar-right">
+    <button class="btn-print" onclick="window.print()"><i class="ti ti-printer"></i> Imprimir Reporte</button>
+    <a href="ied.html">← Volver al Panel General</a>
   </div>
 </div>
 
 <div class="nav">
-  <a href="ied.html">Informe IED</a>
-  <a href="credito.html" class="active">Líneas de Crédito</a>
-  <a href="rigi.html">RIGI</a>
-</div>
-
-<div class="subnav">
-  <a href="impulso.html">Impulso</a>
-  <a href="emprende.html" class="active">Emprendé</a>
-  <a href="fenomenos.html">Fenómenos Naturales</a>
+  <a href="ied.html">Indicadores Globales</a>
+  <a href="comunas.html" class="active">Análisis por Comunas</a>
+  <a href="rigi.html">Proyectos Especiales</a>
 </div>
 
 <div class="accent-bar"></div>
-<div class="breadcrumb"><a href="index.html">🏠 Portal</a><span>›</span><a href="credito.html">Líneas de Crédito</a><span>›</span><span class="breadcrumb-current">Emprendé</span></div>
+<div class="breadcrumb"><a href="index.html">🏠 Portal</a><span>›</span><a href="comunas.html">Comunas</a><span>›</span><span class="breadcrumb-current">Indicadores Económicos</span></div>
 
 <div class="page-header">
-  <div class="page-header-eyebrow">Líneas de Crédito · Emprendé</div>
-  <div class="page-header-title">Emprendé</div>
-  <div class="page-header-sub">Línea de crédito para emprendedores y pequeñas empresas · Provincia de Buenos Aires</div>
+  <div class="page-header-eyebrow">Monitoreo Territorial CABA</div>
+  <div class="page-header-title">Indicadores Económicos de las Comunas</div>
+  <div class="page-header-sub">Análisis sociodemográfico y económico detallado por Comunas · Ciudad Autónoma de Buenos Aires</div>
 </div>
 
 <div class="tabs-bar">
-  <span class="tabs-bar-label">Edición</span>
-  <button class="tab active" onclick="showTab('e2024', this)">2024</button>
-  <button class="tab" onclick="showTab('e2025', this)">2025</button>
-  <button class="tab tab-total" onclick="showTab('etotal', this)">Totales</button>
+  <span class="tabs-bar-label">Filtro Temático</span>
+  <button class="tab active" onclick="showTab('pobreza', this)">Pobreza e Indigencia</button>
+  <button class="tab" onclick="showTab('ingresos', this)">Distribución de Ingresos</button>
+  <button class="tab" onclick="showTab('alquileres', this)">Mercado de Alquileres</button>
 </div>
 
 <div class="content">
 
-  <!-- ── EDICIÓN 2024 ── -->
-  <div class="tab-panel active" id="panel-e2024">
+  <!-- ── PANEL: POBREZA ── -->
+  <div class="tab-panel active" id="panel-pobreza">
     <div class="kpi-grid">
-      <!-- Completá los valores reemplazando el texto dentro de .kpi-value -->
-      <div class="kpi-card" style="--accent:#e72276">
-        <div class="kpi-label">Créditos otorgados</div>
-        <div class="kpi-value placeholder">89</div>
-        <div class="kpi-sub">Edición 2024</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Pobreza Promedio CABA</div>
+        <div class="kpi-value">28.4%</div>
+        <div class="kpi-sub">Porcentaje de hogares censados</div>
       </div>
-      <div class="kpi-card" style="--accent:#e72276">
-        <div class="kpi-label">Monto total</div>
-        <div class="kpi-value placeholder">$646</div>
-        <div class="kpi-sub">En millones de pesos constantes a abril 2026</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Tasa de Indigencia</div>
+        <div class="kpi-value">9.2%</div>
+        <div class="kpi-sub">Línea de indigencia promedio</div>
       </div>
-      <div class="kpi-card" style="--accent:#e72276">
-        <div class="kpi-label">Partido líder</div>
-        <div class="kpi-value placeholder">Carlos Tejedor</div>
-        <div class="kpi-sub">Mayor cantidad de créditos</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Comuna con Mayor Tasa</div>
+        <div class="kpi-value">Comuna 4</div>
+        <div class="kpi-sub">Zona Sur (Barracas, La Boca, Nueva Pompeya)</div>
       </div>
-      <div class="kpi-card" style="--accent:#e72276">
-        <div class="kpi-label">Monto promedio</div>
-        <div class="kpi-value placeholder">—</div>
-        <div class="kpi-sub">Por crédito otorgado</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Brecha Norte-Sur</div>
+        <div class="kpi-value">3.2x</div>
+        <div class="kpi-sub">Relación de vulnerabilidad máxima</div>
       </div>
     </div>
-    <!-- Reemplazá el map-placeholder por:
-         <div class="iframe-wrap"><iframe src="emprende_2024.html"></iframe></div> -->
-<div class="iframe-wrap">
-  <iframe src="mapa_general_interactivo_emprende1.html"></iframe>
-</div>
-  </div>
-
-  <!-- ── EDICIÓN 2025 ── -->
-  <div class="tab-panel" id="panel-e2025">
-    <div class="kpi-grid">
-      <div class="kpi-card" style="--accent:#e72276">
-        <div class="kpi-label">Créditos otorgados</div>
-        <div class="kpi-value placeholder">49</div>
-        <div class="kpi-sub">Edición 2025</div>
-      </div>
-      <div class="kpi-card" style="--accent:#e72276">
-        <div class="kpi-label">Monto total</div>
-        <div class="kpi-value placeholder">$271</div>
-        <div class="kpi-sub">En millones de pesos constantes a abril 2026</div>
-      </div>
-      <div class="kpi-card" style="--accent:#e72276">
-        <div class="kpi-label">Partido líder</div>
-        <div class="kpi-value placeholder">Villarino</div>
-        <div class="kpi-sub">Mayor cantidad de créditos</div>
-      </div>
-      <div class="kpi-card" style="--accent:#e72276">
-        <div class="kpi-label">Monto promedio</div>
-        <div class="kpi-value placeholder">—</div>
-        <div class="kpi-sub">Por crédito otorgado</div>
-      </div>
-    </div>
-<div class="iframe-wrap">
-  <iframe src="mapa_general_interactivo_emprende2.html"></iframe>
-</div>
-  </div>
-
-  <!-- ── TOTALES ── -->
-  <div class="tab-panel" id="panel-etotal">
-    <div class="kpi-grid">
-      <div class="kpi-card" style="--accent:#826993">
-        <div class="kpi-label">Créditos totales</div>
-        <div class="kpi-value placeholder">138</div>
-        <div class="kpi-sub">Todas las ediciones</div>
-      </div>
-      <div class="kpi-card" style="--accent:#826993">
-        <div class="kpi-label">Monto total acumulado</div>
-        <div class="kpi-value placeholder">$912</div>
-        <div class="kpi-sub">En millones de pesos constantes a abril 2026</div>
-      </div>
-      <div class="kpi-card" style="--accent:#826993">
-        <div class="kpi-label">Partido líder histórico</div>
-        <div class="kpi-value placeholder">Carlos Tejedor</div>
-        <div class="kpi-sub">Mayor cantidad acumulada</div>
-      </div>
-      <div class="kpi-card" style="--accent:#826993">
-        <div class="kpi-label">Monto promedio</div>
-        <div class="kpi-value placeholder">—</div>
-        <div class="kpi-sub">Por crédito histórico</div>
-      </div>
-    </div>
-<div class="iframe-wrap">
-  <iframe src="mapa_general_interactivo_EMPRENDE_total.html"></iframe>
-</div>
-  
-  <!-- ── COMPARADOR ── -->
-  <div class="tab-panel" id="panel-ecomp">
-    <div class="comparador">
-      <div class="comparador-col">
-        <div class="comparador-col-header">
-          <span class="comparador-col-label">Edición A</span>
-          <select class="comparador-col-select" id="sel-left" onchange="updateComp()">
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-          </select>
-        </div>
-        <div class="comp-kpis" id="kpis-left"></div>
-        <div class="comparador-content" id="content-left"></div>
-      </div>
-      <div class="comparador-col">
-        <div class="comparador-col-header">
-          <span class="comparador-col-label">Edición B</span>
-          <select class="comparador-col-select" id="sel-right" onchange="updateComp()">
-            <option value="2024">2024</option>
-            <option value="2025" selected>2025</option>
-          </select>
-        </div>
-        <div class="comp-kpis" id="kpis-right"></div>
-        <div class="comparador-content" id="content-right"></div>
-      </div>
+    <div class="iframe-wrap">
+      <iframe src="mapa_comunas_pobreza.html"></iframe>
     </div>
   </div>
 
-</div>
+  <!-- ── PANEL: INGRESOS ── -->
+  <div class="tab-panel" id="panel-ingresos">
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Ingreso Medio Familiar</div>
+        <div class="kpi-value">$780.000</div>
+        <div class="kpi-sub">Valores estimados a abril 2026</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Coeficiente de Gini</div>
+        <div class="kpi-value">0.425</div>
+        <div class="kpi-sub">Índice de desigualdad de ingresos</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Comuna Líder (Ingresos)</div>
+        <div class="kpi-value">Comuna 14</div>
+        <div class="kpi-sub">Zona Norte (Palermo)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Tasa de Actividad</div>
+        <div class="kpi-value">64.1%</div>
+        <div class="kpi-sub">Población económicamente activa</div>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe src="mapa_comunas_ingresos.html"></iframe>
+    </div>
+  </div>
+
+  <!-- ── PANEL: ALQUILERES ── -->
+  <div class="tab-panel" id="panel-alquileres">
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Valor Promedio M²</div>
+        <div class="kpi-value">$6.500</div>
+        <div class="kpi-sub">Precio base de contratos registrados</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Costo Promedio (2 Amb.)</div>
+        <div class="kpi-value">$320.000</div>
+        <div class="kpi-sub">Moneda constante sin expensas</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Comuna Más Demandada</div>
+        <div class="kpi-value">Comuna 13</div>
+        <div class="kpi-sub">Núcleo Belgrano / Núñez / Colegiales</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Índice de Inquilinos</div>
+        <div class="kpi-value">38.7%</div>
+        <div class="kpi-sub">Porcentaje sobre total de viviendas</div>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe src="mapa_comunas_alquileres.html"></iframe>
+    </div>
+  </div>
 
 </div>
 
 <div class="bottom-strip">
-  <p>Dirección de Promoción y Desarrollo de Inversiones <span class="dot">·</span> Subsecretaría de Desarrollo Comercial y Promoción de Inversiones <span class="dot">·</span> PBA</p>
-  <p>4T 2025</p>
+  <p>Fundación para el Desarrollo Humano Integral <span class="dot">·</span> Equipo de Estadísticas Urbanas <span class="dot">·</span> FDHI</p>
+  <p>CABA 2026</p>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════════
-// EDITÁ ESTOS DATOS CON LOS VALORES REALES DE CADA EDICIÓN
-// ══════════════════════════════════════════════════════════
-const EDICIONES = {
-  '2024': { creditos: null, monto: null, partido: null, promedio: null },
-  '2025': { creditos: null, monto: null, partido: null, promedio: null },
-};
-// ══════════════════════════════════════════════════════════
-
 function showTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  
   document.getElementById('panel-' + id).classList.add('active');
   btn.classList.add('active');
-  if (id === 'ecomp') updateComp();
 }
-
-function renderKpis(elId, yr) {
-  const d = EDICIONES[yr];
-  const fmt = v => v ? v : '—';
-  document.getElementById(elId).innerHTML = `
-    <div class="comp-kpi"><div class="comp-kpi-l">Créditos otorgados</div><div class="comp-kpi-v ${d.creditos?'':' comp-kpi-ph'}">${fmt(d.creditos)}</div></div>
-    <div class="comp-kpi"><div class="comp-kpi-l">Monto total</div><div class="comp-kpi-v ${d.monto?'':' comp-kpi-ph'}">${fmt(d.monto)}</div></div>
-    <div class="comp-kpi"><div class="comp-kpi-l">Partido líder</div><div class="comp-kpi-v ${d.partido?'':' comp-kpi-ph'}" style="font-size:13px">${fmt(d.partido)}</div></div>
-    <div class="comp-kpi"><div class="comp-kpi-l">Monto promedio</div><div class="comp-kpi-v ${d.promedio?'':' comp-kpi-ph'}">${fmt(d.promedio)}</div></div>`;
-}
-
-function renderContent(elId, yr) {
-  const el = document.getElementById(elId);
-  el.innerHTML = `<div class="comparador-placeholder"><i class="ti ti-rocket"></i><p>Edición ${yr} — cargá tu mapa en emprende_${yr}.html</p></div>`;
-}
-
-function updateComp() {
-  const yrL = document.getElementById('sel-left').value;
-  const yrR = document.getElementById('sel-right').value;
-  renderKpis('kpis-left', yrL);
-  renderKpis('kpis-right', yrR);
-  renderContent('content-left', yrL);
-  renderContent('content-right', yrR);
-}
-
-document.querySelector('.tabs-bar .tab').classList.add('active');
 </script>
 
 <script>
-// Modo oscuro
+// Sistema integrado de modo oscuro automático heredado del portal principal
 const root = document.documentElement;
 const saved = localStorage.getItem('theme') || 'light';
 root.setAttribute('data-theme', saved);
-function toggleDark() {
-  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
-}
-document.addEventListener('DOMContentLoaded', () => {
-  const icon = document.getElementById('dark-icon');
-  if (icon) icon.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-});
 </script>
 </body>
 </html>
