@@ -1,4 +1,4 @@
-# Portal de Comuncas — Fundación para eñ Desarrollo Humano Integral
+# Portal de Comunas — Fundación para eñ Desarrollo Humano Integral
 
 Portal de informes y visualizaciones interactivas.
 
