@@ -1,0 +1,11 @@
+# Portal de Comuncas — Fundación para eñ Desarrollo Humano Integral
+
+Portal de informes y visualizaciones interactivas.
+
+---
+
+## 🌐 Acceso al portal
+
+| Sección | URL |
+|---|---|
+| Portal principal | [index.html](https://matiaspiccolo.github.io/Comunas_CABA/Portada_comunas.html) |
