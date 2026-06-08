@@ -10,3 +10,4 @@ Portal de informes y visualizaciones interactivas.
 |---|---|
 | Portal principal | [index.html](https://matiaspiccolo.github.io/Comunas_CABA/Portada_comunas.html) |
 | Ocupación e Ingresos | [Ind.Ocup.html](https://matiaspiccolo.github.io/Comunas_CABA/Ind.Ocup.html) |
+| Sociales | [Ind.Sociales.html](https://matiaspiccolo.github.io/Comunas_CABA/Ind.Sociales.html) |
