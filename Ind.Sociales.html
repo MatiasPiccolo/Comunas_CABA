@@ -390,11 +390,25 @@
   }
 
   // CORREGIDO: Navegación unificada e inteligente adaptada para entornos locales
-  function navegarA(destino) {
+function navegarA(destino) {
+    let nombreArchivo = "";
+
+    // CORREGIDO: Navegación con los nombres exactos de tus archivos reales
+    if (destino === 'ocupacion') {
+      nombreArchivo = "Ind.Ocup.html"; 
+    } else if (destino === 'sociales') {
+      nombreArchivo = "Ind.Sociales.html";
+    } else if (destino === 'demograficos') {
+      nombreArchivo = "Ind.Demograficos.html";
+    } else if (destino === 'fiscales') {
+      nombreArchivo = "Ind.Fiscales.html";
+    }
+
+    // Ejecuta la redirección según el entorno (local o web)
     if (window.location.protocol === 'file:') {
-      window.location.href = `comunas-${destino}.html`;
+      window.location.href = nombreArchivo;
     } else {
-      window.location.href = `comunas-${destino}.html?comuna=${comunaActual}`;
+      window.location.href = `${nombreArchivo}?comuna=${comunaActual}`;
     }
   }
 </script>
