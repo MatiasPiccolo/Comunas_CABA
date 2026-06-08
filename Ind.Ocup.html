@@ -288,11 +288,11 @@
       <!-- SECCIÓN 2 TARJETAS INDICADORAS -->
       <div class="grid-dos-columnas">
         <div class="card">
-          <h3 id="titulo-indicador-1">Seleccione una Comuna</h3>
+          <h3 id="titulo-indicador-1">Cargando indicador...</h3>
           <p id="val-1">—</p>
         </div>
         <div class="card">
-          <h3 id="titulo-indicador-2">Seleccione una Comuna</h3>
+          <h3 id="titulo-indicador-2">Cargando indicador...</h3>
           <p id="val-2">—</p>
         </div>
       </div>
@@ -362,8 +362,8 @@
       const columnaExcel2 = "tasa_desocup"; 
 
       // Renderiza títulos de las tarjetas
-      document.getElementById('Pobreza').textContent = columnaExcel1;
-      document.getElementById('Desocupación').textContent = columnaExcel2;
+      document.getElementById('titulo-indicador-1').textContent = columnaExcel1;
+      document.getElementById('titulo-indicador-2').textContent = columnaExcel2;
 
       // Inyecta los valores correspondientes
       document.getElementById('val-1').textContent = registro[columnaExcel1] || '—';
