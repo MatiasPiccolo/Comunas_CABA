@@ -1,86 +1,252 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TITULO</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Barlow Condensed', sans-serif; background: #ffffff; min-height: 100vh; }
-  
-  /* BARRA SUPERIOR: Ajustada a celeste y blanco */
-  .topbar { background: #1c9eda; padding: .6rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
-  .topbar-left { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: #ffffff; }
-  
-  /* HERO: Círculos decorativos ajustados a blanco con sutil transparencia */
-  .hero { background: #1c9eda; padding: 3.5rem 2rem 3rem; position: relative; overflow: hidden; }
-  .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:400px; height:400px; border:1px solid rgba(255,255,255,.08); border-radius:50%; pointer-events:none; }
-  .hero::after  { content:''; position:absolute; top:-40px; right:-40px; width:220px; height:220px; border:1px solid rgba(255,255,255,.06); border-radius:50%; pointer-events:none; }
-  .hero-eyebrow { font-size: 30px; letter-spacing: .15em; text-transform: uppercase; color: #ffffff; margin-bottom: .5rem; }
-  .hero-org { font-size: 12px; color: #ffffff; margin-bottom: .2rem; }
-  .hero-sub-org { font-size: 12px; color: #ffffff; margin-bottom: 0.3rem; }
-  .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; color: #ffffff; line-height: 1.15; margin: 0 0 .75rem; max-width: 560px; }
-  .hero-desc { font-size: 14px; color: rgba(255,255,255,.8); max-width: 480px; line-height: 1.35; margin-bottom: 2rem;}
-  
-  /* LÍNEA DE ACENTO: Tu amarillo característico */
-  .accent-bar { height: 3px; background-color: #fec700;}
-  
-  /* CONTENIDO: Fondo gris sutil para que contrasten las tarjetas blancas */
-  .content { padding: 2rem; max-width: 1100px; background: #f8fafc; }
-  .section-label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #1c9eda; margin-bottom: 1.25rem; font-weight: 600; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
-  
-  /* TARJETAS: Borde unificado al celeste de tu marca */
-  .card { background: #ffffff; border-radius: 12px; border: 1px solid #1c9eda; padding: 1.5rem 1.5rem 1.25rem; transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; text-decoration: none; display: block; }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(28, 158, 218, .12); }
-  
-  /* Detalle superior en amarillo fijo */
-  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: #fec700; }
-  
-  /* Elementos internos de las tarjetas en celeste */
-  .card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(28, 158, 218, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
-  .card-icon i { font-size: 20px; color: #1c9eda; }
-  .card-tag { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #1c9eda; margin-bottom: .4rem; font-weight: 600; }
-  .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; color: #1a1a1a; margin: 0 0 .5rem; line-height: 1.2; }
-  
-  /* Texto descriptivo limpio */
-  .card-desc { font-size: 12.5px; color: #4a5568; line-height: 1.6; margin: 0 0 1.25rem; }
-  
-  /* Footer interno de la tarjeta */
-  .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(28, 158, 218, 0.15); padding-top: .9rem; }
-  .card-cta { font-size: 12px; color: #1c9eda; font-weight: 600; display: flex; align-items: center; gap: 4px; }
-  .card-cta i { font-size: 14px; transition: transform .2s; }
-  .card:hover .card-cta i { transform: translateX(3px); }
-  .card-update { font-size: 11px; color: #718096; }
-  
-  .card-soon { opacity: .7; cursor: default; }
-  .card-soon:hover { transform: none; box-shadow: none; }
-  .badge-soon { position:absolute; top:12px; right:12px; background:#ffffff; border: 1px solid #1c9eda; color:#1c9eda; font-size:10px; padding:2px 8px; border-radius:20px; }
-  
-  /* PIE DE PÁGINA: Totalmente limpio en celeste y blanco */
-  .bottom-strip { background: #1c9eda; padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-top: auto; }
-  .bottom-strip p { font-size: 11px; color: #ffffff; }
-  .dot { color: rgba(255, 255, 255, 0.5); margin: 0 .4rem; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Monitoreo Territorial - FDHI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --bg: #ffffff;
+      --bg-content: #f8fafc;
+      --bg-card: #ffffff;
+      --border-card: #1c9eda;
+      --text-main: #1a1a1a;
+      --text-muted: #4a5568;
+      --text-sub: #718096;
+      --celeste: #1c9eda;
+      --amarillo: #fec700;
+    }
 
-  /* BOTÓN MODO OSCURO: Ajustado a bordes y textos blancos de alto contraste */
-  .dark-toggle { background: none; border: 1px solid rgba(255,255,255,.3); border-radius: 20px; padding: 4px 10px; cursor: pointer; color: #ffffff; font-size: 11px; font-family: 'Barlow Condensed', sans-serif; display: flex; align-items: center; gap: 5px; transition: all .15s; }
-  .dark-toggle:hover { background: rgba(255,255,255,.1); border-color: #ffffff; }
-  
-  /* VARIABLES DEL MODO OSCURO (Mantiene tus paletas nocturnas independientes) */
-  :root { --bg:#ffffff; --bg2:#fff; --border:#1c9eda; --text:#1a1a1a; --text2:#4a5568; --text3:#718096; }
-  [data-theme="dark"] { --bg:#0f1923; --bg2:#1a2530; --border:#243040; --text:#ffffff; --text2:#8a9bb0; --text3:#a0aec0; }
-  [data-theme="dark"] body { background: var(--bg); }
-  [data-theme="dark"] .content { background: var(--bg); }
-  [data-theme="dark"] .section-label { color: #ffffff; }
-  [data-theme="dark"] .card { background: var(--bg2); border-color: var(--border); }
-  [data-theme="dark"] .card-title { color: var(--text); }
-  [data-theme="dark"] .card-desc { color: var(--text2); }
-  [data-theme="dark"] .card-update { color: var(--text3); }
-  [data-theme="dark"] .card-footer { border-color: var(--border); }
-</style>
+    [data-theme="dark"] {
+      --bg: #0f1923;
+      --bg-content: #0f1923;
+      --bg-card: #1a2530;
+      --border-card: #243040;
+      --text-main: #ffffff;
+      --text-muted: #8a9bb0;
+      --text-sub: #a0aec0;
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: var(--bg); 
+      color: var(--text-main);
+      min-height: 100vh; 
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* BARRA SUPERIOR */
+    .topbar { 
+      background: var(--celeste); 
+      padding: .6rem 2rem; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      flex-wrap: wrap; 
+      gap: .5rem; 
+    }
+    .topbar-left { 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; 
+      letter-spacing: .08em; 
+      text-transform: uppercase; 
+      color: #ffffff; 
+      font-weight: 500;
+    }
+    
+    /* HERO */
+    .hero { 
+      background: var(--celeste); 
+      padding: 4rem 2rem 3.5rem; 
+      position: relative; 
+      overflow: hidden; 
+    }
+    .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:400px; height:400px; border:1px solid rgba(255,255,255,.08); border-radius:50%; pointer-events:none; }
+    .hero::after  { content:''; position:absolute; top:-40px; right:-40px; width:220px; height:220px; border:1px solid rgba(255,255,255,.06); border-radius:50%; pointer-events:none; }
+    
+    .hero-org { 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px; 
+      letter-spacing: .1em;
+      color: #ffffff; 
+      text-transform: uppercase;
+      margin-bottom: 0.5rem; 
+      opacity: 0.9;
+    }
+    .hero-title { 
+      font-family: 'Barlow Condensed', sans-serif; 
+      font-size: 42px; 
+      font-weight: 700;
+      color: #ffffff; 
+      line-height: 1.1; 
+      margin: 0 0 .75rem; 
+      max-width: 700px; 
+      text-transform: uppercase;
+    }
+    .hero-desc { 
+      font-size: 15px; 
+      color: rgba(255,255,255,.85); 
+      max-width: 600px; 
+      line-height: 1.4; 
+    }
+    
+    /* LÍNEA DE ACENTO AMARILLA */
+    .accent-bar { height: 4px; background-color: var(--amarillo); }
+    
+    /* CONTENIDO */
+    .content { 
+      padding: 3rem 2rem; 
+      max-width: 1200px; 
+      margin: 0 auto;
+      width: 100%;
+      background: var(--bg-content);
+      flex: 1;
+    }
+    .section-label { 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px; 
+      letter-spacing: .1em; 
+      text-transform: uppercase; 
+      color: var(--celeste); 
+      margin-bottom: 1.5rem; 
+      font-weight: 600; 
+    }
+    [data-theme="dark"] .section-label { color: #ffffff; }
+
+    /* GRILLA DE TARJETAS RECONFIGURADA */
+    .cards { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+      gap: 1.5rem; 
+      margin-bottom: 2.5rem; 
+    }
+    
+    /* TARJETAS */
+    .card { 
+      background: var(--bg-card); 
+      border-radius: 12px; 
+      border: 1px solid var(--border-card); 
+      padding: 1.75rem 1.5rem 1.25rem; 
+      transition: transform .2s, box-shadow .2s; 
+      position: relative; 
+      overflow: hidden; 
+      text-decoration: none; 
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 12px 32px rgba(28, 158, 218, .15); 
+    }
+    
+    /* Detalle superior en amarillo fijo */
+    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background: var(--amarillo); }
+    
+    .card-icon { 
+      width: 44px; 
+      height: 44px; 
+      border-radius: 10px; 
+      background: rgba(28, 158, 218, 0.1); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      margin-bottom: 1.25rem; 
+    }
+    .card-icon i { font-size: 22px; color: var(--celeste); }
+    
+    .card-tag { 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; 
+      letter-spacing: .1em; 
+      text-transform: uppercase; 
+      color: var(--celeste); 
+      margin-bottom: .3rem; 
+      font-weight: 600; 
+    }
+    .card-title { 
+      font-family: 'Barlow Condensed', sans-serif; 
+      font-size: 22px; 
+      font-weight: 600;
+      color: var(--text-main); 
+      margin: 0 0 .5rem; 
+      line-height: 1.2; 
+    }
+    .card-desc { 
+      font-size: 13.5px; 
+      color: var(--text-muted); 
+      line-height: 1.5; 
+      margin: 0 0 1.5rem; 
+      flex: 1;
+    }
+    
+    /* Footer interno de la tarjeta */
+    .card-footer { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      border-top: 1px solid rgba(28, 158, 218, 0.15); 
+      padding-top: .9rem; 
+    }
+    [data-theme="dark"] .card-footer { border-color: var(--border-card); }
+
+    .card-cta { 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; 
+      color: var(--celeste); 
+      font-weight: 600; 
+      display: flex; 
+      align-items: center; 
+      gap: 4px; 
+      text-transform: uppercase;
+    }
+    .card-cta i { font-size: 15px; transition: transform .2s; }
+    .card:hover .card-cta i { transform: translateX(4px); }
+    .card-update { font-size: 11px; color: var(--text-sub); }
+    
+    /* PIE DE PÁGINA */
+    .bottom-strip { 
+      background: var(--celeste); 
+      padding: 1.5rem 2rem; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      flex-wrap: wrap; 
+      gap: .5rem; 
+      margin-top: auto; 
+    }
+    .bottom-strip p { 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; 
+      color: #ffffff; 
+      letter-spacing: 0.5px;
+    }
+    .dot { color: rgba(255, 255, 255, 0.6); margin: 0 .5rem; }
+
+    /* BOTÓN MODO OSCURO */
+    .dark-toggle { 
+      background: none; 
+      border: 1px solid rgba(255,255,255,.4); 
+      border-radius: 20px; 
+      padding: 5px 12px; 
+      cursor: pointer; 
+      color: #ffffff; 
+      font-size: 12px; 
+      font-family: 'Barlow Condensed', sans-serif; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      transition: all .15s; 
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .dark-toggle:hover { background: rgba(255,255,255,.15); border-color: #ffffff; }
+  </style>
 </head>
 <body>
 
@@ -90,49 +256,63 @@
 </div>
 
 <div class="hero">
-  <div class="hero-eyebrow">Portal de Informes</div>
-  <p class="hero-desc">Seguimiento y análisis de los principales indicadores en la Ciudad de Buenos Aires</p>
-  <h1 class="hero-title">FUNDACIÓN PARA EL DESARROLLO HUMANO INTEGRAL</h1>
-  <div class="hero-sub-org">Equipo de informes técnicos</div>
-  <div class="hero-org">TEXTO 2</div>
+  <div class="hero-org">Equipo de Informes Técnicos</div>
+  <h1 class="hero-title">Portal de Monitoreo Territorial</h1>
+  <p class="hero-desc">Plataforma interactiva para el seguimiento, visualización y análisis de los principales indicadores estadísticos y geográficos de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
 </div>
 
 <div class="accent-bar"></div>
 
 <div class="content">
-  <div class="section-label">Secciones del informe</div>
+  <div class="section-label">Módulos Temáticos de la Ciudad</div>
+  
   <div class="cards">
 
+    <!-- SECCIÓN 1: OCUPACIÓN -->
     <a class="card" href="Ind.Ocup.html">
       <div class="card-icon"><i class="ti ti-trending-up"></i></div>
-      <div class="card-tag">Sección 1</div>
+      <div class="card-tag">Sección 01</div>
       <div class="card-title">OCUPACIÓN E INGRESOS</div>
-      <p class="card-desc">Ingresos, empresas, etc.</p>
+      <p class="card-desc">Análisis de la estructura del mercado laboral, niveles de ingreso, tasas de empleo y actividad comercial por territorio.</p>
       <div class="card-footer">
-        <span class="card-cta">Ver informe <i class="ti ti-arrow-right"></i></span>
-        <span class="card-update"></span>
+        <span class="card-cta">Ingresar al módulo <i class="ti ti-arrow-right"></i></span>
+        <span class="card-update">Actualizado</span>
       </div>
     </a>
 
-    <a class="card" href="Indicadores.html">
+    <!-- SECCIÓN 2: SOCIALES -->
+    <a class="card" href="Ind.Sociales.html">
+      <div class="card-icon"><i class="ti ti-users"></i></div>
+      <div class="card-tag">Sección 02</div>
+      <div class="card-title">INDICADORES SOCIALES</div>
+      <p class="card-desc">Monitoreo de la tasa de escolaridad, cobertura de salud pública y privada, y variables de necesidades básicas insatisfechas (NBI).</p>
+      <div class="card-footer">
+        <span class="card-cta">Ingresar al módulo <i class="ti ti-arrow-right"></i></span>
+        <span class="card-update">Actualizado</span>
+      </div>
+    </a>
+
+    <!-- SECCIÓN 3: DEMOGRÁFICOS -->
+    <a class="card" href="Ind.Demograficos.html">
+      <div class="card-icon"><i class="ti ti-chart-pie"></i></div>
+      <div class="card-tag">Sección 03</div>
+      <div class="card-title">INDICADORES DEMOGRÁFICOS</div>
+      <p class="card-desc">Evolución poblacional, densidad demográfica, tasas de natalidad, mortalidad y distribución de habitantes por comuna.</p>
+      <div class="card-footer">
+        <span class="card-cta">Ingresar al módulo <i class="ti ti-arrow-right"></i></span>
+        <span class="card-update">Actualizado</span>
+      </div>
+    </a>
+
+    <!-- SECCIÓN 4: FISCALES -->
+    <a class="card" href="Ind.Fiscales.html">
       <div class="card-icon"><i class="ti ti-building-bank"></i></div>
-      <div class="card-tag">Sección 2</div>
-      <div class="card-title">INDICADORES</div>
-      <p class="card-desc">Prueba de panel de indicadores.</p>
+      <div class="card-tag">Sección 04</div>
+      <div class="card-title">INDICADORES FISCALES</div>
+      <p class="card-desc">Seguimiento de la recaudación presupuestaria, inversión pública territorializada y ejecución de partidas presupuestarias.</p>
       <div class="card-footer">
-        <span class="card-cta">Ver informe <i class="ti ti-arrow-right"></i></span>
-        <span class="card-update"></span>
-      </div>
-    </a>
-
-    <a class="card" href="rigi.html">
-      <div class="card-icon"><i class="ti ti-bolt"></i></div>
-      <div class="card-tag">Sección 3</div>
-      <div class="card-title">DEMOGRÁFICOS</div>
-      <p class="card-desc">Población, natalidad, etc.</p>
-      <div class="card-footer">
-        <span class="card-cta">Ver informe <i class="ti ti-arrow-right"></i></span>
-        <span class="card-update"></span>
+        <span class="card-cta">Ingresar al módulo <i class="ti ti-arrow-right"></i></span>
+        <span class="card-update">Actualizado</span>
       </div>
     </a>
 
@@ -140,7 +320,7 @@
 </div>
 
 <div class="bottom-strip">
-  <p>Fundación para el Desarrollo Humano Integral<span class="dot">·</span> TEXTO BAJADA <span class="dot">·</span>FDHI</p>
+  <p>Fundación para el Desarrollo Humano Integral<span class="dot">·</span> Monitoreo Estratégico CABA <span class="dot">·</span> FDHI</p>
   <p></p>
 </div>
 
@@ -148,12 +328,14 @@
 const root = document.documentElement;
 const saved = localStorage.getItem('theme') || 'light';
 root.setAttribute('data-theme', saved);
+
 function toggleDark() {
   const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   root.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
   document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   const icon = document.getElementById('dark-icon');
   if (icon) icon.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
