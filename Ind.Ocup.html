@@ -3,19 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Ocupación e Ingresos - Monitoreo CABA</title>
-  <!-- [Tus estilos CSS aquí: la barra de navegación superior se mantiene igual] -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* Estilos idénticos para mantener la coherencia visual */
-    .tabs-bar { display: flex; background: #fff; margin: 0 2rem; }
-    .tab { padding: 1rem; cursor: pointer; text-decoration: none; color: #718096; font-weight: bold; }
-    .tab.active { color: #1c9eda; border-bottom: 3px solid #1c9eda; }
-    .grid-extensa { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem; }
-    /* ... tus tarjetas y estilos ... */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Barlow Condensed', sans-serif; background: #f8fafc; color: #1a1a1a; padding-bottom: 3rem; }
+    
+    /* Barra superior de pestañas */
+    .tabs-bar { display: flex; background: #fff; border-bottom: 1px solid #e2e8f0; padding: 0 2rem; }
+    .tab { padding: 1rem 1.5rem; cursor: pointer; text-decoration: none; color: #718096; font-weight: 600; text-transform: uppercase; border-bottom: 3px solid transparent; }
+    .tab.active { color: #1c9eda; border-bottom-color: #1c9eda; }
+    
+    /* Zona del Selector */
+    .filter-zone { margin: 2rem; background: #fff; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px; }
+    .filter-select { padding: .4rem 1rem; font-family: inherit; font-size: 14px; border: 1px solid #cbd5e1; border-radius: 6px; }
+
+    /* Cuadrícula optimizada para 2 tarjetas */
+    .grid-dos-columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .card h3 { font-size: 14px; color: #1c9eda; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .card p { font-size: 32px; font-weight: 600; color: #0f172a; }
+    
+    /* Contenedor del Mapa */
+    iframe { width: 100%; height: 580px; border: none; display: block; margin-top: 2rem; border-top: 1px solid #e2e8f0; }
   </style>
 </head>
 <body>
 
-  <!-- BARRA DE NAVEGACIÓN ENTRE PÁGINAS (Simula ser pestañas, pero son links reales) -->
+  <!-- PESTAÑAS DE NAVEGACIÓN -->
   <div class="tabs-bar">
     <a href="#" class="tab active" onclick="navegarA('ocupacion')">Ocupación e Ingresos</a>
     <a href="#" class="tab" onclick="navegarA('sociales')">Indicadores Sociales</a>
@@ -23,87 +38,114 @@
     <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
   </div>
 
-  <!-- SELECTOR DE COMUNA -->
-  <div style="margin: 2rem;">
-    <label>Seleccionar Territorio: </label>
-    <select id="comuna-selector" onchange="cambiarComuna(this.value)">
-      <option value="todas">Todas las Comunas</option>
+  <!-- SELECTOR TERRITORIAL -->
+  <div class="filter-zone">
+    <label style="font-weight: 600; margin-right: .5rem;">Seleccionar Territorio:</label>
+    <select id="comuna-selector" class="filter-select" onchange="cambiarComuna(this.value)">
+      <option value="todas">Todas las Comunas (General CABA)</option>
       <option value="1">Comuna 1</option>
       <option value="2">Comuna 2</option>
-      <!-- ... todas las comunas ... -->
+      <option value="3">Comuna 3</option>
+      <option value="4">Comuna 4</option>
+      <option value="5">Comuna 5</option>
+      <option value="6">Comuna 6</option>
+      <option value="7">Comuna 7</option>
+      <option value="8">Comuna 8</option>
+      <option value="9">Comuna 9</option>
+      <option value="10">Comuna 10</option>
+      <option value="11">Comuna 11</option>
+      <option value="12">Comuna 12</option>
+      <option value="13">Comuna 13</option>
+      <option value="14">Comuna 14</option>
+      <option value="15">Comuna 15</option>
     </select>
   </div>
 
-  <!-- ACÁ PODÉS METER TODOS LOS INDICADORES QUE QUIERAS EN DETALLE -->
-  <div class="grid-extensa">
-    <div class="card"><h3>Pobreza</h3><p id="val-1">—</p></div>
-    <div class="card"><h3>Tasa_desocupación</h3><p id="val-2">—</p></div>
-    <div class="card"><h3>Indicador 3</h3><p id="val-3">—</p></div>
-    <div class="card"><h3>Indicador 4</h3><p id="val-4">—</p></div>
-    <div class="card"><h3>Indicador 5</h3><p id="val-5">—</p></div>
-    <div class="card"><h3>Indicador 6</h3><p id="val-6">—</p></div>
-    <!-- Poné tantas tarjetas como columnas tengas en esta pestaña de Excel -->
+  <!-- SOLO 2 TARJETAS EN PANTALLA -->
+  <div class="grid-dos-columnas">
+    <div class="card">
+      <h3 id="titulo-indicador-1">Indicador Económico 1</h3>
+      <p id="val-1">—</p>
+    </div>
+    <div class="card">
+      <h3 id="titulo-indicador-2">Indicador Económico 2</h3>
+      <p id="val-2">—</p>
+    </div>
   </div>
 
-  <!-- TU MAPA INTERACTIVO GLOBAL DE ESTA CATEGORÍA -->
-  <iframe src="mapa_caba_economia.html" style="width:100%; height:600px; border:none;"></iframe>
+  <!-- TU MAPA INTERACTIVO GLOBAL -->
+  <iframe src="mapa_caba_economia.html"></iframe>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-  // URL de la pestaña de Google Sheets específica para ESTA página
+  // 1. ══════════════════════════════════════════════════════════
+  // PEGA ACÁ TU LINK CSV DE LA HOJA DE OCUPACIÓN
+  // ══════════════════════════════════════════════════════════
   const EXCEL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=2062996270&single=true&output=csv"; 
   
   let datosComunas = {};
   let comunaActual = 'todas';
 
-  // 1. CAPTURAR LA COMUNA DE LA URL AL CARGAR LA PÁGINA
+  // Al cargar la página de cero o recibir la comuna por URL
   window.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     comunaActual = urlParams.get('comuna') || 'todas';
     
-    // Dejar el selector visual en la comuna correcta
     document.getElementById('comuna-selector').value = comunaActual;
 
-    // Cargar solo el Excel de esta página
     await cargarExcel();
     renderizarDatos();
   });
 
   async function cargarExcel() {
-    const res = await fetch(EXCEL_CSV_URL);
-    const textoCsv = await res.text();
-    return new Promise((resolve) => {
-      Papa.parse(textoCsv, {
-        header: true,
-        skipEmptyLines: true,
-        complete: function(results) {
-          results.data.forEach(fila => {
-            if(fila.comuna) datosComunas[fila.comuna.trim().toLowerCase()] = fila;
-          });
-          resolve();
-        }
+    try {
+      const res = await fetch(EXCEL_CSV_URL);
+      const textoCsv = await res.text();
+      return new Promise((resolve) => {
+        Papa.parse(textoCsv, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            results.data.forEach(fila => {
+              if(fila.comuna) {
+                datosComunas[fila.comuna.trim().toLowerCase()] = fila;
+              }
+            });
+            resolve();
+          }
+        });
       });
-    });
+    } catch (err) {
+      console.error("Error al conectar con Google Sheets.", err);
+    }
   }
 
   function renderizarDatos() {
     const registro = datosComunas[comunaActual];
     if(registro) {
-      // Mapeas tus N columnas del Excel a tus N tarjetas de la pantalla
-      document.getElementById('val-1').textContent = registro["pob_ingresos_pobr"] || '—';
-      document.getElementById('val-2').textContent = registro["tasa_desocup"] || '—';
-      document.getElementById('val-3').textContent = registro["Nombre Columna 3"] || '—';
-      // ... seguís con todas las que necesites desglosar en detalle
+      // 2. ══════════════════════════════════════════════════════════
+      // CAMBIÁ ESTOS DOS TEXTOS POR EL NOMBRE EXACTO DE TUS COLUMNAS EN EXCEL
+      // ══════════════════════════════════════════════════════════
+      const columnaExcel1 = "pob_ingresos_pobr"; 
+      const columnaExcel2 = "tasa_desocup"; 
+
+      // Esto cambia automáticamente los nombres en los títulos de las tarjetas
+      document.getElementById('titulo-indicador-1').textContent = columnaExcel1;
+      document.getElementById('titulo-indicador-2').textContent = columnaExcel2;
+
+      // Esto inyecta el número de la comuna elegida
+      document.getElementById('val-1').textContent = registro[columnaExcel1] || '—';
+      document.getElementById('val-2').textContent = registro[columnaExcel2] || '—';
+    } else {
+      console.warn("No hay datos cargados para:", comunaActual);
     }
   }
 
-  // 2. SI EL USUARIO CAMBIA DE COMUNA EN ESTA PÁGINA
   function cambiarComuna(nuevaComuna) {
     comunaActual = nuevaComuna.toLowerCase();
     renderizarDatos();
   }
 
-  // 3. EL TRUCO MAGICO: AL CAMBIAR DE PÁGINA, SE LLEVA LA COMUNA SELECCIONADA
   function navegarA(destino) {
     window.location.href = `comunas-${destino}.html?comuna=${comunaActual}`;
   }
