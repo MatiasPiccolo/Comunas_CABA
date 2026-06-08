@@ -92,7 +92,6 @@
       border-bottom-color: var(--celeste-principal); 
     }
 
-    /* ESTILO BOTÓN DE HOME */
     .tab-home {
       display: flex;
       align-items: center;
@@ -121,7 +120,7 @@
       box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
     }
     
-    /* ZONA DEL SELECTOR */
+    /* ZONA DEL SELECTOR GENERAL */
     .filter-zone { 
       display: flex;
       align-items: center;
@@ -157,10 +156,10 @@
       border-color: var(--celeste-principal);
     }
 
-    /* DISEÑO ADAPTADO PARA 3 TARJETAS */
+    /* GRILLA PERFECTA DE 3 COLUMNAS PARA LOS 3 INDICADORES */
     .grid-tres-columnas { 
       display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
       gap: 1.5rem; 
       margin-bottom: 2.5rem; 
     }
@@ -170,7 +169,7 @@
       border: 1px solid #e2e8f0; 
       border-left: 5px solid var(--celeste-principal);
       border-radius: 8px; 
-      padding: 1.75rem; 
+      padding: 1.75rem 1.5rem; 
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -187,22 +186,22 @@
       text-transform: uppercase; 
       margin-bottom: 0.5rem; 
       letter-spacing: 0.5px; 
+      line-height: 1.2;
     }
     
     .card p { 
-      font-size: 2.2rem; 
+      font-size: 2.25rem; 
       font-weight: 700; 
       color: var(--gris-oscuro); 
     }
     
-    /* CONTENEDOR DEL MAPA */
+    /* MAPA */
     .map-title {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 1.4rem;
       text-transform: uppercase;
       font-weight: 600;
       color: var(--gris-texto);
-      margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -234,7 +233,6 @@
 </head>
 <body>
 
-  <!-- SECCIÓN PORTADA CELESTE -->
   <header class="hero-header">
     <a href="Portada_comunas.html" style="text-decoration: none; color: inherit;">
       <h1>Portal de Monitoreo Territorial</h1>
@@ -242,10 +240,9 @@
     <p>Indicadores estadísticos dinámicos e información geográfica de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
   </header>
 
-  <!-- CONTENEDOR FLOTANTE -->
   <main class="main-container">
     
-    <!-- BARRA DE PESTAÑAS DE NAVEGACIÓN COMPLETA -->
+    <!-- BARRA DE PESTAÑAS (Aquí se activa Sociales) -->
     <nav class="tabs-bar">
       <a href="Portada_comunas.html" class="tab tab-home">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
@@ -258,10 +255,9 @@
       <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
     </nav>
 
-    <!-- PANEL BLANCO CENTRAL -->
     <section class="dashboard-panel">
       
-      <!-- FILTRO DE TERRITORIO -->
+      <!-- FILTRO GENERAL DE TERRITORIO -->
       <div class="filter-zone">
         <label for="comuna-selector">Visualizar Territorio:</label>
         <select id="comuna-selector" class="filter-select" onchange="cambiarComuna(this.value)">
@@ -287,23 +283,36 @@
       <!-- SECCIÓN 3 TARJETAS INDICADORAS -->
       <div class="grid-tres-columnas">
         <div class="card">
-          <h3 id="titulo-indicador-1">Cargando indicador...</h3>
+          <h3 id="titulo-indicador-1">Cargando indicador 1...</h3>
           <p id="val-1">—</p>
         </div>
         <div class="card">
-          <h3 id="titulo-indicador-2">Cargando indicador...</h3>
+          <h3 id="titulo-indicador-2">Cargando indicador 2...</h3>
           <p id="val-2">—</p>
         </div>
         <div class="card">
-          <h3 id="titulo-indicador-3">Cargando indicador...</h3>
+          <h3 id="titulo-indicador-3">Cargando indicador 3...</h3>
           <p id="val-3">—</p>
         </div>
       </div>
 
-      <!-- SECCIÓN MAPA INTERACTIVO SOCIAL -->
-      <h2 class="map-title">Mapa de Referencia Social Global</h2>
+      <!-- SECCIÓN MAPA INTERACTIVO CON FILTRO INCORPORADO -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 class="map-title" style="margin-bottom: 0;">Mapa Temático Territorial</h2>
+        
+        <!-- Filtro exclusivo para capas sociales -->
+        <div class="filter-zone" style="margin-bottom: 0; padding: 0.5rem 1rem;">
+          <label for="mapa-selector">Capa del mapa:</label>
+          <select id="mapa-selector" class="filter-select" onchange="cambiarMapa(this.value)">
+            <option value="educacion">Tasa de Escolaridad Primaria</option>
+            <option value="salud">Cobertura de Salud Pública/Privada</option>
+          </select>
+        </div>
+      </div>
+
       <div class="iframe-container">
-        <iframe src="mapa_caba_social.html"></iframe>
+        <!-- Mapa inicial de sociales -->
+        <iframe id="mapa-iframe" src="mapa_caba_educacion.html"></iframe>
       </div>
 
     </section>
@@ -311,16 +320,13 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-  // 1. ══════════════════════════════════════════════════════════
-  // CONFIGURACIÓN: PEGA TU LINK CSV DE LA HOJA SOCIAL AQUÍ
-  // ══════════════════════════════════════════════════════════
+  // Tu URL de Google Sheets
   const EXCEL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=0&single=true&output=csv"; 
   
   let datosComunas = {};
   let comunaActual = 'todas';
 
   window.addEventListener('DOMContentLoaded', async () => {
-    // Lee la comuna de la URL si existe (?comuna=X)
     const urlParams = new URLSearchParams(window.location.search);
     comunaActual = urlParams.get('comuna') || 'todas';
     
@@ -349,38 +355,31 @@
         });
       });
     } catch (err) {
-      console.error("Error al conectar con Google Sheets.", err);
+      console.error("Error al conectar con el Excel.", err);
     }
   }
 
   function renderizarDatos() {
     const registro = datosComunas[comunaActual];
     if(registro) {
-      // 2. ══════════════════════════════════════════════════════════
-      // CONFIGURACIÓN: NOMBRES TÉCNICOS DE TU EXCEL (COLUMNAS B, C Y D)
-      // ══════════════════════════════════════════════════════════
-      const columnaExcel1 = "viv_dep"; 
-      const columnaExcel2 = "hog_inq"; 
-      const columnaExcel3 = "pob_25_supcomp"; 
+      
+      // === MAPEADO DE COLUMNAS EXCEL SOCIALES (3 Columnas) ===
+      const col1 = "viv_dep"; 
+      const col2 = "hog_inq"; 
+      const col3 = "pob_25_supcomp";
 
-      // 3. ══════════════════════════════════════════════════════════
-      // CONFIGURACIÓN: NOMBRES LINDOS PARA MOSTRAR AL PÚBLICO
-      // ══════════════════════════════════════════════════════════
-      const tituloVisual1 = "Viviendas departamentos";
-      const tituloVisual2 = "Tasa de Inquilinos";
-      const tituloVisual3 = "Población mayor a 25 con Superior Completo";
+      // === NOMBRES VISUALES EN PANTALLA ===
+      document.getElementById('titulo-indicador-1').textContent = "Viviendas Departamento";
+      document.getElementById('titulo-indicador-2').textContent = "Hogares Inquilinos";
+      document.getElementById('titulo-indicador-3').textContent = "Población menor a 25 años con Educación Superior Completa";
 
-      // Asigna los títulos lindos a las etiquetas h3
-      document.getElementById('titulo-indicador-1').textContent = tituloVisual1;
-      document.getElementById('titulo-indicador-2').textContent = tituloVisual2;
-      document.getElementById('titulo-indicador-3').textContent = tituloVisual3;
+      // Inyección en tarjetas
+      document.getElementById('val-1').textContent = registro[col1] || '—';
+      document.getElementById('val-2').textContent = registro[col2] || '—';
+      document.getElementById('val-3').textContent = registro[col3] || '—';
 
-      // CORREGIDO: Extrae los datos reales utilizando directamente la fila de la comuna limpia
-      document.getElementById('val-1').textContent = registro[columnaExcel1] || '—';
-      document.getElementById('val-2').textContent = registro[columnaExcel2] || '—';
-      document.getElementById('val-3').textContent = registro[columnaExcel3] || '—';
     } else {
-      console.warn("No hay datos cargados para:", comunaActual);
+      console.warn("No hay datos cargados para el territorio:", comunaActual);
     }
   }
 
@@ -389,11 +388,20 @@
     renderizarDatos();
   }
 
-  // CORREGIDO: Navegación unificada e inteligente adaptada para entornos locales
-function navegarA(destino) {
+  // CAMBIO DINÁMICO DE MAPAS SOCIALES
+  function cambiarMapa(indicadorMapa) {
+    const iframe = document.getElementById('mapa-iframe');
+    
+    if (indicadorMapa === 'educacion') {
+      iframe.src = "mapa_caba_educacion.html";
+    } else if (indicadorMapa === 'salud') {
+      iframe.src = "mapa_caba_salud.html";
+    }
+  }
+
+  function navegarA(destino) {
     let nombreArchivo = "";
 
-    // CORREGIDO: Navegación con los nombres exactos de tus archivos reales
     if (destino === 'ocupacion') {
       nombreArchivo = "Ind.Ocup.html"; 
     } else if (destino === 'sociales') {
@@ -404,7 +412,6 @@ function navegarA(destino) {
       nombreArchivo = "Ind.Fiscales.html";
     }
 
-    // Ejecuta la redirección según el entorno (local o web)
     if (window.location.protocol === 'file:') {
       window.location.href = nombreArchivo;
     } else {
