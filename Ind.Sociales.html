@@ -234,6 +234,7 @@
 </head>
 <body>
 
+  <!-- SECCIÓN PORTADA CELESTE -->
   <header class="hero-header">
     <a href="Portada_comunas.html" style="text-decoration: none; color: inherit;">
       <h1>Portal de Monitoreo Territorial</h1>
@@ -241,8 +242,10 @@
     <p>Indicadores estadísticos dinámicos e información geográfica de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
   </header>
 
+  <!-- CONTENEDOR FLOTANTE -->
   <main class="main-container">
     
+    <!-- BARRA DE PESTAÑAS DE NAVEGACIÓN COMPLETA -->
     <nav class="tabs-bar">
       <a href="Portada_comunas.html" class="tab tab-home">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
@@ -255,8 +258,10 @@
       <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
     </nav>
 
+    <!-- PANEL BLANCO CENTRAL -->
     <section class="dashboard-panel">
       
+      <!-- FILTRO DE TERRITORIO -->
       <div class="filter-zone">
         <label for="comuna-selector">Visualizar Territorio:</label>
         <select id="comuna-selector" class="filter-select" onchange="cambiarComuna(this.value)">
@@ -279,6 +284,7 @@
         </select>
       </div>
 
+      <!-- SECCIÓN 3 TARJETAS INDICADORAS -->
       <div class="grid-tres-columnas">
         <div class="card">
           <h3 id="titulo-indicador-1">Cargando indicador...</h3>
@@ -294,6 +300,7 @@
         </div>
       </div>
 
+      <!-- SECCIÓN MAPA INTERACTIVO SOCIAL -->
       <h2 class="map-title">Mapa de Referencia Social Global</h2>
       <div class="iframe-container">
         <iframe src="mapa_caba_social.html"></iframe>
@@ -313,6 +320,7 @@
   let comunaActual = 'todas';
 
   window.addEventListener('DOMContentLoaded', async () => {
+    // Lee la comuna de la URL si existe (?comuna=X)
     const urlParams = new URLSearchParams(window.location.search);
     comunaActual = urlParams.get('comuna') || 'todas';
     
@@ -358,8 +366,8 @@
       // 3. ══════════════════════════════════════════════════════════
       // CONFIGURACIÓN: NOMBRES LINDOS PARA MOSTRAR AL PÚBLICO
       // ══════════════════════════════════════════════════════════
-      const tituloVisual1 = "Viviendas departamento";
-      const tituloVisual2 = "Inquilinos";
+      const tituloVisual1 = "Viviendas departamentos";
+      const tituloVisual2 = "Tasa de Inquilinos";
       const tituloVisual3 = "Población mayor a 25 con Superior Completo";
 
       // Asigna los títulos lindos a las etiquetas h3
@@ -367,7 +375,7 @@
       document.getElementById('titulo-indicador-2').textContent = tituloVisual2;
       document.getElementById('titulo-indicador-3').textContent = tituloVisual3;
 
-      // Inyecta los datos reales usando los nombres técnicos del Excel
+      // CORREGIDO: Extrae los datos reales utilizando directamente la fila de la comuna limpia
       document.getElementById('val-1').textContent = registro[columnaExcel1] || '—';
       document.getElementById('val-2').textContent = registro[columnaExcel2] || '—';
       document.getElementById('val-3').textContent = registro[columnaExcel3] || '—';
@@ -381,8 +389,13 @@
     renderizarDatos();
   }
 
+  // CORREGIDO: Navegación unificada e inteligente adaptada para entornos locales
   function navegarA(destino) {
-    window.location.href = `comunas-${destino}.html?comuna=${comunaActual}`;
+    if (window.location.protocol === 'file:') {
+      window.location.href = `comunas-${destino}.html`;
+    } else {
+      window.location.href = `comunas-${destino}.html?comuna=${comunaActual}`;
+    }
   }
 </script>
 </body>
