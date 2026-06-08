@@ -234,7 +234,7 @@
 </head>
 <body>
 
-  <!-- SECCIÓN PORTADA CELESTE (Al hacer clic en el título también volvés al Home) -->
+  <!-- SECCIÓN PORTADA CELESTE -->
   <header class="hero-header">
     <a href="Portada_comunas.html" style="text-decoration: none; color: inherit;">
       <h1>Portal de Monitoreo Territorial</h1>
@@ -247,7 +247,6 @@
     
     <!-- BARRA DE PESTAÑAS DE NAVEGACIÓN -->
     <nav class="tabs-bar">
-      <!-- Botón de Inicio con ícono -->
       <a href="Portada_comunas.html" class="tab tab-home">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
         Inicio
@@ -308,15 +307,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-  // 1. ══════════════════════════════════════════════════════════
-  // CONFIGURACIÓN: PEGA TU LINK CSV AQUÍ
-  // ══════════════════════════════════════════════════════════
   const EXCEL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=2062996270&single=true&output=csv"; 
   
   let datosComunas = {};
   let comunaActual = 'todas';
 
-  // Ejecución inicial al cargar el documento
   window.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     comunaActual = urlParams.get('comuna') || 'todas';
@@ -327,7 +322,6 @@
     renderizarDatos();
   });
 
-  // Conexión y parseo del Excel mediante PapaParse
   async function cargarExcel() {
     try {
       const res = await fetch(EXCEL_CSV_URL);
@@ -351,21 +345,19 @@
     }
   }
 
-  // Inyección de textos y números dinámicos en la pantalla
+// Inyección de textos y números dinámicos en la pantalla
   function renderizarDatos() {
     const registro = datosComunas[comunaActual];
     if(registro) {
-      // 2. ══════════════════════════════════════════════════════════
-      // CONFIGURACIÓN: ESCRIBÍ LOS NOMBRES EXACTOS DE TUS COLUMNAS EXCEL (B Y C)
-      // ══════════════════════════════════════════════════════════
+      // 1. Nombres exactos de tus columnas en el Excel (NO los cambies si en tu Excel se llaman así)
       const columnaExcel1 = "pob_ingresos_pobr"; 
       const columnaExcel2 = "tasa_desocup"; 
 
-      // Renderiza títulos de las tarjetas
-      document.getElementById('titulo-indicador-1').textContent = columnaExcel1;
-      document.getElementById('titulo-indicador-2').textContent = columnaExcel2;
+      // 2. CAMBIO DE NOMBRES VISUALES: Escribí acá los títulos que quieras que vea el usuario
+      document.getElementById('titulo-indicador-1').textContent = "Población Bajo la Línea de Pobreza (%)";
+      document.getElementById('titulo-indicador-2').textContent = "Tasa de Desocupación (%)";
 
-      // Inyecta los valores correspondientes
+      // 3. Inyecta los valores numéricos correspondientes desde el Excel
       document.getElementById('val-1').textContent = registro[columnaExcel1] || '—';
       document.getElementById('val-2').textContent = registro[columnaExcel2] || '—';
     } else {
@@ -373,13 +365,18 @@
     }
   }
 
-  // Escucha el cambio del menú desplegable
   function cambiarComuna(nuevaComuna) {
     comunaActual = nuevaComuna.toLowerCase();
     renderizarDatos();
   }
 
- if (destino === 'ocupacion') {
+  // ══════════════════════════════════════════════════════════
+  // ENRUTADOR CORREGIDO Y SEGURO (CON TUS ARCHIVOS "Ind.X.html")
+  // ══════════════════════════════════════════════════════════
+  function navegarA(destino) {
+    let nombreArchivo = "";
+
+    if (destino === 'ocupacion') {
       nombreArchivo = "Ind.Ocup.html"; 
     } else if (destino === 'sociales') {
       nombreArchivo = "Ind.Sociales.html";
@@ -389,7 +386,6 @@
       nombreArchivo = "Ind.Fiscales.html";
     }
 
-    // Ejecuta la redirección según el entorno (local o web)
     if (window.location.protocol === 'file:') {
       window.location.href = nombreArchivo;
     } else {
