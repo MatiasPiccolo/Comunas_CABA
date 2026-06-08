@@ -1,322 +1,424 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal de Informes · Indicadores Económicos CABA</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Barlow Condensed', sans-serif; background: #ffffff; min-height: 100vh; }
-  
-  /* BARRA SUPERIOR */
-  .topbar { background: #1c9eda; padding: .6rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-  .topbar-left { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #ffffff; }
-  .topbar-right { display: flex; align-items: center; gap: 1rem; }
-  .topbar-right a { font-size: 12px; color: #ffffff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-weight: 500; }
-  .topbar-right a:hover { opacity: 0.9; }
-  
-  /* NAVEGACIÓN PRINCIPAL */
-  .nav { background: #1c9eda; border-top: 1px solid rgba(255,255,255,.15); padding: 0 2rem; display: flex; }
-  .nav a { font-size: 13px; color: rgba(255,255,255,.7); text-decoration: none; padding: .75rem 1.25rem; border-bottom: 2px solid transparent; transition: all .15s; letter-spacing: .03em; }
-  .nav a:hover { color: #ffffff; }
-  .nav a.active { color: #ffffff; border-bottom-color: #fec700; font-weight: 500; }
-  
-  /* LÍNEA DE ACENTO */
-  .accent-bar { height: 3px; background-color: #fec700; }
-  
-  /* BREADCRUMB */
-  .breadcrumb { background: #ffffff; border-bottom: 1px solid rgba(28, 158, 218, 0.15); padding: .6rem 2rem; display: flex; align-items: center; }
-  .breadcrumb a { font-size: 12px; color: #1c9eda; text-decoration: none; transition: color .15s; }
-  .breadcrumb a:hover { text-decoration: underline; }
-  .breadcrumb span { font-size: 12px; color: #ccc; margin: 0 .5rem; }
-  .breadcrumb-current { font-size: 12px; color: #1a1a1a; font-weight: 500; }
-  
-  /* ENCABEZADO DE PÁGINA */
-  .page-header { background: #ffffff; border-bottom: 1px solid rgba(28, 158, 218, 0.15); padding: 1.5rem 2rem; }
-  .page-header-eyebrow { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #1c9eda; margin-bottom: .4rem; font-weight: 600; }
-  .page-header-title { font-size: 28px; color: #1a1a1a; margin-bottom: .3rem; font-weight: 600; }
-  .page-header-sub { font-size: 14px; color: #4a5568; }
-  
-  /* BARRA DE PESTAÑAS (INDICADORES) */
-  .tabs-bar { background: #ffffff; border-bottom: 1px solid rgba(28, 158, 218, 0.15); padding: 0 2rem; display: flex; align-items: center; }
-  .tabs-bar-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #718096; padding-right: 1rem; border-right: 1px solid rgba(28, 158, 218, 0.15); margin-right: .5rem; flex-shrink: 0; font-weight: 600; }
-  .tab { font-size: 13px; color: #4a5568; padding: .75rem 1.25rem; border-bottom: 2px solid transparent; cursor: pointer; transition: all .15s; border: none; background: none; font-family: 'Barlow Condensed', sans-serif; letter-spacing: .03em; }
-  .tab:hover { color: #1c9eda; }
-  .tab.active { color: #1c9eda; border-bottom: 2px solid #1c9eda; font-weight: 600; }
-  
-  /* CONTENIDO PRINCIPAL */
-  .content { padding: 2rem; max-width: 1100px; background: #f8fafc; }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-  
-  /* SECCIÓN FILTRO DE COMUNAS */
-  .filter-zone { background: #ffffff; border: 1px solid rgba(28, 158, 218, 0.2); border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
-  .filter-label { font-size: 13px; text-transform: uppercase; font-weight: 600; color: #1c9eda; letter-spacing: .05em; display: flex; align-items: center; gap: 6px; }
-  .filter-select { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; padding: .4rem 2.5rem .4rem 1rem; border: 1px solid #1c9eda; border-radius: 8px; background: #ffffff; color: #1a1a1a; cursor: pointer; font-weight: 500; outline: none; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' stroke-width='2' stroke='%231c9eda' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M6 9l6 6l6 -6' %3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
-  
-  /* TARJETAS KPI */
-  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 1.25rem; }
-  .kpi-card { background: #ffffff; border: 1px solid #1c9eda; border-radius: 12px; padding: 1.25rem; position: relative; overflow: hidden; }
-  .kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: #fec700; }
-  .kpi-label { font-size: 13px; color: #1c9eda; letter-spacing: .04em; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
-  .kpi-value { font-size: 24px; color: #1a1a1a; line-height: 1.1; margin-bottom: 3px; font-weight: 600; }
-  .kpi-sub { font-size: 11px; color: #718096; }
-  
-  /* IFRAME / MAPAS */
-  .iframe-wrap { border-radius: 12px; overflow: hidden; border: 1px solid rgba(28, 158, 218, 0.2); background: #ffffff; }
-  .iframe-wrap iframe { width: 100%; height: 500px; border: none; display: block; }
-  
-  .bottom-strip { background: #1c9eda; padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; }
-  .bottom-strip p { font-size: 12px; color: #ffffff; }
-  .dot { color: rgba(255, 255, 255, 0.5); margin: 0 .4rem; }
-</style>
+  <meta charset="UTF-8">
+  <title>Indicadores Fiscales - Monitoreo CABA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --celeste-principal: #00b1ea;
+      --celeste-oscuro: #009cd1;
+      --azul-acento: #0f4c81;
+      --gris-fondo: #f1f5f9;
+      --gris-texto: #475569;
+      --gris-oscuro: #1e293b;
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: var(--gris-fondo); 
+      color: var(--gris-oscuro); 
+      padding-bottom: 4rem; 
+    }
+    
+    /* PORTADA CELESTE PRINCIPAL */
+    .hero-header {
+      background: linear-gradient(135deg, var(--celeste-principal) 0%, #0084c2 100%);
+      color: white;
+      padding: 3rem 2rem 5rem 2rem;
+      text-align: center;
+      box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
+    }
+    
+    .hero-header h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .hero-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 400;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* CONTENEDOR PRINCIPAL FLOTANTE */
+    .main-container {
+      max-width: 1200px;
+      margin: -3rem auto 0 auto;
+      padding: 0 1.5rem;
+    }
+    
+    /* BARRA DE PESTAÑAS Y HOME */
+    .tabs-bar { 
+      display: flex; 
+      background: #fff; 
+      border-radius: 12px 12px 0 0; 
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+      overflow-x: auto;
+      padding: 0 1rem;
+      align-items: center;
+    }
+    
+    .tab { 
+      padding: 1.25rem 1.5rem; 
+      cursor: pointer; 
+      text-decoration: none; 
+      color: var(--gris-texto); 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600; 
+      text-transform: uppercase; 
+      border-bottom: 4px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    
+    .tab:hover {
+      color: var(--celeste-principal);
+    }
+    
+    .tab.active { 
+      color: var(--celeste-principal); 
+      border-bottom-color: var(--celeste-principal); 
+    }
+
+    .tab-home {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--azul-acento);
+      border-right: 1px solid #e2e8f0;
+      padding-right: 1.5rem;
+    }
+
+    .tab-home svg {
+      width: 18px;
+      height: 18px;
+      color: var(--celeste-principal);
+    }
+
+    .tab-home:hover {
+      background: #f8fafc;
+      color: var(--celeste-oscuro);
+    }
+    
+    /* PANEL BLANCO DE CONTENIDO */
+    .dashboard-panel {
+      background: white;
+      border-radius: 0 0 12px 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
+    }
+    
+    /* ZONA DEL SELECTOR */
+    .filter-zone { 
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem; 
+      background: #f8fafc; 
+      padding: 1rem 1.5rem; 
+      border: 1px solid #e2e8f0; 
+      border-radius: 8px; 
+    }
+    
+    .filter-zone label {
+      font-weight: 600;
+      color: var(--gris-texto);
+      font-size: 0.95rem;
+    }
+    
+    .filter-select { 
+      padding: .5rem 2rem .5rem 1rem; 
+      font-family: inherit; 
+      font-size: 0.95rem; 
+      font-weight: 500;
+      color: var(--gris-oscuro);
+      border: 1px solid #cbd5e1; 
+      border-radius: 6px; 
+      background-color: #fff;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    
+    .filter-select:focus {
+      border-color: var(--celeste-principal);
+    }
+
+    /* GRILLA PERFECTA DE 3 COLUMNAS PARA LOS 3 INDICADORES */
+    .grid-tres-columnas { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+      gap: 1.5rem; 
+      margin-bottom: 2.5rem; 
+    }
+    
+    .card { 
+      background: #fff; 
+      border: 1px solid #e2e8f0; 
+      border-left: 5px solid var(--celeste-principal);
+      border-radius: 8px; 
+      padding: 1.75rem 1.5rem; 
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.08);
+    }
+    
+    .card h3 { 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; 
+      color: var(--azul-acento); 
+      text-transform: uppercase; 
+      margin-bottom: 0.5rem; 
+      letter-spacing: 0.5px; 
+      line-height: 1.2;
+    }
+    
+    .card p { 
+      font-size: 2.25rem; 
+      font-weight: 700; 
+      color: var(--gris-oscuro); 
+    }
+    
+    /* MAPA */
+    .map-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--gris-texto);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .map-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--celeste-principal);
+      border-radius: 2px;
+    }
+
+    .iframe-container {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    }
+
+    iframe { 
+      width: 100%; 
+      height: 560px; 
+      border: none; 
+      display: block; 
+    }
+  </style>
 </head>
 <body>
 
-<div class="topbar">
-  <span class="topbar-left">Fundación para el Desarrollo Humano Integral · FDHI</span>
-  <div class="topbar-right">
-    <a href="ied.html">← Volver al Panel General</a>
-  </div>
-</div>
+  <header class="hero-header">
+    <a href="Portada_comunas.html" style="text-decoration: none; color: inherit;">
+      <h1>Portal de Monitoreo Territorial</h1>
+    </a>
+    <p>Indicadores estadísticos dinámicos e información geográfica de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
+  </header>
 
-<div class="nav">
-  <a href="ied.html">Indicadores Globales</a>
-  <a href="comunas.html" class="active">Análisis por Comunas</a>
-  <a href="rigi.html">Proyectos Especiales</a>
-</div>
+  <main class="main-container">
+    
+    <!-- BARRA DE PESTAÑAS (Aquí se activa Fiscales) -->
+    <nav class="tabs-bar">
+      <a href="Portada_comunas.html" class="tab tab-home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
+        Inicio
+      </a>
+      
+      <a href="#" class="tab" onclick="navegarA('ocupacion')">Ocupación e Ingresos</a>
+      <a href="#" class="tab" onclick="navegarA('sociales')">Indicadores Sociales</a>
+      <a href="#" class="tab" onclick="navegarA('demograficos')">Indicadores Demográficos</a>
+      <a href="#" class="tab active" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
+    </nav>
 
-<div class="accent-bar"></div>
-<div class="breadcrumb"><a href="index.html">🏠 Portal</a><span>›</span><a href="comunas.html">Comunas</a><span>›</span><span class="breadcrumb-current">Indicadores Económicos</span></div>
+    <section class="dashboard-panel">
+      
+      <!-- FILTRO DE TERRITORIO -->
+      <div class="filter-zone">
+        <label for="comuna-selector">Visualizar Territorio:</label>
+        <select id="comuna-selector" class="filter-select" onchange="cambiarComuna(this.value)">
+          <option value="todas">Todas las Comunas (General CABA)</option>
+          <option value="1">Comuna 1</option>
+          <option value="2">Comuna 2</option>
+          <option value="3">Comuna 3</option>
+          <option value="4">Comuna 4</option>
+          <option value="5">Comuna 5</option>
+          <option value="6">Comuna 6</option>
+          <option value="7">Comuna 7</option>
+          <option value="8">Comuna 8</option>
+          <option value="9">Comuna 9</option>
+          <option value="10">Comuna 10</option>
+          <option value="11">Comuna 11</option>
+          <option value="12">Comuna 12</option>
+          <option value="13">Comuna 13</option>
+          <option value="14">Comuna 14</option>
+          <option value="15">Comuna 15</option>
+        </select>
+      </div>
 
-<div class="page-header">
-  <div class="page-header-eyebrow">Monitoreo Territorial CABA</div>
-  <div class="page-header-title">Indicadores Económicos de las Comunas</div>
-  <div class="page-header-sub">Análisis sociodemográfico y económico detallado por Comunas · Ciudad Autónoma de Buenos Aires</div>
-</div>
+      <!-- SECCIÓN 3 TARJETAS INDICADORAS -->
+      <div class="grid-tres-columnas">
+        <div class="card">
+          <h3 id="titulo-indicador-1">Cargando indicador 1...</h3>
+          <p id="val-1">—</p>
+        </div>
+        <div class="card">
+          <h3 id="titulo-indicador-2">Cargando indicador 2...</h3>
+          <p id="val-2">—</p>
+        </div>
+        <div class="card">
+          <h3 id="titulo-indicador-3">Cargando indicador 3...</h3>
+          <p id="val-3">—</p>
+        </div>
+      </div>
 
-<div class="tabs-bar">
-  <span class="tabs-bar-label">Filtro Temático</span>
-  <button class="tab active" onclick="showTab('pobreza', this)">Pobreza e Indigencia</button>
-  <button class="tab" onclick="showTab('ingresos', this)">Distribución de Ingresos</button>
-  <button class="tab" onclick="showTab('alquileres', this)">Mercado de Alquileres</button>
-</div>
+      <!-- SECCIÓN MAPA INTERACTIVO CON SELECTOR -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 class="map-title" style="margin-bottom: 0;">Mapa Temático Territorial</h2>
+        
+        <!-- Filtro exclusivo para cambiar capas fiscales -->
+        <div class="filter-zone" style="margin-bottom: 0; padding: 0.5rem 1rem;">
+          <label for="mapa-selector">Capa del mapa:</label>
+          <select id="mapa-selector" class="filter-select" onchange="cambiarMapa(this.value)">
+            <option value="recaudacion">Recaudación Inmobiliaria</option>
+            <option value="inversion">Inversión Pública Ejecutada</option>
+          </select>
+        </div>
+      </div>
 
-<div class="content">
+      <div class="iframe-container">
+        <!-- Mapa inicial fiscal -->
+        <iframe id="mapa-iframe" src="mapa_caba_recaudacion.html"></iframe>
+      </div>
 
-  <!-- FILTRO DE COMUNAS -->
-  <div class="filter-zone">
-    <div class="filter-label"><i class="ti ti-map-pin-2"></i> Filtrar por Jurisdicción:</div>
-    <select class="filter-select" id="comuna-selector" onchange="filterComuna(this.value)">
-      <option value="todas">Todas las Comunas (Promedio)</option>
-      <option value="1">Comuna 1 (Retiro, San Nicolás, Pto. Madero, Montserrat...)</option>
-      <option value="2">Comuna 2 (Recoleta)</option>
-      <option value="3">Comuna 3 (Balvanera, San Cristóbal)</option>
-      <option value="4">Comuna 4 (La Boca, Barracas, Parque Patricios...)</option>
-      <option value="5">Comuna 5 (Almagro, Boedo)</option>
-      <option value="6">Comuna 6 (Caballito)</option>
-      <option value="7">Comuna 7 (Flores, Parque Chacabuco)</option>
-      <option value="8">Comuna 8 (Villa Soldati, Lugano...)</option>
-      <option value="9">Comuna 9 (Liniers, Mataderos...)</option>
-      <option value="10">Comuna 10 (Floresta, Villa Luro...)</option>
-      <option value="11">Comuna 11 (Devoto, Villa del Parque...)</option>
-      <option value="12">Comuna 12 (Urquiza, Saavedra...)</option>
-      <option value="13">Comuna 13 (Belgrano, Núñez, Colegiales)</option>
-      <option value="14">Comuna 14 (Palermo)</option>
-      <option value="15">Comuna 15 (Chacarita, Villa Crespo...)</option>
-    </select>
-  </div>
+    </section>
+  </main>
 
-  <!-- ── PANEL: POBREZA ── -->
-  <div class="tab-panel active" id="panel-pobreza">
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-pob-1">Pobreza Promedio CABA</div>
-        <div class="kpi-value" id="val-pob-1">28.4%</div>
-        <div class="kpi-sub" id="sub-pob-1">Porcentaje de hogares vulnerables</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-pob-2">Tasa de Indigencia</div>
-        <div class="kpi-value" id="val-pob-2">9.2%</div>
-        <div class="kpi-sub" id="sub-pob-2">Línea de indigencia promedio</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-pob-3">Comuna Crítica</div>
-        <div class="kpi-value" id="val-pob-3">Comuna 4</div>
-        <div class="kpi-sub" id="sub-pob-3">Jurisdicción con mayor vulnerabilidad</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-pob-4">Brecha Registrada</div>
-        <div class="kpi-value" id="val-pob-4">3.2x</div>
-        <div class="kpi-sub" id="sub-pob-4">Relación contra zona norte</div>
-      </div>
-    </div>
-    <div class="iframe-wrap"><iframe src="mapa_comunas_pobreza.html"></iframe></div>
-  </div>
-
-  <!-- ── PANEL: INGRESOS ── -->
-  <div class="tab-panel" id="panel-ingresos">
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-ing-1">Ingreso Medio Familiar</div>
-        <div class="kpi-value" id="val-ing-1">$780.000</div>
-        <div class="kpi-sub" id="sub-ing-1">Valores ponderados estimados</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-ing-2">Coeficiente de Gini</div>
-        <div class="kpi-value" id="0.425" id="val-ing-2">0.425</div>
-        <div class="kpi-sub" id="sub-ing-2">Índice de desigualdad interna</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-ing-3">Comuna Máxima</div>
-        <div class="kpi-value" id="val-ing-3">Comuna 14</div>
-        <div class="kpi-sub" id="sub-ing-3">Mayor concentración de ingresos</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-ing-4">Tasa de Actividad</div>
-        <div class="kpi-value" id="val-ing-4">64.1%</div>
-        <div class="kpi-sub" id="sub-ing-4">Población ocupada o demandante</div>
-      </div>
-    </div>
-    <div class="iframe-wrap"><iframe src="mapa_comunas_ingresos.html"></iframe></div>
-  </div>
-
-  <!-- ── PANEL: ALQUILERES ── -->
-  <div class="tab-panel" id="panel-alquileres">
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-alq-1">Valor Promedio M²</div>
-        <div class="kpi-value" id="val-alq-1">$6.500</div>
-        <div class="kpi-sub" id="sub-alq-1">Precio base de contratos</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-alq-2">Costo Promedio (2 Amb.)</div>
-        <div class="kpi-value" id="val-alq-2">$320.000</div>
-        <div class="kpi-sub" id="sub-alq-2">Valor de referencia de mercado</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-alq-3">Comuna Mayor Demanda</div>
-        <div class="kpi-value" id="val-alq-3">Comuna 13</div>
-        <div class="kpi-sub" id="sub-alq-3">Mayor cantidad de publicaciones</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" id="lbl-alq-4">Densidad de Inquilinos</div>
-        <div class="kpi-value" id="val-alq-4">38.7%</div>
-        <div class="kpi-sub" id="sub-alq-4">Porcentaje sobre total de hogares</div>
-      </div>
-    </div>
-    <div class="iframe-wrap"><iframe src="mapa_comunas_alquileres.html"></iframe></div>
-  </div>
-
-</div>
-
-<div class="bottom-strip">
-  <p>Fundación para el Desarrollo Humano Integral <span class="dot">·</span> Estadísticas Urbanas</p>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-// ══════════════════════════════════════════════════════════
-// BASE DE DATOS LOCAL POR COMUNA (Modificá estos números con tus valores reales)
-// ══════════════════════════════════════════════════════════
-const DATOS_COMUNAS = {
-  todas: {
-    pobreza:    ["28.4%", "9.2%", "Comuna 4", "3.2x"],
-    ingresos:   ["$780.000", "0.425", "Comuna 14", "64.1%"],
-    alquileres: ["$6.500", "$320.000", "Comuna 13", "38.7%"]
-  },
-  1: {
-    pobreza:    ["31.2%", "11.1%", "Retiro / Const.", "Alta dispersión"],
-    ingresos:   ["$710.000", "0.450", "Pto. Madero Max", "61.5%"],
-    alquileres: ["$6.800", "$340.000", "Alta Rotación", "45.2%"]
-  },
-  2: {
-    pobreza:    ["12.5%", "2.1%", "Baja criticidad", "1.0x"],
-    ingresos:   ["$1.200.000", "0.380", "Recoleta", "66.2%"],
-    alquileres: ["$8.200", "$410.000", "Premium", "39.1%"]
-  },
-  3: {
-    pobreza:    ["29.8%", "8.9%", "Once / Balvanera", "Media-Alta"],
-    ingresos:   ["$690.000", "0.410", "Eje Comercial", "63.8%"],
-    alquileres: ["$5.900", "$290.000", "Comercial", "51.4%"]
-  },
-  4: {
-    pobreza:    ["39.7%", "14.3%", "Máxima Alerta", "Sur crítico"],
-    ingresos:   ["$520.000", "0.395", "Bajo Promedio", "58.2%"],
-    alquileres: ["$4.800", "$240.000", "Baja Publicación", "28.1%"]
-  },
-  // Podés completar de la 5 a la 15 siguiendo exactamente este mismo formato:
-  5: { pobreza: ["24.1%", "6.5%", "Almagro", "Estable"], ingresos: ["$760.000", "0.412", "Eje Rivadavia", "64.0%"], alquileres: ["$6.200", "$310.000", "Alta Demanda", "42.0%"] },
-  6: { pobreza: ["16.2%", "3.4%", "Caballito", "Baja"], ingresos: ["$920.000", "0.398", "Centro Geográfico", "65.5%"], alquileres: ["$7.000", "$350.000", "Muy Buscado", "36.5%"] },
-  7: { pobreza: ["32.4%", "10.5%", "Flores", "Media-Alta"], ingresos: ["$610.000", "0.415", "Eje Avellaneda", "60.1%"], alquileres: ["$5.100", "$255.000", "Estable", "31.2%"] },
-  8: { pobreza: ["44.2%", "16.8%", "Lugano / Soldati", "Máxima CABA"], ingresos: ["$460.000", "0.385", "Mínimo Registrado", "55.4%"], alquileres: ["$4.200", "$210.000", "Mínima Oferta", "22.3%"] },
-  9: { pobreza: ["28.9%", "8.2%", "Mataderos", "Estable"], ingresos: ["$680.000", "0.402", "Eje Directorio", "62.3%"], alquileres: ["$5.300", "$265.000", "Residencial", "29.4%"] },
-  10: { pobreza: ["21.3%", "5.1%", "Floresta", "Estable"], ingresos: ["$740.000", "0.405", "Oeste Residencial", "63.1%"], alquileres: ["$5.600", "$280.000", "Estable", "33.1%"] },
-  11: { pobreza: ["18.5%", "4.2%", "Devoto", "Baja"], ingresos: ["$880.000", "0.401", "Residencial Alto", "64.2%"], alquileres: ["$6.400", "$320.000", "Buscado", "30.5%"] },
-  12: { pobreza: ["15.1%", "3.1%", "Urquiza", "Baja"], ingresos: ["$960.000", "0.395", "Norte Residencial", "66.0%"], alquileres: ["$7.200", "$360.000", "Alta Demanda", "35.2%"] },
-  13: { pobreza: ["11.8%", "1.9%", "Belgrano / Núñez", "Mínima CABA"], ingresos: ["$1.250.000", "0.390", "Eje Cabildo", "67.2%"], alquileres: ["$8.400", "$420.000", "Máximo Alquiler", "38.5%"] },
-  14: { pobreza: ["10.5%", "1.5%", "Palermo", "Mínima CABA"], ingresos: ["$1.310.000", "0.435", "Máximo CABA", "68.5%"], alquileres: ["$8.900", "$445.000", "Máximo CABA", "46.1%"] },
-  15: { pobreza: ["22.4%", "5.8%", "Villa Crespo", "Estable"], ingresos: ["$790.000", "0.410", "Chacarita Activo", "64.9%"], alquileres: ["$6.500", "$325.000", "En Alza", "41.3%"] }
-};
-
-let activeTab = 'pobreza';
-
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  btn.classList.add('active');
+  // Mantenemos la misma URL de tu base de datos de Google Sheets
+  const EXCEL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=923547394&single=true&output=csv"; 
   
-  activeTab = id;
-  // Al cambiar de pestaña, vuelve a aplicar los datos de la comuna que esté seleccionada actualmente
-  filterComuna(document.getElementById('comuna-selector').value);
-}
+  let datosComunas = {};
+  let comunaActual = 'todas';
 
-function filterComuna(comunaId) {
-  const data = DATOS_COMUNAS[comunaId] || DATOS_COMUNAS['todas'];
-  const sufijo = comunaId === 'todas' ? 'CABA' : `Comuna ${comunaId}`;
+  window.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    comunaActual = urlParams.get('comuna') || 'todas';
+    
+    document.getElementById('comuna-selector').value = comunaActual;
 
-  // 1. Cambiar etiquetas de títulos dinámicamente según la selección
-  if(comunaId === 'todas') {
-    document.getElementById('lbl-pob-1').textContent = "Pobreza Promedio CABA";
-    document.getElementById('lbl-pob-3').textContent = "Comuna Crítica";
-    document.getElementById('lbl-ing-3').textContent = "Comuna Máxima";
-    document.getElementById('lbl-alq-3').textContent = "Comuna Mayor Demanda";
-  } else {
-    document.getElementById('lbl-pob-1').textContent = `Pobreza en ${sufijo}`;
-    document.getElementById('lbl-pob-3').textContent = "Referencia Local";
-    document.getElementById('lbl-ing-3').textContent = "Foco Comercial";
-    document.getElementById('lbl-alq-3').textContent = "Comportamiento";
+    await cargarExcel();
+    renderizarDatos();
+  });
+
+  async function cargarExcel() {
+    try {
+      const res = await fetch(EXCEL_CSV_URL);
+      const textoCsv = await res.text();
+      return new Promise((resolve) => {
+        Papa.parse(textoCsv, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            results.data.forEach(fila => {
+              if(fila.comuna) {
+                datosComunas[fila.comuna.trim().toLowerCase()] = fila;
+              }
+            });
+            resolve();
+          }
+        });
+      });
+    } catch (err) {
+      console.error("Error al conectar con el Excel.", err);
+    }
   }
 
-  // 2. Inyectar los valores numéricos correspondientes
-  // Pestaña Pobreza
-  document.getElementById('val-pob-1').textContent = data.pobreza[0];
-  document.getElementById('val-pob-2').textContent = data.pobreza[1];
-  document.getElementById('val-pob-3').textContent = data.pobreza[2];
-  document.getElementById('val-pob-4').textContent = data.pobreza[3];
-  
-  // Pestaña Ingresos
-  document.getElementById('val-ing-1').textContent = data.ingresos[0];
-  document.getElementById('val-ing-2').textContent = data.ingresos[1];
-  document.getElementById('val-ing-3').textContent = data.ingresos[2];
-  document.getElementById('val-ing-4').textContent = data.ingresos[3];
-  
-  // Pestaña Alquileres
-  document.getElementById('val-alq-1').textContent = data.alquileres[0];
-  document.getElementById('val-alq-2').textContent = data.alquileres[1];
-  document.getElementById('val-alq-3').textContent = data.alquileres[2];
-  document.getElementById('val-alq-4').textContent = data.alquileres[3];
+  // RECUERDA: Cambiá los nombres de la derecha por las columnas exactas de tu Excel
+  function renderizarDatos() {
+    const registro = datosComunas[comunaActual];
+    if(registro) {
+      
+      // === CONFIGURACIÓN DE TUS 3 COLUMNAS DE EXCEL ===
+      const col1 = "contribuyentes_ISIB_Comercio"; 
+      const col2 = "contribuyentes_ISIB_Ss.Inmobiliarios_empresariales_alquiler"; 
+      const col3 = "contribuyentes_ISIB_mineríaeindustria";
 
-  // 3. Modificar subtítulos explicativos chicos
-  const metaText = comunaId === 'todas' ? 'Promedio General' : `Filtro Comunal Activo`;
-  document.getElementById('sub-pob-1').textContent = `${metaText} · Hogares`;
-  document.getElementById('sub-pob-2').textContent = `${metaText} · Indigencia`;
-  document.getElementById('sub-ing-1').textContent = `${metaText} · Estimado abril 2026`;
-  document.getElementById('sub-alq-1').textContent = `${metaText} · Contratos nuevos`;
-}
+      // === CONFIGURACIÓN DE LOS TÍTULOS LIMPIOS EN PANTALLA ===
+      document.getElementById('titulo-indicador-1').textContent = "IIBB Comercio";
+      document.getElementById('titulo-indicador-2').textContent = "IIBB Inmobiliario";
+      document.getElementById('titulo-indicador-3').textContent = "IIBB Industria";
+
+      // Inyección automática de números
+      document.getElementById('val-1').textContent = registro[col1] || '—';
+      document.getElementById('val-2').textContent = registro[col2] || '—';
+      document.getElementById('val-3').textContent = registro[col3] || '—';
+
+    } else {
+      console.warn("No hay datos cargados en la planilla para el territorio:", comunaActual);
+    }
+  }
+
+  function cambiarComuna(nuevaComuna) {
+    comunaActual = nuevaComuna.toLowerCase();
+    renderizarDatos();
+  }
+
+  // CONFIGURACIÓN DE TUS MAPAS FISCALES
+  function cambiarMapa(indicadorMapa) {
+    const iframe = document.getElementById('mapa-iframe');
+    
+    if (indicadorMapa === 'recaudacion') {
+      iframe.src = "mapa_caba_recaudacion.html";
+    } else if (indicadorMapa === 'inversion') {
+      iframe.src = "mapa_caba_inversion.html";
+    }
+  }
+
+  function navegarA(destino) {
+    let nombreArchivo = "";
+
+    if (destino === 'ocupacion') {
+      nombreArchivo = "Ind.Ocup.html"; 
+    } else if (destino === 'sociales') {
+      nombreArchivo = "Ind.Sociales.html";
+    } else if (destino === 'demograficos') {
+      nombreArchivo = "Ind.Demograficos.html";
+    } else if (destino === 'fiscales') {
+      nombreArchivo = "Ind.Fiscales.html";
+    }
+
+    if (window.location.protocol === 'file:') {
+      window.location.href = nombreArchivo;
+    } else {
+      window.location.href = `${nombreArchivo}?comuna=${comunaActual}`;
+    }
+  }
 </script>
 </body>
 </html>
