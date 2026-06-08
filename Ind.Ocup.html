@@ -202,7 +202,6 @@
       text-transform: uppercase;
       font-weight: 600;
       color: var(--gris-texto);
-      margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -296,10 +295,22 @@
         </div>
       </div>
 
-      <!-- SECCIÓN MAPA INTERACTIVO -->
-      <h2 class="map-title">Mapa de Referencia Territorial Global</h2>
+      <!-- SECCIÓN MAPA INTERACTIVO CON SELECTOR -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 class="map-title" style="margin-bottom: 0;">Mapa Temático Territorial</h2>
+        
+        <!-- Filtro exclusivo para cambiar de mapa -->
+        <div class="filter-zone" style="margin-bottom: 0; padding: 0.5rem 1rem;">
+          <label for="mapa-selector">Capa del mapa:</label>
+          <select id="mapa-selector" class="filter-select" onchange="cambiarMapa(this.value)">
+            <option value="pobreza">Población bajo línea de pobreza</option>
+            <option value="desocupacion">Tasa de Desocupación</option>
+          </select>
+        </div>
+      </div>
+
       <div class="iframe-container">
-        <iframe src="mapa_caba_economia.html"></iframe>
+        <iframe id="mapa-iframe" src="mapa_caba_pobreza.html"></iframe>
       </div>
 
     </section>
@@ -345,19 +356,17 @@
     }
   }
 
-// Inyección de textos y números dinámicos en la pantalla
   function renderizarDatos() {
     const registro = datosComunas[comunaActual];
     if(registro) {
-      // 1. Nombres exactos de tus columnas en el Excel (NO los cambies si en tu Excel se llaman así)
       const columnaExcel1 = "pob_ingresos_pobr"; 
       const columnaExcel2 = "tasa_desocup"; 
 
-      // 2. CAMBIO DE NOMBRES VISUALES: Escribí acá los títulos que quieras que vea el usuario
+      // Nombres visuales limpios en pantalla
       document.getElementById('titulo-indicador-1').textContent = "Población Bajo la Línea de Pobreza (%)";
       document.getElementById('titulo-indicador-2').textContent = "Tasa de Desocupación (%)";
 
-      // 3. Inyecta los valores numéricos correspondientes desde el Excel
+      // Valores numéricos desde el Excel
       document.getElementById('val-1').textContent = registro[columnaExcel1] || '—';
       document.getElementById('val-2').textContent = registro[columnaExcel2] || '—';
     } else {
@@ -370,9 +379,18 @@
     renderizarDatos();
   }
 
-  // ══════════════════════════════════════════════════════════
-  // ENRUTADOR CORREGIDO Y SEGURO (CON TUS ARCHIVOS "Ind.X.html")
-  // ══════════════════════════════════════════════════════════
+  // Cambia el archivo del mapa dentro del iframe
+  function cambiarMapa(indicadorMapa) {
+    const iframe = document.getElementById('mapa-iframe');
+    
+    if (indicadorMapa === 'pobreza') {
+      iframe.src = "mapa_caba_pobreza.html";
+    } else if (indicadorMapa === 'desocupacion') {
+      iframe.src = "mapa_caba_desocupacion.html";
+    }
+  }
+
+  // Enrutador de pestañas con soporte para parámetros entre archivos locales
   function navegarA(destino) {
     let nombreArchivo = "";
 
