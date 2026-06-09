@@ -207,6 +207,18 @@
       gap: 0.5rem;
     }
     
+/* MAPA OPTIMIZADO: AGRANDADO PARA ELIMINAR SCROLLBARS */
+    .map-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--gris-texto);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
     .map-title::before {
       content: '';
       display: inline-block;
@@ -219,22 +231,24 @@
     .iframe-container {
       border: 1px solid #e2e8f0;
       border-radius: 8px;
-      max-width: 580px;  /* Ajustado al ancho perfecto de los mapas chicos */
+      max-width: 660px;  /* Agrandado de 580px a 660px */
       margin: 0 auto;
       overflow: hidden;
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+      background: #fff;
     }
 
     iframe { 
       width: 100%; 
-      height: 540px;     /* Alto justo para evitar desborde vertical de R */
+      height: 600px;     /* Agrandado de 540px a 600px */
       border: none; 
       display: block; 
+      overflow: hidden;  /* Doble bloqueo para navegadores viejos */
       scrollbar-width: none;
     }
 
     iframe::-webkit-scrollbar {
-      display: none; /* Oculta scrollbars en navegadores basados en WebKit */
+      display: none;
     }
   </style>
 </head>
