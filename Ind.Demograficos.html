@@ -221,20 +221,22 @@
       border-radius: 8px;
       max-width: 580px; 
       margin: 0 auto;   
-      height: 520px;     /* Cortamos la caja a la altura justa del mapa */
-      overflow: hidden;  /* CORTA CUALQUIER SCROLLBAR: Si algo se pasa de 520px, se oculta */
-      position: relative;
+      overflow: hidden;   /* Sigue protegiendo los bordes laterales */
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
     }
 
     iframe { 
       width: 100%; 
-      height: 600px;     /* Le damos altura de sobra adentro para que R no se sienta asfixiado */
+      height: 575px;      /* Le damos una altura ideal estándar para que entren los mapas más largos */
       border: none; 
       display: block; 
-      overflow: hidden;  
-      position: absolute;
-      top: 0;
-      left: 0;
+      scrollbar-width: none;          /* Oculta la barra de scroll en Firefox */
+      -ms-overflow-style: none;       /* Oculta la barra de scroll en Internet Explorer/Edge antiguo */
+    }
+
+    /* Oculta la barra de scroll en Chrome, Safari y la mayoría de los navegadores actuales (Chromium) */
+    iframe::-webkit-scrollbar {
+      display: none;
     }
   </style>
 </head>
