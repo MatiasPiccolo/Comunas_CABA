@@ -195,7 +195,7 @@
       color: var(--gris-oscuro); 
     }
     
-    /* MAPA */
+    /* MAPA OPTIMIZADO PARA CAJA DE 580PX */
     .map-title {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 1.4rem;
@@ -219,15 +219,22 @@
     .iframe-container {
       border: 1px solid #e2e8f0;
       border-radius: 8px;
+      max-width: 580px;  /* Ajustado al ancho perfecto de los mapas chicos */
+      margin: 0 auto;
       overflow: hidden;
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
     }
 
     iframe { 
       width: 100%; 
-      height: 560px; 
+      height: 540px;     /* Alto justo para evitar desborde vertical de R */
       border: none; 
       display: block; 
+      scrollbar-width: none;
+    }
+
+    iframe::-webkit-scrollbar {
+      display: none; /* Oculta scrollbars en navegadores basados en WebKit */
     }
   </style>
 </head>
@@ -242,7 +249,6 @@
 
   <main class="main-container">
     
-    <!-- BARRA DE PESTAÑAS (Aquí se activa Fiscales) -->
     <nav class="tabs-bar">
       <a href="Portada_comunas.html" class="tab tab-home">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
@@ -257,7 +263,6 @@
 
     <section class="dashboard-panel">
       
-      <!-- FILTRO DE TERRITORIO -->
       <div class="filter-zone">
         <label for="comuna-selector">Visualizar Territorio:</label>
         <select id="comuna-selector" class="filter-select" onchange="cambiarComuna(this.value)">
@@ -280,7 +285,6 @@
         </select>
       </div>
 
-      <!-- SECCIÓN 3 TARJETAS INDICADORAS -->
       <div class="grid-tres-columnas">
         <div class="card">
           <h3 id="titulo-indicador-1">Cargando indicador 1...</h3>
@@ -296,23 +300,21 @@
         </div>
       </div>
 
-      <!-- SECCIÓN MAPA INTERACTIVO CON SELECTOR -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
         <h2 class="map-title" style="margin-bottom: 0;">Mapa Temático Territorial</h2>
         
-        <!-- Filtro exclusivo para cambiar capas fiscales -->
         <div class="filter-zone" style="margin-bottom: 0; padding: 0.5rem 1rem;">
           <label for="mapa-selector">Capa del mapa:</label>
           <select id="mapa-selector" class="filter-select" onchange="cambiarMapa(this.value)">
-            <option value="recaudacion">Recaudación Inmobiliaria</option>
-            <option value="inversion">Inversión Pública Ejecutada</option>
+            <option value="comercio">Padrón IIBB: Comercio</option>
+            <option value="inmobiliario">Padrón IIBB: Ss. Inmobiliarios</option>
+            <option value="industria">Padrón IIBB: Minería e Industria</option>
           </select>
         </div>
       </div>
 
       <div class="iframe-container">
-        <!-- Mapa inicial fiscal -->
-        <iframe id="mapa-iframe" src="mapa_caba_recaudacion.html"></iframe>
+        <iframe id="mapa-iframe" src="mapa_contribuyentes_ISIB_Comercio.html"></iframe>
       </div>
 
     </section>
@@ -320,7 +322,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-  // Mantenemos la misma URL de tu base de datos de Google Sheets
   const EXCEL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=923547394&single=true&output=csv"; 
   
   let datosComunas = {};
@@ -359,22 +360,21 @@
     }
   }
 
-  // RECUERDA: Cambiá los nombres de la derecha por las columnas exactas de tu Excel
   function renderizarDatos() {
     const registro = datosComunas[comunaActual];
     if(registro) {
       
-      // === CONFIGURACIÓN DE TUS 3 COLUMNAS DE EXCEL ===
+      // === COLUMNAS ASIGNADAS CON LOS NUEVOS MAPAS ===
       const col1 = "contribuyentes_ISIB_Comercio"; 
       const col2 = "contribuyentes_ISIB_Ss.Inmobiliarios_empresariales_alquiler"; 
       const col3 = "contribuyentes_ISIB_mineríaeindustria";
 
-      // === CONFIGURACIÓN DE LOS TÍTULOS LIMPIOS EN PANTALLA ===
+      // === TÍTULOS LIMPIOS PARA LAS CARDS ===
       document.getElementById('titulo-indicador-1').textContent = "IIBB Comercio";
-      document.getElementById('titulo-indicador-2').textContent = "IIBB Inmobiliario";
-      document.getElementById('titulo-indicador-3').textContent = "IIBB Industria";
+      document.getElementById('titulo-indicador-2').textContent = "IIBB Inmobiliarios y Emp.";
+      document.getElementById('titulo-indicador-3').textContent = "IIBB Minería e Industria";
 
-      // Inyección automática de números
+      // Inyección y formateo directo desde la data
       document.getElementById('val-1').textContent = registro[col1] || '—';
       document.getElementById('val-2').textContent = registro[col2] || '—';
       document.getElementById('val-3').textContent = registro[col3] || '—';
@@ -389,14 +389,16 @@
     renderizarDatos();
   }
 
-  // CONFIGURACIÓN DE TUS MAPAS FISCALES
+  // CONFIGURACIÓN ASOCIADA A TUS NUEVOS ARCHIVOS COMPACTOS DE R
   function cambiarMapa(indicadorMapa) {
     const iframe = document.getElementById('mapa-iframe');
     
-    if (indicadorMapa === 'recaudacion') {
-      iframe.src = "mapa_caba_recaudacion.html";
-    } else if (indicadorMapa === 'inversion') {
-      iframe.src = "mapa_caba_inversion.html";
+    if (indicadorMapa === 'comercio') {
+      iframe.src = "mapa_contribuyentes_ISIB_Comercio.html";
+    } else if (indicadorMapa === 'inmobiliario') {
+      iframe.src = "mapa_contribuyentes_ISIB_Inmobiliarios.html";
+    } else if (indicadorMapa === 'industria') {
+      iframe.src = "mapa_contribuyentes_ISIB_industria.html";
     }
   }
 
