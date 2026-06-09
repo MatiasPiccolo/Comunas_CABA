@@ -318,6 +318,11 @@
           <select id="mapa-selector" class="filter-select" onchange="cambiarMapa(this.value)">
             <option value="poblacion">Población</option>
             <option value="densidad">Densidad poblacional</option>
+            <option value="nac_fuera">Nacidos fuera de CABA</option>
+            <option value="tasa_mort_inf">Mortalidad infantil</option>
+            <option value="tasa_crec_veg">Creicimientovegetativo</option>
+            <option value="tam_med_hogar">Tamaño medio delhogar</option>
+            
             <!-- Podés sumar más opciones acá según tus mapas -->
           </select>
         </div>
@@ -415,10 +420,18 @@
   function cambiarMapa(indicadorMapa) {
     const iframe = document.getElementById('mapa-iframe');
     
-    if (indicadorMapa === 'poblacion') {
+if (indicadorMapa === 'poblacion') {
       iframe.src = "mapa_poblacion_caba.html";
     } else if (indicadorMapa === 'densidad') {
       iframe.src = "mapa_densidad_caba.html";
+    } else if (indicadorMapa === 'nac_fuera') {
+      iframe.src = "mapa_nac_fuera.html";
+    } else if (indicadorMapa === 'tasa_mort_inf') {
+      iframe.src = "mapa_mortalidad_infantil.html";
+    } else if (indicadorMapa === 'tasa_crec_veg') {
+      iframe.src = "mapa_crecimiento_vegetativo.html";
+    } else if (indicadorMapa === 'tam_med_hogar') {
+      iframe.src = "mapa_tam_medio_hogar.html";
     }
   }
 
