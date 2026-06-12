@@ -386,22 +386,18 @@
 
     const campoTerritorio = escalaActual === 'comuna' ? 'comuna' : 'barrio';
 
-    // NUEVA LÓGICA: Procesado robusto e inmune a los puntos de miles de los millones
     let itemsProcesados = dataset.map(fila => {
-      // 1. Limpiamos espacios y pasamos a minúsculas las llaves de la fila
       let filaLimpia = {};
       Object.keys(fila).forEach(key => {
         filaLimpia[key.trim().toLowerCase()] = fila[key];
       });
 
-      // 2. Extraemos el valor usando la clave limpia
       let valorRaw = filaLimpia[tipologiaActual.trim().toLowerCase()];
       let valorNum = 0;
 
       if (valorRaw) {
-        // Removemos signos, espacios y TODOS los puntos de miles (dejando solo números y comas)
         let textoLimpio = valorRaw.replace(/[^0-9,]/g, '');
-        textoLimpio = textoLimpio.replace(',', '.'); // Previene errores de comas decimales
+        textoLimpio = textoLimpio.replace(',', '.'); 
         valorNum = parseFloat(textoLimpio) || 0;
       }
 
@@ -411,10 +407,8 @@
       };
     }).filter(item => item.valor > 0);
 
-    // Ordenar de Mayor a Menor de forma estricta
     itemsProcesados.sort((a, b) => b.valor - a.valor);
 
-    // Actualizar Tarjetas Informativas con formato local
     if(itemsProcesados.length > 0) {
       const maxItem = itemsProcesados[0];
       const minItem = itemsProcesados[itemsProcesados.length - 1];
@@ -443,6 +437,27 @@
       chartInstancia.destroy();
     }
 
+    // --- NUEVA LÓGICA SEMAFÓRICA INDIVIDUAL ---
+    // Determinamos los límites actuales para calcular los tercios
+    const maxVal = valores[0] || 0;
+    const minVal = valores[valores.length - 1] || 0;
+    const rango = maxVal - minVal;
+    
+    // Dividimos el rango en 3 partes iguales (tercios estricto)
+    const umbralVerdeAmarillo = minVal + (rango / 3);
+    const umbralAmarilloRojo = minVal + (2 * rango / 3);
+
+    // Asignamos un color sólido a cada barra según su valor de alquiler
+    const coloresSemaforo = valores.map(v => {
+      if (v <= umbralVerdeAmarillo) {
+        return '#2ade68'; // Verde (Más baratos / Accesibles)
+      } else if (v <= umbralAmarilloRojo) {
+        return '#f7df43'; // Amarillo (Valores Intermedios)
+      } else {
+        return '#ff4d4d'; // Rojo (Más caros / Costosos)
+      }
+    });
+
     chartInstancia = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -450,8 +465,8 @@
         datasets: [{
           label: 'Alquiler Promedio ($)',
           data: valores,
-          backgroundColor: '#00b1ea',
-          hoverBackgroundColor: '#0f4c81',
+          backgroundColor: coloresSemaforo, // Array de colores calculados uno a uno
+          hoverBackgroundColor: '#0f4c81',  // Azul acento al posicionar el mouse
           borderRadius: 4,
           borderWidth: 0
         }]
