@@ -386,18 +386,22 @@
 
     const campoTerritorio = escalaActual === 'comuna' ? 'comuna' : 'barrio';
 
+    // NUEVA LÓGICA: Procesado robusto e inmune a los puntos de miles de los millones
     let itemsProcesados = dataset.map(fila => {
+      // 1. Limpiamos espacios y pasamos a minúsculas las llaves de la fila
       let filaLimpia = {};
       Object.keys(fila).forEach(key => {
         filaLimpia[key.trim().toLowerCase()] = fila[key];
       });
 
+      // 2. Extraemos el valor usando la clave limpia
       let valorRaw = filaLimpia[tipologiaActual.trim().toLowerCase()];
       let valorNum = 0;
 
       if (valorRaw) {
+        // Removemos signos, espacios y TODOS los puntos de miles (dejando solo números y comas)
         let textoLimpio = valorRaw.replace(/[^0-9,]/g, '');
-        textoLimpio = textoLimpio.replace(',', '.');
+        textoLimpio = textoLimpio.replace(',', '.'); // Previene errores de comas decimales
         valorNum = parseFloat(textoLimpio) || 0;
       }
 
@@ -407,8 +411,10 @@
       };
     }).filter(item => item.valor > 0);
 
+    // Ordenar de Mayor a Menor de forma estricta
     itemsProcesados.sort((a, b) => b.valor - a.valor);
 
+    // Actualizar Tarjetas Informativas con formato local
     if(itemsProcesados.length > 0) {
       const maxItem = itemsProcesados[0];
       const minItem = itemsProcesados[itemsProcesados.length - 1];
@@ -437,12 +443,6 @@
       chartInstancia.destroy();
     }
 
-    // Creación de gradiente horizontal dinámico adaptado a la estética semafórica del mapa
-    let gradient = ctx.createLinearGradient(0, 0, ctx.canvas.width, 0);
-    gradient.addColorStop(0, '#2ade68');   // Verde (Valores bajos accesibles)
-    gradient.addColorStop(0.5, '#f7df43'); // Amarillo (Valores intermedios)
-    gradient.addColorStop(1, '#ff4d4d');   // Rojo (Valores altos costosos)
-
     chartInstancia = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -450,7 +450,7 @@
         datasets: [{
           label: 'Alquiler Promedio ($)',
           data: valores,
-          backgroundColor: gradient,
+          backgroundColor: '#00b1ea',
           hoverBackgroundColor: '#0f4c81',
           borderRadius: 4,
           borderWidth: 0
