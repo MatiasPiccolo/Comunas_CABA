@@ -13,3 +13,4 @@ Portal de informes y visualizaciones interactivas.
 | Sociales | [Ind.Sociales.html](https://matiaspiccolo.github.io/Comunas_CABA/Ind.Sociales.html) |
 | Demográficos | [Ind.Demográficos.html](https://matiaspiccolo.github.io/Comunas_CABA/Ind.Demograficos.html) |
 | Fiscales | [Ind.Fiscales.html](https://matiaspiccolo.github.io/Comunas_CABA/Ind.Fiscales.html) |
+| Mercado Inmobiliario | [Ind.Fiscales.html](https://matiaspiccolo.github.io/Comunas_CABA/Mercado_inm.html) |
