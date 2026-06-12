@@ -194,10 +194,10 @@
       color: var(--gris-oscuro); 
     }
     
-    /* DISTRIBUCIÓN GRÁFICO + MAPA */
+    /* DISTRIBUCIÓN GRÁFICO + MAPA (Asimétrica para favorecer al mapa) */
     .visual-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 1.3fr;
       gap: 2rem;
       margin-top: 1.5rem;
     }
@@ -229,13 +229,15 @@
       border-radius: 2px;
     }
 
+    /* CONTENEDOR DEL IFRAME SIN DESPLAZAMIENTOS EXTRAÑOS */
     .iframe-container {
       border: 1px solid #e2e8f0;
       border-radius: 8px;
       width: 100%;
-      overflow: hidden;
+      overflow: hidden; /* Corta barras parasitarias */
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
       background: #f8fafc;
+      height: 520px;
     }
 
     .chart-container {
@@ -250,14 +252,10 @@
 
     iframe { 
       width: 100%; 
-      height: 520px; 
+      height: 100%; /* Toma todo el alto disponible del contenedor parent */
       border: none; 
       display: block; 
-      scrollbar-width: none;
-    }
-
-    iframe::-webkit-scrollbar {
-      display: none;
+      overflow: hidden;
     }
   </style>
 </head>
@@ -329,7 +327,7 @@
         <div>
           <h2 class="section-title">Distribución Espacial en CABA</h2>
           <div class="iframe-container">
-            <iframe id="mapa-inmobiliario-iframe" src="mapa_comuna_alq_1amb.html"></iframe>
+            <iframe id="mapa-inmobiliario-iframe" src="mapa_comuna_alq_1amb.html" scrolling="no"></iframe>
           </div>
         </div>
 
@@ -444,8 +442,8 @@
         datasets: [{
           label: 'Alquiler Promedio ($)',
           data: valores,
-          backgroundColor: '#00b1ea',       // Restaurado al celeste original
-          hoverBackgroundColor: '#0f4c81',  // Azul oscuro al pasar el mouse
+          backgroundColor: '#00b1ea',
+          hoverBackgroundColor: '#0f4c81',
           borderRadius: 4,
           borderWidth: 0
         }]
@@ -470,10 +468,10 @@
           y: {
             grid: { display: false },
             ticks: { 
-              autoSkip: false,             // FUERZA a Chart.js a mostrar TODOS los barrios/comunas
+              autoSkip: false,
               font: { 
                 family: 'Inter', 
-                size: 10,                  // Letra más chica para prevenir cortes
+                size: 10,
                 weight: '600' 
               } 
             }
