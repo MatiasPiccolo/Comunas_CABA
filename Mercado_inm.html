@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ocupación e Ingresos - Monitoreo CABA</title>
+  <title>Mercado Inmobiliario - Monitoreo CABA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -92,7 +92,6 @@
       border-bottom-color: var(--celeste-principal); 
     }
 
-    /* ESTILO ESPECÍFICO PARA EL BOTÓN DE HOME */
     .tab-home {
       display: flex;
       align-items: center;
@@ -157,7 +156,7 @@
       border-color: var(--celeste-principal);
     }
 
-    /* DISEÑO DE LAS 2 TARJETAS */
+    /* DISEÑO DE TARJETAS */
     .grid-dos-columnas { 
       display: grid; 
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
@@ -195,8 +194,21 @@
       color: var(--gris-oscuro); 
     }
     
-    /* CONTENEDOR DEL MAPA AGRANDADO Y MEJORADO */
-    .map-title {
+    /* DISTRIBUCIÓN GRÁFICO + MAPA */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .visual-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section-title {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 1.4rem;
       text-transform: uppercase;
@@ -205,9 +217,10 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      margin-bottom: 1rem;
     }
     
-    .map-title::before {
+    .section-title::before {
       content: '';
       display: inline-block;
       width: 4px;
@@ -219,21 +232,30 @@
     .iframe-container {
       border: 1px solid #e2e8f0;
       border-radius: 8px;
-      max-width: 700px;  /* Ajuste a 700px para albergar los mapas holgadamente */
-      margin: 0 auto;   
-      overflow: hidden;   /* Protege los bordes exteriores de desbordes */
+      width: 100%;
+      overflow: hidden;
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+      background: #f8fafc;
+    }
+
+    .chart-container {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+      background: white;
+      height: 520px;
+      position: relative;
     }
 
     iframe { 
       width: 100%; 
-      height: 620px;     /* Alto de seguridad ideal para que no salte scroll interno */
+      height: 520px; /* Sincronizado exactamente con el alto visual del gráfico */
       border: none; 
       display: block; 
-      scrollbar-width: none; /* Desactiva la barra gris en Firefox */
+      scrollbar-width: none;
     }
 
-    /* Oculta las barras de scroll en navegadores basados en Chrome, Safari y Edge */
     iframe::-webkit-scrollbar {
       display: none;
     }
@@ -256,161 +278,245 @@
         Inicio
       </a>
       
-      <a href="#" class="tab active" onclick="navegarA('ocupacion')">Ocupación e Ingresos</a>
+      <a href="#" class="tab" onclick="navegarA('ocupacion')">Ocupación e Ingresos</a>
       <a href="#" class="tab" onclick="navegarA('sociales')">Indicadores Sociales</a>
       <a href="#" class="tab" onclick="navegarA('demograficos')">Indicadores Demográficos</a>
       <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
+      <a href="#" class="tab active" onclick="navegarA('inmobiliario')">Mercado Inmobiliario</a>
     </nav>
 
     <section class="dashboard-panel">
       
       <div class="filter-zone">
-        <label for="comuna-selector">Visualizar Territorio:</label>
-        <select id="comuna-selector" class="filter-select" onchange="cambiarComuna(this.value)">
-          <option value="todas">Todas las Comunas (General CABA)</option>
-          <option value="1">Comuna 1</option>
-          <option value="2">Comuna 2</option>
-          <option value="3">Comuna 3</option>
-          <option value="4">Comuna 4</option>
-          <option value="5">Comuna 5</option>
-          <option value="6">Comuna 6</option>
-          <option value="7">Comuna 7</option>
-          <option value="8">Comuna 8</option>
-          <option value="9">Comuna 9</option>
-          <option value="10">Comuna 10</option>
-          <option value="11">Comuna 11</option>
-          <option value="12">Comuna 12</option>
-          <option value="13">Comuna 13</option>
-          <option value="14">Comuna 14</option>
-          <option value="15">Comuna 15</option>
-        </select>
-      </div>
-
-      <div class="grid-dos-columnas">
-        <div class="card">
-          <h3 id="titulo-indicador-1">Cargando indicador...</h3>
-          <p id="val-1">—</p>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-right: 1.5rem;">
+          <label for="escala-selector">Nivel de Análisis:</label>
+          <select id="escala-selector" class="filter-select" onchange="cambiarEscala(this.value)">
+            <option value="comuna">Por Comunas</option>
+            <option value="barrio">Por Barrios</option>
+          </select>
         </div>
-        <div class="card">
-          <h3 id="titulo-indicador-2">Cargando indicador...</h3>
-          <p id="val-2">—</p>
-        </div>
-      </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
-        <h2 class="map-title" style="margin-bottom: 0;">Mapa Temático Territorial</h2>
-        
-        <div class="filter-zone" style="margin-bottom: 0; padding: 0.5rem 1rem;">
-          <label for="mapa-selector">Capa del mapa:</label>
-          <select id="mapa-selector" class="filter-select" onchange="cambiarMapa(this.value)">
-            <option value="pobreza">Población bajo línea de pobreza</option>
-            <option value="desocupacion">Tasa de Desocupación</option>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <label for="tipologia-selector">Tipología / Ambientes:</label>
+          <select id="tipologia-selector" class="filter-select" onchange="cambiarTipologia(this.value)">
+            <option value="alq_1amb_us">1 Ambiente (Usado)</option>
+            <option value="alq_2amb_us">2 Ambientes (Usados)</option>
+            <option value="alq_3amb_us">3 Ambientes (Usados)</option>
           </select>
         </div>
       </div>
 
-      <div class="iframe-container">
-        <iframe id="mapa-iframe" src="mapa_pob_ingresos_pobr.html"></iframe>
+      <div class="grid-dos-columnas">
+        <div class="card">
+          <h3 id="titulo-card-max">Valor Máximo Registrado</h3>
+          <p id="val-max">$ —</p>
+        </div>
+        <div class="card">
+          <h3 id="titulo-card-min">Valor Mínimo Registrado</h3>
+          <p id="val-min">$ —</p>
+        </div>
+      </div>
+
+      <div class="visual-grid">
+        
+        <div>
+          <h2 class="section-title">Ranking de Valores Mensuales</h2>
+          <div class="chart-container">
+            <canvas id="rankingChart"></canvas>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="section-title">Distribución Espacial en CABA</h2>
+          <div class="iframe-container">
+            <iframe id="mapa-inmobiliario-iframe" src="mapa_comuna_alq_1amb.html"></iframe>
+          </div>
+        </div>
+
       </div>
 
     </section>
   </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-  const EXCEL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=2062996270&single=true&output=csv"; 
-  
-  let datosComunas = {};
-  let comunaActual = 'todas';
+  // Enlaces públicos a los CSV exportados desde las pestañas de Google Sheets
+  const URL_CSV_COMUNAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=380781710&single=true&output=csv"; 
+  const URL_CSV_BARRIOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=1365350644&single=true&output=csv";
+
+  let datosInmobiliarios = { comuna: [], barrio: [] };
+  let escalaActual = 'comuna';
+  let tipologiaActual = 'alq_1amb_us';
+  let chartInstancia = null;
 
   window.addEventListener('DOMContentLoaded', async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    comunaActual = urlParams.get('comuna') || 'todas';
-    
-    document.getElementById('comuna-selector').value = comunaActual;
-
-    await cargarExcel();
-    renderizarDatos();
+    await cargarDatos();
+    actualizarDashboard();
   });
 
-  async function cargarExcel() {
-    try {
-      const res = await fetch(EXCEL_CSV_URL);
-      const textoCsv = await res.text();
-      return new Promise((resolve) => {
-        Papa.parse(textoCsv, {
-          header: true,
-          skipEmptyLines: true,
-          complete: function(results) {
-            results.data.forEach(fila => {
-              if(fila.comuna) {
-                datosComunas[fila.comuna.trim().toLowerCase()] = fila;
-              }
-            });
-            resolve();
-          }
-        });
+  async function fetchCSV(url) {
+    const res = await fetch(url);
+    const textoCsv = await res.text();
+    return new Promise(resolve => {
+      Papa.parse(textoCsv, {
+        header: true,
+        skipEmptyLines: true,
+        complete: results => resolve(results.data)
       });
+    });
+  }
+
+  async function cargarDatos() {
+    try {
+      // Cargamos ambas hojas de datos en paralelo de forma eficiente
+      const [dataComunas, dataBarrios] = await Promise.all([
+        fetchCSV(URL_CSV_COMUNAS),
+        fetchCSV(URL_CSV_BARRIOS)
+      ]);
+      datosInmobiliarios.comuna = dataComunas;
+      datosInmobiliarios.barrio = dataBarrios;
     } catch (err) {
-      console.error("Error al conectar con Google Sheets. Comprobá el link público.", err);
+      console.error("Error cargando hojas del mercado inmobiliario.", err);
     }
   }
 
-  function renderizarDatos() {
-    const registro = datosComunas[comunaActual];
-    if(registro) {
-      const columnaExcel1 = "pob_ingresos_pobr"; 
-      const columnaExcel2 = "tasa_desocup"; 
+  function actualizarDashboard() {
+    const dataset = datosInmobiliarios[escalaActual];
+    if(!dataset || dataset.length === 0) return;
 
-      // Nombres visuales limpios en pantalla
-      document.getElementById('titulo-indicador-1').textContent = "Población Bajo la Línea de Pobreza (%)";
-      document.getElementById('titulo-indicador-2').textContent = "Tasa de Desocupación (%)";
+    // Campo clave identificador de territorio (comuna o barrio)
+    const campoTerritorio = escalaActual === 'comuna' ? 'comuna' : 'barrio';
 
-      // Valores numéricos desde el Excel
-      document.getElementById('val-1').textContent = registro[columnaExcel1] || '—';
-      document.getElementById('val-2').textContent = registro[columnaExcel2] || '—';
+    // Procesar, limpiar y ordenar de mayor a menor ignorando los nulos/ceros
+    let itemsProcesados = dataset.map(fila => {
+      let valorRaw = fila[tipologiaActual];
+      let valorNum = valorRaw ? parseFloat(valorRaw.replace(/[^0-9.]/g, '')) : 0;
+      return {
+        nombre: fila[campoTerritorio] ? fila[campoTerritorio].trim() : 'Desconocido',
+        valor: valorNum
+      };
+    }).filter(item => item.valor > 0);
+
+    // Ordenar descendente (Mayor a Menor)
+    itemsProcesados.sort((a, b) => b.valor - a.valor);
+
+    // Actualizar Tarjetas Informativas
+    if(itemsProcesados.length > 0) {
+      const maxItem = itemsProcesados[0];
+      const minItem = itemsProcesados[itemsProcesados.length - 1];
+      
+      document.getElementById('val-max').textContent = `$ ${maxItem.valor.toLocaleString('es-AR')}`;
+      document.getElementById('titulo-card-max').textContent = `Máximo: ${maxItem.nombre}`;
+      
+      document.getElementById('val-min').textContent = `$ ${minItem.valor.toLocaleString('es-AR')}`;
+      document.getElementById('titulo-card-min').textContent = `Mínimo: ${minItem.nombre}`;
     } else {
-      console.warn("No hay datos cargados en la planilla para el territorio:", comunaActual);
+      document.getElementById('val-max').textContent = '$ —';
+      document.getElementById('val-min').textContent = '$ —';
     }
-  }
 
-  function cambiarComuna(nuevaComuna) {
-    comunaActual = nuevaComuna.toLowerCase();
-    renderizarDatos();
-  }
-
-  // Cambia el archivo del mapa dentro del iframe (Corregido y optimizado con mapeo limpio)
-  function cambiarMapa(indicadorMapa) {
-    const iframe = document.getElementById('mapa-iframe');
+    // Renderizar o actualizar gráfico de barras horizontales
+    renderizarGrafico(itemsProcesados);
     
-    const mapas = {
-      'pobreza': 'mapa_pob_ingresos_pobr.html',
-      'desocupacion': 'mapa_tasa_desocup.html'
+    // Sincronizar mapa interactivo
+    actualizarMapa();
+  }
+
+  function renderizarGrafico(datos) {
+    const ctx = document.getElementById('rankingChart').getContext('2d');
+    
+    const labels = datos.map(d => escalaActual === 'comuna' ? `Comuna ${d.nombre}` : d.nombre);
+    const valores = datos.map(d => d.valor);
+
+    if (chartInstancia) {
+      chartInstancia.destroy();
+    }
+
+    chartInstancia = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Alquiler Promedio ($)',
+          data: valores,
+          backgroundColor: '#00b1ea',
+          hoverBackgroundColor: '#0f4c81',
+          borderRadius: 4,
+          borderWidth: 0
+        }]
+      },
+      options: {
+        indexAxis: 'y', // Fuerza a que sea un gráfico de barras horizontales
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: context => ` Alquiler: $${context.raw.toLocaleString('es-AR')}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: '#f1f5f9' },
+            ticks: { font: { family: 'Inter' }, callback: value => '$' + value.toLocaleString('es-AR') }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { font: { family: 'Inter', weight: 'bold' } }
+          }
+        }
+      }
+    });
+  }
+
+  function actualizarMapa() {
+    const iframe = document.getElementById('mapa-inmobiliario-iframe');
+    
+    // Mapeo automatizado de los HTML generados por R
+    const matrizMapas = {
+      comuna: {
+        'alq_1amb_us': 'mapa_comuna_alq_1amb.html',
+        'alq_2amb_us': 'mapa_comuna_alq_2amb.html',
+        'alq_3amb_us': 'mapa_comuna_alq_3amb.html'
+      },
+      barrio: {
+        'alq_1amb_us': 'mapa_barrio_alq_1amb_us.html',
+        'alq_2amb_us': 'mapa_barrio_alq_2amb_us.html',
+        'alq_3amb_us': 'mapa_barrio_alq_3amb_us.html'
+      }
     };
 
-    if (mapas[indicadorMapa]) {
-      iframe.src = mapas[indicadorMapa];
+    const mapaDestino = matrizMapas[escalaActual][tipologiaActual];
+    if(mapaDestino) {
+      iframe.src = mapaDestino;
     }
   }
 
-  // Enrutador de pestañas con soporte para parámetros entre archivos locales
+  function cambiarEscala(nuevaEscala) {
+    escalaActual = nuevaEscala;
+    actualizarDashboard();
+  }
+
+  function cambiarTipologia(nuevaTipologia) {
+    tipologiaActual = nuevaTipologia;
+    actualizarDashboard();
+  }
+
   function navegarA(destino) {
-    let nombreArchivo = "";
+    const archivos = {
+      'ocupacion': 'Ind.Ocup.html',
+      'sociales': 'Ind.Sociales.html',
+      'demograficos': 'Ind.Demograficos.html',
+      'fiscales': 'Ind.Fiscales.html',
+      'inmobiliario': 'Ind.Inmobiliario.html'
+    };
 
-    if (destino === 'ocupacion') {
-      nombreArchivo = "Ind.Ocup.html"; 
-    } else if (destino === 'sociales') {
-      nombreArchivo = "Ind.Sociales.html";
-    } else if (destino === 'demograficos') {
-      nombreArchivo = "Ind.Demograficos.html";
-    } else if (destino === 'fiscales') {
-      nombreArchivo = "Ind.Fiscales.html";
-    }
-
-    if (window.location.protocol === 'file:') {
-      window.location.href = nombreArchivo;
-    } else {
-      window.location.href = `${nombreArchivo}?comuna=${comunaActual}`;
+    if (archivos[destino]) {
+      window.location.href = archivos[destino];
     }
   }
 </script>
