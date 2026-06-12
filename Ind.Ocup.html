@@ -260,6 +260,7 @@
       <a href="#" class="tab" onclick="navegarA('sociales')">Indicadores Sociales</a>
       <a href="#" class="tab" onclick="navegarA('demograficos')">Indicadores Demográficos</a>
       <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
+      <a href="#" class="tab" onclick="navegarA('inmobiliario')">Mercado Inmobiliario</a>
     </nav>
 
     <section class="dashboard-panel">
@@ -379,7 +380,7 @@
     renderizarDatos();
   }
 
-  // Cambia el archivo del mapa dentro del iframe (Corregido y optimizado con mapeo limpio)
+  // Cambia el archivo del mapa dentro del iframe
   function cambiarMapa(indicadorMapa) {
     const iframe = document.getElementById('mapa-iframe');
     
@@ -393,7 +394,7 @@
     }
   }
 
-  // Enrutador de pestañas con soporte para parámetros entre archivos locales
+  // Enrutador de pestañas (Modificado con soporte para 'inmobiliario')
   function navegarA(destino) {
     let nombreArchivo = "";
 
@@ -405,6 +406,8 @@
       nombreArchivo = "Ind.Demograficos.html";
     } else if (destino === 'fiscales') {
       nombreArchivo = "Ind.Fiscales.html";
+    } else if (destino === 'inmobiliario') {
+      nombreArchivo = "Ind.Inmobiliario.html"; // <-- NUEVO: Vinculación con tu archivo del mercado inmobiliario
     }
 
     if (window.location.protocol === 'file:') {
