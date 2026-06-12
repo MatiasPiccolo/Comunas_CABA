@@ -437,27 +437,6 @@
       chartInstancia.destroy();
     }
 
-    // --- NUEVA LÓGICA SEMAFÓRICA INDIVIDUAL ---
-    // Determinamos los límites actuales para calcular los tercios
-    const maxVal = valores[0] || 0;
-    const minVal = valores[valores.length - 1] || 0;
-    const rango = maxVal - minVal;
-    
-    // Dividimos el rango en 3 partes iguales (tercios estricto)
-    const umbralVerdeAmarillo = minVal + (rango / 3);
-    const umbralAmarilloRojo = minVal + (2 * rango / 3);
-
-    // Asignamos un color sólido a cada barra según su valor de alquiler
-    const coloresSemaforo = valores.map(v => {
-      if (v <= umbralVerdeAmarillo) {
-        return '#2ade68'; // Verde (Más baratos / Accesibles)
-      } else if (v <= umbralAmarilloRojo) {
-        return '#f7df43'; // Amarillo (Valores Intermedios)
-      } else {
-        return '#ff4d4d'; // Rojo (Más caros / Costosos)
-      }
-    });
-
     chartInstancia = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -465,8 +444,8 @@
         datasets: [{
           label: 'Alquiler Promedio ($)',
           data: valores,
-          backgroundColor: coloresSemaforo, // Array de colores calculados uno a uno
-          hoverBackgroundColor: '#0f4c81',  // Azul acento al posicionar el mouse
+          backgroundColor: '#00b1ea',       // Restaurado al celeste original
+          hoverBackgroundColor: '#0f4c81',  // Azul oscuro al pasar el mouse
           borderRadius: 4,
           borderWidth: 0
         }]
@@ -490,7 +469,14 @@
           },
           y: {
             grid: { display: false },
-            ticks: { font: { family: 'Inter', weight: 'bold' } }
+            ticks: { 
+              autoSkip: false,             // FUERZA a Chart.js a mostrar TODOS los barrios/comunas
+              font: { 
+                family: 'Inter', 
+                size: 10,                  // Letra más chica para prevenir cortes
+                weight: '600' 
+              } 
+            }
           }
         }
       }
