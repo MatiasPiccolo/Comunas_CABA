@@ -250,7 +250,7 @@
 
     iframe { 
       width: 100%; 
-      height: 520px; /* Sincronizado exactamente con el alto visual del gráfico */
+      height: 520px; 
       border: none; 
       display: block; 
       scrollbar-width: none;
@@ -342,7 +342,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  // Enlaces públicos a los CSV exportados desde las pestañas de Google Sheets
   const URL_CSV_COMUNAS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=380781710&single=true&output=csv"; 
   const URL_CSV_BARRIOS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=1365350644&single=true&output=csv";
 
@@ -370,7 +369,6 @@
 
   async function cargarDatos() {
     try {
-      // Cargamos ambas hojas de datos en paralelo de forma eficiente
       const [dataComunas, dataBarrios] = await Promise.all([
         fetchCSV(URL_CSV_COMUNAS),
         fetchCSV(URL_CSV_BARRIOS)
@@ -386,23 +384,31 @@
     const dataset = datosInmobiliarios[escalaActual];
     if(!dataset || dataset.length === 0) return;
 
-    // Campo clave identificador de territorio (comuna o barrio)
     const campoTerritorio = escalaActual === 'comuna' ? 'comuna' : 'barrio';
 
-    // Procesar, limpiar y ordenar de mayor a menor ignorando los nulos/ceros
     let itemsProcesados = dataset.map(fila => {
-      let valorRaw = fila[tipologiaActual];
-      let valorNum = valorRaw ? parseFloat(valorRaw.replace(/[^0-9.]/g, '')) : 0;
+      let filaLimpia = {};
+      Object.keys(fila).forEach(key => {
+        filaLimpia[key.trim().toLowerCase()] = fila[key];
+      });
+
+      let valorRaw = filaLimpia[tipologiaActual.trim().toLowerCase()];
+      let valorNum = 0;
+
+      if (valorRaw) {
+        let textoLimpio = valorRaw.replace(/[^0-9,]/g, '');
+        textoLimpio = textoLimpio.replace(',', '.');
+        valorNum = parseFloat(textoLimpio) || 0;
+      }
+
       return {
-        nombre: fila[campoTerritorio] ? fila[campoTerritorio].trim() : 'Desconocido',
+        nombre: filaLimpia[campoTerritorio] ? filaLimpia[campoTerritorio].trim() : 'Desconocido',
         valor: valorNum
       };
     }).filter(item => item.valor > 0);
 
-    // Ordenar descendente (Mayor a Menor)
     itemsProcesados.sort((a, b) => b.valor - a.valor);
 
-    // Actualizar Tarjetas Informativas
     if(itemsProcesados.length > 0) {
       const maxItem = itemsProcesados[0];
       const minItem = itemsProcesados[itemsProcesados.length - 1];
@@ -417,10 +423,7 @@
       document.getElementById('val-min').textContent = '$ —';
     }
 
-    // Renderizar o actualizar gráfico de barras horizontales
     renderizarGrafico(itemsProcesados);
-    
-    // Sincronizar mapa interactivo
     actualizarMapa();
   }
 
@@ -434,6 +437,12 @@
       chartInstancia.destroy();
     }
 
+    // Creación de gradiente horizontal dinámico adaptado a la estética semafórica del mapa
+    let gradient = ctx.createLinearGradient(0, 0, ctx.canvas.width, 0);
+    gradient.addColorStop(0, '#2ade68');   // Verde (Valores bajos accesibles)
+    gradient.addColorStop(0.5, '#f7df43'); // Amarillo (Valores intermedios)
+    gradient.addColorStop(1, '#ff4d4d');   // Rojo (Valores altos costosos)
+
     chartInstancia = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -441,14 +450,14 @@
         datasets: [{
           label: 'Alquiler Promedio ($)',
           data: valores,
-          backgroundColor: '#00b1ea',
+          backgroundColor: gradient,
           hoverBackgroundColor: '#0f4c81',
           borderRadius: 4,
           borderWidth: 0
         }]
       },
       options: {
-        indexAxis: 'y', // Fuerza a que sea un gráfico de barras horizontales
+        indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -476,7 +485,6 @@
   function actualizarMapa() {
     const iframe = document.getElementById('mapa-inmobiliario-iframe');
     
-    // Mapeo automatizado de los HTML generados por R
     const matrizMapas = {
       comuna: {
         'alq_1amb_us': 'mapa_comuna_alq_1amb.html',
