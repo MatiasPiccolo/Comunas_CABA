@@ -2,344 +2,334 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal de Monitoreo Territorial - FDHI</title>
+  <title>Inicio - Portal de Monitoreo Territorial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
     :root {
-      --bg: #ffffff;
-      --bg-content: #f8fafc;
-      --bg-card: #ffffff;
-      --border-card: #1c9eda;
-      --text-main: #1a1a1a;
-      --text-muted: #4a5568;
-      --text-sub: #718096;
-      --celeste: #1c9eda;
-      --amarillo: #fec700;
-    }
-
-    [data-theme="dark"] {
-      --bg: #0f1923;
-      --bg-content: #0f1923;
-      --bg-card: #1a2530;
-      --border-card: #243040;
-      --text-main: #ffffff;
-      --text-muted: #8a9bb0;
-      --text-sub: #a0aec0;
+      --celeste-principal: #00b1ea;
+      --celeste-oscuro: #009cd1;
+      --azul-acento: #0f4c81;
+      --gris-fondo: #f1f5f9;
+      --gris-texto: #475569;
+      --gris-oscuro: #1e293b;
     }
 
     body { 
       font-family: 'Inter', sans-serif; 
-      background: var(--bg); 
-      color: var(--text-main);
-      min-height: 100vh; 
-      display: flex;
-      flex-direction: column;
+      background: var(--gris-fondo); 
+      color: var(--gris-oscuro); 
+      padding-bottom: 4rem; 
     }
     
-    /* BARRA SUPERIOR */
-    .topbar { 
-      background: var(--celeste); 
-      padding: .6rem 2rem; 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      flex-wrap: wrap; 
-      gap: .5rem; 
+    /* PORTADA CELESTE PRINCIPAL */
+    .hero-header {
+      background: linear-gradient(135deg, var(--celeste-principal) 0%, #0084c2 100%);
+      color: white;
+      padding: 4rem 2rem 6rem 2rem;
+      text-align: center;
+      box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
     }
-    .topbar-left { 
+    
+    .hero-header h1 {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px; 
-      letter-spacing: .08em; 
-      text-transform: uppercase; 
-      color: #ffffff; 
-      font-weight: 500;
-    }
-    
-    /* HERO */
-    .hero { 
-      background: var(--celeste); 
-      padding: 4rem 2rem 3.5rem; 
-      position: relative; 
-      overflow: hidden; 
-    }
-    .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:400px; height:400px; border:1px solid rgba(255,255,255,.08); border-radius:50%; pointer-events:none; }
-    .hero::after  { content:''; position:absolute; top:-40px; right:-40px; width:220px; height:220px; border:1px solid rgba(255,255,255,.06); border-radius:50%; pointer-events:none; }
-    
-    .hero-org { 
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 14px; 
-      letter-spacing: .1em;
-      color: #ffffff; 
-      text-transform: uppercase;
-      margin-bottom: 0.5rem; 
-      opacity: 0.9;
-    }
-    .hero-title { 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 42px; 
+      font-size: 3.5rem;
       font-weight: 700;
-      color: #ffffff; 
-      line-height: 1.1; 
-      margin: 0 0 .75rem; 
-      max-width: 700px; 
       text-transform: uppercase;
-    }
-    .hero-desc { 
-      font-size: 15px; 
-      color: rgba(255,255,255,.85); 
-      max-width: 600px; 
-      line-height: 1.4; 
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    /* LÍNEA DE ACENTO AMARILLA */
-    .accent-bar { height: 4px; background-color: var(--amarillo); }
-    
-    /* CONTENIDO */
-    .content { 
-      padding: 3rem 2rem; 
-      max-width: 1200px; 
+    .hero-header p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      font-weight: 400;
+      max-width: 700px;
       margin: 0 auto;
-      width: 100%;
-      background: var(--bg-content);
-      flex: 1;
     }
-    .section-label { 
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 14px; 
-      letter-spacing: .1em; 
-      text-transform: uppercase; 
-      color: var(--celeste); 
-      margin-bottom: 1.5rem; 
-      font-weight: 600; 
-    }
-    [data-theme="dark"] .section-label { color: #ffffff; }
 
-    /* GRILLA DE TARJETAS RECONFIGURADA */
-    .cards { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-      gap: 1.5rem; 
-      margin-bottom: 2.5rem; 
+    /* CONTENEDOR PRINCIPAL FLOTANTE */
+    .main-container {
+      max-width: 1200px;
+      margin: -3.5rem auto 0 auto;
+      padding: 0 1.5rem;
     }
     
-    /* TARJETAS */
-    .card { 
-      background: var(--bg-card); 
-      border-radius: 12px; 
-      border: 1px solid var(--border-card); 
-      padding: 1.75rem 1.5rem 1.25rem; 
-      transition: transform .2s, box-shadow .2s; 
-      position: relative; 
-      overflow: hidden; 
+    /* BARRA DE PESTAÑAS Y HOME */
+    .tabs-bar { 
+      display: flex; 
+      background: #fff; 
+      border-radius: 12px 12px 0 0; 
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+      overflow-x: auto;
+      padding: 0 1rem;
+      align-items: center;
+    }
+    
+    .tab { 
+      padding: 1.25rem 1.5rem; 
+      cursor: pointer; 
       text-decoration: none; 
+      color: var(--gris-texto); 
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600; 
+      text-transform: uppercase; 
+      border-bottom: 4px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    
+    .tab:hover {
+      color: var(--celeste-principal);
+    }
+    
+    .tab.active { 
+      color: var(--celeste-principal); 
+      border-bottom-color: var(--celeste-principal); 
+    }
+
+    /* ESTILO ESPECÍFICO PARA EL BOTÓN DE HOME (ACTIVO EN INICIO) */
+    .tab-home {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--celeste-principal);
+      border-right: 1px solid #e2e8f0;
+      padding-right: 1.5rem;
+      background: #f8fafc;
+    }
+
+    .tab-home svg {
+      width: 18px;
+      height: 18px;
+      color: var(--celeste-principal);
+    }
+    
+    /* PANEL BLANCO DE CONTENIDO */
+    .dashboard-panel {
+      background: white;
+      border-radius: 0 0 12px 12px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
+    }
+
+    /* DESCRIPCIÓN DEL PORTAL */
+    .welcome-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .welcome-section h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--azul-acento);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .welcome-section h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 22px;
+      background: var(--celeste-principal);
+      border-radius: 2px;
+    }
+
+    .welcome-section p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--gris-texto);
+    }
+    
+    /* CUADRÍCULA DE CATEGORÍAS (BOTONES GRANDES) */
+    .categories-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap: 1.5rem; 
+    }
+    
+    .category-btn { 
+      background: #fff; 
+      border: 1px solid #e2e8f0; 
+      border-left: 5px solid var(--celeste-principal);
+      border-radius: 8px; 
+      padding: 2rem 1.75rem; 
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+      text-decoration: none;
+      color: inherit;
       display: flex;
       flex-direction: column;
-    }
-    .card:hover { 
-      transform: translateY(-4px); 
-      box-shadow: 0 12px 32px rgba(28, 158, 218, .15); 
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
     }
     
-    /* Detalle superior en amarillo fijo */
-    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background: var(--amarillo); }
-    
-    .card-icon { 
-      width: 44px; 
-      height: 44px; 
-      border-radius: 10px; 
-      background: rgba(28, 158, 218, 0.1); 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      margin-bottom: 1.25rem; 
+    .category-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.1);
+      border-color: var(--celeste-principal);
+      background: #f8fafc;
     }
-    .card-icon i { font-size: 22px; color: var(--celeste); }
     
-    .card-tag { 
+    .category-btn h3 { 
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 11px; 
-      letter-spacing: .1em; 
+      font-size: 1.4rem; 
+      color: var(--azul-acento); 
       text-transform: uppercase; 
-      color: var(--celeste); 
-      margin-bottom: .3rem; 
-      font-weight: 600; 
+      margin-bottom: 0.75rem; 
+      letter-spacing: 0.5px; 
+      transition: color 0.2s ease;
     }
-    .card-title { 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 22px; 
-      font-weight: 600;
-      color: var(--text-main); 
-      margin: 0 0 .5rem; 
-      line-height: 1.2; 
-    }
-    .card-desc { 
-      font-size: 13.5px; 
-      color: var(--text-muted); 
-      line-height: 1.5; 
-      margin: 0 0 1.5rem; 
-      flex: 1;
+
+    .category-btn:hover h3 {
+      color: var(--celeste-oscuro);
     }
     
-    /* Footer interno de la tarjeta */
-    .card-footer { 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      border-top: 1px solid rgba(28, 158, 218, 0.15); 
-      padding-top: .9rem; 
+    .category-btn p { 
+      font-size: 0.95rem; 
+      line-height: 1.4;
+      color: var(--gris-texto); 
+      margin-bottom: 1.25rem;
     }
-    [data-theme="dark"] .card-footer { border-color: var(--border-card); }
 
-    .card-cta { 
+    .category-btn .action-text {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px; 
-      color: var(--celeste); 
-      font-weight: 600; 
-      display: flex; 
-      align-items: center; 
-      gap: 4px; 
+      font-size: 1rem;
+      font-weight: 700;
       text-transform: uppercase;
+      color: var(--celeste-principal);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
     }
-    .card-cta i { font-size: 15px; transition: transform .2s; }
-    .card:hover .card-cta i { transform: translateX(4px); }
-    .card-update { font-size: 11px; color: var(--text-sub); }
-    
-    /* PIE DE PÁGINA */
-    .bottom-strip { 
-      background: var(--celeste); 
-      padding: 1.5rem 2rem; 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      flex-wrap: wrap; 
-      gap: .5rem; 
-      margin-top: auto; 
-    }
-    .bottom-strip p { 
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px; 
-      color: #ffffff; 
-      letter-spacing: 0.5px;
-    }
-    .dot { color: rgba(255, 255, 255, 0.6); margin: 0 .5rem; }
 
-    /* BOTÓN MODO OSCURO */
-    .dark-toggle { 
-      background: none; 
-      border: 1px solid rgba(255,255,255,.4); 
-      border-radius: 20px; 
-      padding: 5px 12px; 
-      cursor: pointer; 
-      color: #ffffff; 
-      font-size: 12px; 
-      font-family: 'Barlow Condensed', sans-serif; 
-      display: flex; 
-      align-items: center; 
-      gap: 6px; 
-      transition: all .15s; 
-      text-transform: uppercase;
-      font-weight: 500;
+    .category-btn:hover .action-text {
+      color: var(--azul-acento);
     }
-    .dark-toggle:hover { background: rgba(255,255,255,.15); border-color: #ffffff; }
   </style>
 </head>
 <body>
 
-<div class="topbar">
-  <span class="topbar-left">Fundación para el Desarrollo Humano Integral · FDHI</span>
-  <button class="dark-toggle" onclick="toggleDark()"><span id="dark-icon">🌙</span> Modo oscuro</button>
-</div>
-
-<div class="hero">
-  <div class="hero-org">Equipo de Informes Técnicos</div>
-  <h1 class="hero-title">Portal de Monitoreo Territorial</h1>
-  <p class="hero-desc">Plataforma interactiva para el seguimiento, visualización y análisis de los principales indicadores estadísticos y geográficos de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
-</div>
-
-<div class="accent-bar"></div>
-
-<div class="content">
-  <div class="section-label">Módulos Temáticos de la Ciudad</div>
-  
-  <div class="cards">
-
-    <!-- SECCIÓN 1: OCUPACIÓN -->
-    <a class="card" href="Ind.Ocup.html">
-      <div class="card-icon"><i class="ti ti-trending-up"></i></div>
-      <div class="card-tag">Sección 01</div>
-      <div class="card-title">OCUPACIÓN E INGRESOS</div>
-      <p class="card-desc">Análisis de la estructura del mercado laboral, niveles de ingreso, tasas de empleo y actividad comercial por territorio.</p>
-      <div class="card-footer">
-        <span class="card-cta">Ingresar al módulo <i class="ti ti-arrow-right"></i></span>
-        <span class="card-update">Actualizado</span>
-      </div>
+  <header class="hero-header">
+    <a href="Portada_comunas.html" style="text-decoration: none; color: inherit;">
+      <h1>Portal de Monitoreo Territorial</h1>
     </a>
+    <p>Indicadores estadísticos dinámicos e información geográfica de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
+  </header>
 
-    <!-- SECCIÓN 2: SOCIALES -->
-    <a class="card" href="Ind.Sociales.html">
-      <div class="card-icon"><i class="ti ti-users"></i></div>
-      <div class="card-tag">Sección 02</div>
-      <div class="card-title">INDICADORES SOCIALES</div>
-      <p class="card-desc">Monitoreo de la tasa de escolaridad, cobertura de salud pública y privada, y variables de necesidades básicas insatisfechas (NBI).</p>
-      <div class="card-footer">
-        <span class="card-cta">Ingresar al módulo <i class="ti ti-arrow-right"></i></span>
-        <span class="card-update">Actualizado</span>
+  <main class="main-container">
+    
+    <nav class="tabs-bar">
+      <a href="Portada_comunas.html" class="tab tab-home active">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
+        Inicio
+      </a>
+      
+      <a href="#" class="tab" onclick="navegarA('ocupacion')">Ocupación e Ingresos</a>
+      <a href="#" class="tab" onclick="navegarA('sociales')">Indicadores Sociales</a>
+      <a href="#" class="tab" onclick="navegarA('demograficos')">Indicadores Demográficos</a>
+      <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
+      <a href="#" class="tab" onclick="navegarA('inmobiliario')">Mercado Inmobiliario</a>
+    </nav>
+
+    <section class="dashboard-panel">
+      
+      <!-- ESPACIO PARA DESCRIPCIÓN DEL PORTAL -->
+      <div class="welcome-section">
+        <h2>Sobre este Portal</h2>
+        <p>
+          Bienvenido al Portal de Monitoreo Territorial de la Ciudad Autónoma de Buenos Aires. Este espacio fue desarrollado para centralizar, visualizar y analizar datos socioeconómicos fundamentales desagregados por Comuna. A través de tableros interactivos alimentados en tiempo real y cartografía temática, buscamos proveer herramientas analíticas rigurosas para la toma de decisiones, la investigación urbana y el acceso público a la información de la Ciudad.
+        </p>
       </div>
-    </a>
 
-    <!-- SECCIÓN 3: DEMOGRÁFICOS -->
-    <a class="card" href="Ind.Demograficos.html">
-      <div class="card-icon"><i class="ti ti-chart-pie"></i></div>
-      <div class="card-tag">Sección 03</div>
-      <div class="card-title">INDICADORES DEMOGRÁFICOS</div>
-      <p class="card-desc">Evolución poblacional, densidad demográfica, tasas de natalidad, mortalidad y distribución de habitantes por comuna.</p>
-      <div class="card-footer">
-        <span class="card-cta">Ingresar al módulo <i class="ti ti-arrow-right"></i></span>
-        <span class="card-update">Actualizado</span>
+      <!-- BOTONES DE ACCESO DIRECTO A LAS CATEGORÍAS -->
+      <div class="categories-grid">
+        
+        <!-- Botón 1: Ocupación -->
+        <a href="#" class="category-btn" onclick="navegarA('ocupacion')">
+          <div>
+            <h3>Ocupación e Ingresos</h3>
+            <p>Monitoreo de las tasas de desocupación y niveles socioeconómicos de la población bajo la línea de pobreza.</p>
+          </div>
+          <span class="action-text">Ver indicadores →</span>
+        </a>
+
+        <!-- Botón 2: Sociales -->
+        <a href="#" class="category-btn" onclick="navegarA('sociales')">
+          <div>
+            <h3>Indicadores Sociales</h3>
+            <p>Análisis de variables de vulnerabilidad, educación, salud y calidad de vida de los habitantes de la Ciudad.</p>
+          </div>
+          <span class="action-text">Ver indicadores →</span>
+        </a>
+
+        <!-- Botón 3: Demográficos -->
+        <a href="#" class="category-btn" onclick="navegarA('demograficos')">
+          <div>
+            <h3>Indicadores Demográficos</h3>
+            <p>Evolución de la población, densidades habitacionales, pirámides de edades y distribución por Comunas.</p>
+          </div>
+          <span class="action-text">Ver indicadores →</span>
+        </a>
+
+        <!-- Botón 4: Fiscales -->
+        <a href="#" class="category-btn" onclick="navegarA('fiscales')">
+          <div>
+            <h3>Indicadores Fiscales</h3>
+            <p>Estructura de recaudación territorial, presupuestos asignados e inversión pública descentralizada.</p>
+          </div>
+          <span class="action-text">Ver indicadores →</span>
+        </a>
+
+        <!-- Botón 5: Mercado Inmobiliario -->
+        <a href="#" class="category-btn" onclick="navegarA('inmobiliario')">
+          <div>
+            <h3>Mercado Inmobiliario</h3>
+            <p>Seguimiento del valor del suelo, precios de alquileres, oferta constructiva y dinámicas de vivienda.</p>
+          </div>
+          <span class="action-text">Ver indicadores →</span>
+        </a>
+
       </div>
-    </a>
 
-    <!-- SECCIÓN 4: FISCALES -->
-    <a class="card" href="Ind.Fiscales.html">
-      <div class="card-icon"><i class="ti ti-building-bank"></i></div>
-      <div class="card-tag">Sección 04</div>
-      <div class="card-title">INDICADORES FISCALES</div>
-      <p class="card-desc">Seguimiento de la recaudación presupuestaria, inversión pública territorializada y ejecución de partidas presupuestarias.</p>
-      <div class="card-footer">
-        <span class="card-cta">Ingresar al módulo <i class="ti ti-arrow-right"></i></span>
-        <span class="card-update">Actualizado</span>
-      </div>
-    </a>
-
-  </div>
-</div>
-
-<div class="bottom-strip">
-  <p>Fundación para el Desarrollo Humano Integral<span class="dot">·</span> Monitoreo Estratégico CABA <span class="dot">·</span> FDHI</p>
-  <p></p>
-</div>
+    </section>
+  </main>
 
 <script>
-const root = document.documentElement;
-const saved = localStorage.getItem('theme') || 'light';
-root.setAttribute('data-theme', saved);
+  // Enrutador unificado para las pestañas superiores y las tarjetas de acceso directo
+  function navegarA(destino) {
+    let nombreArchivo = "";
 
-function toggleDark() {
-  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
-}
+    if (destino === 'ocupacion') {
+      nombreArchivo = "Ind.Ocup.html"; 
+    } else if (destino === 'sociales') {
+      nombreArchivo = "Ind.Sociales.html";
+    } else if (destino === 'demograficos') {
+      nombreArchivo = "Ind.Demograficos.html";
+    } else if (destino === 'fiscales') {
+      nombreArchivo = "Ind.Fiscales.html";
+    } else if (destino === 'inmobiliario') {
+      nombreArchivo = "Mercado_inm.html"; // Mantiene la corrección de tu archivo real
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const icon = document.getElementById('dark-icon');
-  if (icon) icon.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-});
+    // Como es el Inicio, por defecto no arrastra comuna inicial a menos que lo abras desde otra solapa
+    const urlParams = new URLSearchParams(window.location.search);
+    const comunaActual = urlParams.get('comuna') || 'todas';
+
+    if (window.location.protocol === 'file:') {
+      window.location.href = nombreArchivo;
+    } else {
+      window.location.href = `${nombreArchivo}?comuna=${comunaActual}`;
+    }
+  }
 </script>
 </body>
 </html>
