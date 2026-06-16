@@ -2,9 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Indicadores Sociales - Monitoreo CABA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
@@ -12,259 +13,213 @@
       --celeste-principal: #00b1ea;
       --celeste-oscuro: #009cd1;
       --azul-acento: #0f4c81;
-      --gris-fondo: #f1f5f9;
+      --gris-fondo: #f8fafc;
       --gris-texto: #475569;
-      --gris-oscuro: #1e293b;
+      --gris-oscuro: #0f172a;
+      --borde: #e2e8f0;
+      
+      /* Colores para Badges dinámicos */
+      --color-alerta: #ef4444;
+      --color-alerta-bg: #fef2f2;
+      --color-exito: #22c55e;
+      --color-exito-bg: #f0fdf4;
     }
 
     body { 
       font-family: 'Inter', sans-serif; 
       background: var(--gris-fondo); 
       color: var(--gris-oscuro); 
+      line-height: 1.5;
       padding-bottom: 4rem; 
     }
-    
-    /* PORTADA CELESTE PRINCIPAL */
-    .hero-header {
-      background: linear-gradient(135deg, var(--celeste-principal) 0%, #0084c2 100%);
-      color: white;
-      padding: 3rem 2rem 5rem 2rem;
-      text-align: center;
-      box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
-    }
-    
-    .hero-header h1 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 3rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .hero-header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      font-weight: 400;
-      max-width: 600px;
-      margin: 0 auto;
+
+    /* BARRA DE NAVEGACIÓN SUPERIOR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--borde);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
     }
 
-    /* CONTENEDOR PRINCIPAL FLOTANTE */
-    .main-container {
+    .navbar-container {
       max-width: 1200px;
-      margin: -3rem auto 0 auto;
-      padding: 0 1.5rem;
-    }
-    
-    /* BARRA DE PESTAÑAS Y HOME */
-    .tabs-bar { 
-      display: flex; 
-      background: #fff; 
-      border-radius: 12px 12px 0 0; 
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-      overflow-x: auto;
-      padding: 0 1rem;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
-    
-    .tab { 
-      padding: 1.25rem 1.5rem; 
-      cursor: pointer; 
-      text-decoration: none; 
-      color: var(--gris-texto); 
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600; 
-      text-transform: uppercase; 
-      border-bottom: 4px solid transparent;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    
-    .tab:hover {
-      color: var(--celeste-principal);
-    }
-    
-    .tab.active { 
-      color: var(--celeste-principal); 
-      border-bottom-color: var(--celeste-principal); 
-    }
 
-    .tab-home {
+    .brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--azul-acento);
+      text-decoration: none;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: var(--azul-acento);
-      border-right: 1px solid #e2e8f0;
-      padding-right: 1.5rem;
     }
 
-    .tab-home svg {
-      width: 18px;
-      height: 18px;
-      color: var(--celeste-principal);
+    .brand span { color: var(--celeste-principal); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-link { text-decoration: none; color: var(--gris-texto); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.active { color: var(--celeste-principal); }
+
+    /* SECCIÓN HERO COMPACTA */
+    .hero-sub {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 3.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid #1e293b;
     }
 
-    .tab-home:hover {
-      background: #f8fafc;
-      color: var(--celeste-oscuro);
+    .hero-content { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+    .hero-content h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 2.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .hero-content p { font-size: 1.1rem; font-weight: 300; color: #94a3b8; max-width: 700px; }
+
+    /* CONTENEDOR PRINCIPAL */
+    .main-container { max-width: 1200px; margin: 2.5rem auto 0 auto; padding: 0 1.5rem; }
+
+    /* FILTROS Y CONTROLES SUPERIORES */
+    .top-controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
-    
-    /* PANEL BLANCO DE CONTENIDO */
-    .dashboard-panel {
-      background: white;
-      border-radius: 0 0 12px 12px;
-      padding: 2rem;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
-    }
-    
-    /* ZONA DEL SELECTOR GENERAL */
+
     .filter-zone { 
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 2rem; 
-      background: #f8fafc; 
-      padding: 1rem 1.5rem; 
-      border: 1px solid #e2e8f0; 
-      border-radius: 8px; 
+      background: white; 
+      padding: 0.75rem 1.5rem; 
+      border: 1px solid var(--borde); 
+      border-radius: 12px; 
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
     }
     
-    .filter-zone label {
-      font-weight: 600;
-      color: var(--gris-texto);
-      font-size: 0.95rem;
-    }
+    .filter-zone label { font-weight: 600; color: var(--gris-texto); font-size: 0.95rem; }
     
     .filter-select { 
-      padding: .5rem 2rem .5rem 1rem; 
-      font-family: inherit; 
-      font-size: 0.95rem; 
-      font-weight: 500;
-      color: var(--gris-oscuro);
-      border: 1px solid #cbd5e1; 
-      border-radius: 6px; 
-      background-color: #fff;
-      cursor: pointer;
-      outline: none;
-      transition: border-color 0.2s;
+      padding: .5rem 2.5rem .5rem 1rem; 
+      font-family: inherit; font-size: 0.95rem; font-weight: 500; color: var(--gris-oscuro);
+      border: 1px solid #cbd5e1; border-radius: 8px; background-color: #fff; cursor: pointer; outline: none; transition: all 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;
     }
-    
-    .filter-select:focus {
-      border-color: var(--celeste-principal);
-    }
+    .filter-select:focus { border-color: var(--celeste-principal); box-shadow: 0 0 0 3px rgba(0, 177, 234, 0.15); }
 
-    /* GRILLA PERFECTA DE 3 COLUMNAS PARA LOS 3 INDICADORES */
-    .grid-tres-columnas { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-      gap: 1.5rem; 
-      margin-bottom: 2.5rem; 
-    }
-    
-    .card { 
-      background: #fff; 
-      border: 1px solid #e2e8f0; 
-      border-left: 5px solid var(--celeste-principal);
-      border-radius: 8px; 
-      padding: 1.75rem 1.5rem; 
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.08);
-    }
-    
-    .card h3 { 
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem; 
-      color: var(--azul-acento); 
-      text-transform: uppercase; 
-      margin-bottom: 0.5rem; 
-      letter-spacing: 0.5px; 
-      line-height: 1.2;
-    }
-    
-    .card p { 
-      font-size: 2.25rem; 
-      font-weight: 700; 
-      color: var(--gris-oscuro); 
-    }
-    
-    /* MAPA OPTIMIZADO: HOLGADO PARA EVITAR SCROLLBARS */
-    .map-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--gris-texto);
-      display: flex;
+    /* BOTÓN DESCARGAR CSV */
+    .btn-download-data {
+      display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      background: white;
+      border: 1px solid var(--borde);
+      padding: 0.75rem 1.2rem;
+      border-radius: 12px;
+      color: var(--gris-texto);
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
     }
+    .btn-download-data:hover { border-color: var(--azul-acento); color: var(--azul-acento); background: #f8fafc; }
+
+    /* GRILLA DE 3 COLUMNAS PARA TARJETAS */
+    .grid-tres-columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
     
-    .map-title::before {
-      content: '';
-      display: inline-block;
-      width: 4px;
-      height: 18px;
-      background: var(--celeste-principal);
-      border-radius: 2px;
+    .card { 
+      background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 2rem; 
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.2s; position: relative;
+      display: flex; flex-direction: column; justify-content: space-between; min-height: 160px;
     }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.05); border-color: var(--celeste-principal); }
+    .card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; color: var(--azul-acento); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.5px; line-height: 1.3; }
+    
+    .card .value-wrapper { display: flex; align-items: baseline; gap: 1rem; margin-top: auto; flex-wrap: wrap; }
+    .card p.metric-value { font-size: 3.2rem; font-weight: 700; color: var(--gris-oscuro); font-family: 'Barlow Condensed', sans-serif; line-height: 1; }
 
-    .iframe-container {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      max-width: 660px; /* Ancho optimizado */
-      margin: 0 auto;
-      overflow: hidden;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-      background: #fff;
+    /* MINI KPI BADGES */
+    .kpi-badge {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      font-size: 0.8rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 20px;
+      white-space: nowrap;
     }
+    .kpi-badge.alerta { color: var(--color-alerta); background: var(--color-alerta-bg); }
+    .kpi-badge.exito { color: var(--color-exito); background: var(--color-exito-bg); }
+    .kpi-badge.neutro { color: var(--gris-texto); background: var(--gris-fondo); }
 
-    iframe { 
-      width: 100%; 
-      height: 750px;    /* Altura extendida para evitar desbordes */
-      border: none; 
-      display: block; 
-      overflow: hidden;
-      scrollbar-width: none;
+    /* ESQUELETO ANIMADO (SKELETON LOADER) */
+    .skeleton-card h3, .skeleton-card .skeleton-num, .skeleton-card .skeleton-badge {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 70%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite linear; border-radius: 4px;
     }
+    .skeleton-card h3 { width: 85%; height: 1.2rem; margin-bottom: 1.5rem; }
+    .skeleton-card .skeleton-num { width: 45%; height: 3.2rem; }
+    .skeleton-card .skeleton-badge { width: 30%; height: 1.5rem; margin-left: 1rem; border-radius: 20px; }
+    
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
-    iframe::-webkit-scrollbar {
-      display: none;
+    /* SECCIÓN DE MAPA E IFRAME */
+    .map-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .map-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; text-transform: uppercase; font-weight: 700; color: var(--gris-oscuro); display: flex; align-items: center; gap: 0.6rem; }
+    .map-title::before { content: ''; display: inline-block; width: 5px; height: 24px; background: var(--celeste-principal); border-radius: 3px; }
+
+    .map-actions-wrapper { display: flex; align-items: center; gap: 0.75rem; }
+
+    .btn-iframe-control {
+      background: white; border: 1px solid var(--borde); width: 40px; height: 40px;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      color: var(--gris-texto); cursor: pointer; transition: all 0.2s;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
     }
+    .btn-iframe-control:hover { border-color: var(--celeste-principal); color: var(--celeste-principal); background: #f0fdfa; }
+    .btn-iframe-control svg { width: 20px; height: 20px; }
+
+    .iframe-container { background: white; border: 1px solid var(--borde); border-radius: 16px; max-width: 850px; margin: 0 auto; overflow: hidden; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.02); padding: 1rem; }
+    iframe { width: 100%; height: 750px; border: none; display: block; border-radius: 8px; }
   </style>
 </head>
 <body>
 
-  <header class="hero-header">
-    <a href="Portada_comunas.html" style="text-decoration: none; color: inherit;">
-      <h1>Portal de Monitoreo Territorial</h1>
-    </a>
-    <p>Indicadores estadísticos dinámicos e información geográfica de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="Portada_comunas.html" class="brand">MONITOREO<span>TERRITORIAL</span></a>
+      <div class="nav-links">
+        <a href="Portada_comunas.html" class="nav-link">Inicio</a>
+        <a href="#" class="nav-link" onclick="navegarA('ocupacion')">Ocupación</a>
+        <a href="#" class="nav-link active" onclick="navegarA('sociales')">Sociales</a>
+        <a href="#" class="nav-link" onclick="navegarA('demograficos')">Demografía</a>
+        <a href="#" class="nav-link" onclick="navegarA('fiscales')">Fiscales</a>
+        <a href="#" class="nav-link" onclick="navegarA('inmobiliario')">Inmobiliario</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero-sub">
+    <div class="hero-content">
+      <h1>Indicadores Sociales</h1>
+      <p>Análisis de las tipologías de vivienda, regímenes de tenencia del hogar y máximos niveles educativos alcanzados por la población de CABA.</p>
+    </div>
   </header>
 
   <main class="main-container">
     
-    <nav class="tabs-bar">
-      <a href="Portada_comunas.html" class="tab tab-home">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
-        Inicio
-      </a>
-      
-      <a href="#" class="tab" onclick="navegarA('ocupacion')">Ocupación e Ingresos</a>
-      <a href="#" class="tab active" onclick="navegarA('sociales')">Indicadores Sociales</a>
-      <a href="#" class="tab" onclick="navegarA('demograficos')">Indicadores Demográficos</a>
-      <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
-    </nav>
-
-    <section class="dashboard-panel">
-      
+    <div class="top-controls-bar">
       <div class="filter-zone">
         <label for="comuna-selector">Visualizar Territorio:</label>
         <select id="comuna-selector" class="filter-select" onchange="cambiarComuna(this.value)">
@@ -287,52 +242,76 @@
         </select>
       </div>
 
-      <div class="grid-tres-columnas">
-        <div class="card">
-          <h3 id="titulo-indicador-1">Cargando indicador 1...</h3>
-          <p id="val-1">—</p>
-        </div>
-        <div class="card">
-          <h3 id="titulo-indicador-2">Cargando indicador 2...</h3>
-          <p id="val-2">—</p>
-        </div>
-        <div class="card">
-          <h3 id="titulo-indicador-3">Cargando indicador 3...</h3>
-          <p id="val-3">—</p>
+      <a id="download-csv-btn" href="#" target="_blank" class="btn-download-data" title="Descargar datos sociales crudos (.CSV)">
+        <svg style="width:18px;height:18px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        Descargar Datos Abiertos (.CSV)
+      </a>
+    </div>
+
+    <div class="grid-tres-columnas">
+      <div class="card skeleton-card" id="card-1">
+        <h3></h3>
+        <div class="value-wrapper">
+          <div class="skeleton-num"></div>
+          <div class="skeleton-badge"></div>
         </div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
-        <h2 class="map-title" style="margin-bottom: 0;">Mapa Temático Territorial</h2>
-        
-        <div class="filter-zone" style="margin-bottom: 0; padding: 0.5rem 1rem;">
-          <label for="mapa-selector">Capa del mapa:</label>
+      <div class="card skeleton-card" id="card-2">
+        <h3></h3>
+        <div class="value-wrapper">
+          <div class="skeleton-num"></div>
+          <div class="skeleton-badge"></div>
+        </div>
+      </div>
+
+      <div class="card skeleton-card" id="card-3">
+        <h3></h3>
+        <div class="value-wrapper">
+          <div class="skeleton-num"></div>
+          <div class="skeleton-badge"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-section-header">
+      <h2 class="map-title">Mapa Temático Territorial</h2>
+      
+      <div class="map-actions-wrapper">
+        <div class="filter-zone" style="padding: 0.4rem 1rem;">
+          <label for="mapa-selector">Capa:</label>
           <select id="mapa-selector" class="filter-select" onchange="cambiarMapa(this.value)">
             <option value="viv_dep">Viviendas en Departamento</option>
             <option value="hog_inq">Hogares Inquilinos</option>
             <option value="pob_25_supcomp">Educación Superior Completa (25 años y más)</option>
           </select>
         </div>
-      </div>
 
-      <div class="iframe-container">
-        <iframe id="mapa-iframe" src="mapa_viv_dep.html"></iframe>
+        <button class="btn-iframe-control" onclick="abrirMapaNuevoTab()" title="Abrir mapa en pantalla completa">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </button>
       </div>
+    </div>
 
-    </section>
+    <div class="iframe-container">
+      <iframe id="mapa-iframe" src="mapa_viv_dep.html"></iframe>
+    </div>
+
   </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
+  // Cambiado automáticamente al GID correspondendiente de tu script original (gid=0)
   const EXCEL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=0&single=true&output=csv"; 
   
   let datosComunas = {};
   let comunaActual = 'todas';
 
   window.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('download-csv-btn').href = EXCEL_CSV_URL;
+
     const urlParams = new URLSearchParams(window.location.search);
     comunaActual = urlParams.get('comuna') || 'todas';
-    
     document.getElementById('comuna-selector').value = comunaActual;
 
     await cargarExcel();
@@ -364,26 +343,68 @@
 
   function renderizarDatos() {
     const registro = datosComunas[comunaActual];
-    if(registro) {
-      
-      // === MAPEADO DE COLUMNAS EXCEL SOCIALES ===
+    const registroMedia = datosComunas['todas'];
+
+    if(registro && registroMedia) {
       const col1 = "viv_dep"; 
       const col2 = "hog_inq"; 
       const col3 = "pob_25_supcomp";
 
-      // === NOMBRES VISUALES EN PANTALLA ===
-      document.getElementById('titulo-indicador-1').textContent = "Viviendas Departamento";
-      document.getElementById('titulo-indicador-2').textContent = "Hogares Inquilinos";
-      document.getElementById('titulo-indicador-3').textContent = "Educación Superior Completa (Sub-25)";
+      // Eliminar animación de esqueleto
+      document.getElementById('card-1').classList.remove('skeleton-card');
+      document.getElementById('card-2').classList.remove('skeleton-card');
+      document.getElementById('card-3').classList.remove('skeleton-card');
 
-      // Inyección en tarjetas
-      document.getElementById('val-1').textContent = registro[col1] || '—';
-      document.getElementById('val-2').textContent = registro[col2] || '—';
-      document.getElementById('val-3').textContent = registro[col3] || '—';
+      // Render Dinámico con Evaluador de Badges 
+      // (Para EducaciónSuperior y ViviendaDep un número más alto es positivo en términos de infraestructura/capital, esInverso = false)
+      document.getElementById('card-1').innerHTML = `
+        <h3>Viviendas en Departamento (%)</h3>
+        <div class="value-wrapper">
+          <p class="metric-value">${registro[col1] || '—'}%</p>
+          ${generarBadgeKPI(registro[col1], registroMedia[col1], false)}
+        </div>
+      `;
 
-    } else {
-      console.warn("No hay datos cargados para el territorio:", comunaActual);
+      document.getElementById('card-2').innerHTML = `
+        <h3>Hogares Inquilinos (%)</h3>
+        <div class="value-wrapper">
+          <p class="metric-value">${registro[col2] || '—'}%</p>
+          ${generarBadgeKPI(registro[col2], registroMedia[col2], false)}
+        </div>
+      `;
+
+      document.getElementById('card-3').innerHTML = `
+        <h3>Educación Superior Completa (25+) (%)</h3>
+        <div class="value-wrapper">
+          <p class="metric-value">${registro[col3] || '—'}%</p>
+          ${generarBadgeKPI(registro[col3], registroMedia[col3], false)}
+        </div>
+      `;
     }
+  }
+
+  // LOGICA DE KPI BADGES CONTEXTUALES CONTRA LA MEDIA DE CABA
+  function generarBadgeKPI(valorComuna, valorMedia, esInverso = false) {
+    if (comunaActual === 'todas' || !valorComuna || !valorMedia) {
+      return `<span class="kpi-badge neutro">Promedio CABA</span>`;
+    }
+
+    const valCom = parseFloat(valorComuna.replace(',', '.'));
+    const valMed = parseFloat(valorMedia.replace(',', '.'));
+    
+    if (isNaN(valCom) || isNaN(valMed)) return '';
+
+    const diferencia = (valCom - valMed).toFixed(1);
+    const signo = diferencia > 0 ? '+' : '';
+
+    if (esInverso) {
+      if (diferencia > 0) return `<span class="kpi-badge alerta">↑ ${signo}${diferencia}% vs Media</span>`;
+      else if (diferencia < 0) return `<span class="kpi-badge exito">↓ ${diferencia}% vs Media</span>`;
+    } else {
+      if (diferencia > 0) return `<span class="kpi-badge exito">↑ ${signo}${diferencia}% vs Media</span>`;
+      else if (diferencia < 0) return `<span class="kpi-badge alerta">↓ ${diferencia}% vs Media</span>`;
+    }
+    return `<span class="kpi-badge neutro">= Igual a la Media</span>`;
   }
 
   function cambiarComuna(nuevaComuna) {
@@ -391,31 +412,29 @@
     renderizarDatos();
   }
 
-  // CAMBIO DINÁMICO DE MAPAS SOCIALES ACTUALIZADOS
   function cambiarMapa(indicadorMapa) {
     const iframe = document.getElementById('mapa-iframe');
-    
-    if (indicadorMapa === 'viv_dep') {
-      iframe.src = "mapa_viv_dep.html";
-    } else if (indicadorMapa === 'hog_inq') {
-      iframe.src = "mapa_hog_inq.html";
-    } else if (indicadorMapa === 'pob_25_supcomp') {
-      iframe.src = "mapa_pob_25_supcomp.html";
-    }
+    const mapas = {
+      'viv_dep': 'mapa_viv_dep.html',
+      'hog_inq': 'mapa_hog_inq.html',
+      'pob_25_supcomp': 'mapa_pob_25_supcomp.html'
+    };
+    if (mapas[indicadorMapa]) iframe.src = mapas[indicadorMapa];
   }
 
+  function abrirMapaNuevoTab() {
+    const iframeUrl = document.getElementById('mapa-iframe').src;
+    window.open(iframeUrl, '_blank');
+  }
+
+  // ENRUTADOR CON SOPORTE PARA LA NUEVA PESTAÑA INMOBILIARIO
   function navegarA(destino) {
     let nombreArchivo = "";
-
-    if (destino === 'ocupacion') {
-      nombreArchivo = "Ind.Ocup.html"; 
-    } else if (destino === 'sociales') {
-      nombreArchivo = "Ind.Sociales.html";
-    } else if (destino === 'demograficos') {
-      nombreArchivo = "Ind.Demograficos.html";
-    } else if (destino === 'fiscales') {
-      nombreArchivo = "Ind.Fiscales.html";
-    }
+    if (destino === 'ocupacion') nombreArchivo = "Ind.Ocup.html"; 
+    else if (destino === 'sociales') nombreArchivo = "Ind.Sociales.html";
+    else if (destino === 'demograficos') nombreArchivo = "Ind.Demograficos.html";
+    else if (destino === 'fiscales') nombreArchivo = "Ind.Fiscales.html";
+    else if (destino === 'inmobiliario') nombreArchivo = "Mercado_inm.html";
 
     if (window.location.protocol === 'file:') {
       window.location.href = nombreArchivo;
