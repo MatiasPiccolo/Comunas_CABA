@@ -2,9 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mercado Inmobiliario - Monitoreo CABA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
@@ -12,328 +13,225 @@
       --celeste-principal: #00b1ea;
       --celeste-oscuro: #009cd1;
       --azul-acento: #0f4c81;
-      --gris-fondo: #f1f5f9;
+      --gris-fondo: #f8fafc;
       --gris-texto: #475569;
-      --gris-oscuro: #1e293b;
+      --gris-oscuro: #0f172a;
+      --borde: #e2e8f0;
     }
 
     body { 
       font-family: 'Inter', sans-serif; 
       background: var(--gris-fondo); 
       color: var(--gris-oscuro); 
+      line-height: 1.5;
       padding-bottom: 4rem; 
     }
-    
-    /* PORTADA CELESTE PRINCIPAL */
-    .hero-header {
-      background: linear-gradient(135deg, var(--celeste-principal) 0%, #0084c2 100%);
-      color: white;
-      padding: 3rem 2rem 5rem 2rem;
-      text-align: center;
-      box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
-    }
-    
-    .hero-header h1 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 3rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .hero-header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      font-weight: 400;
-      max-width: 600px;
-      margin: 0 auto;
+
+    /* BARRA DE NAVEGACIÓN SUPERIOR UNIFICADA */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--borde);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
     }
 
-    /* CONTENEDOR PRINCIPAL FLOTANTE */
-    .main-container {
+    .navbar-container {
       max-width: 1200px;
-      margin: -3rem auto 0 auto;
-      padding: 0 1.5rem;
-    }
-    
-    /* BARRA DE PESTAÑAS Y HOME */
-    .tabs-bar { 
-      display: flex; 
-      background: #fff; 
-      border-radius: 12px 12px 0 0; 
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-      overflow-x: auto;
-      padding: 0 1rem;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
-    
-    .tab { 
-      padding: 1.25rem 1.5rem; 
-      cursor: pointer; 
-      text-decoration: none; 
-      color: var(--gris-texto); 
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600; 
-      text-transform: uppercase; 
-      border-bottom: 4px solid transparent;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    
-    .tab:hover {
-      color: var(--celeste-principal);
-    }
-    
-    .tab.active { 
-      color: var(--celeste-principal); 
-      border-bottom-color: var(--celeste-principal); 
-    }
 
-    .tab-home {
+    .brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--azul-acento);
+      text-decoration: none;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: var(--azul-acento);
-      border-right: 1px solid #e2e8f0;
-      padding-right: 1.5rem;
     }
 
-    .tab-home svg {
-      width: 18px;
-      height: 18px;
-      color: var(--celeste-principal);
+    .brand span { color: var(--celeste-principal); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-link { text-decoration: none; color: var(--gris-texto); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.active { color: var(--celeste-principal); }
+
+    /* SECCIÓN HERO COMPACTA */
+    .hero-sub {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 3.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid #1e293b;
     }
 
-    .tab-home:hover {
-      background: #f8fafc;
-      color: var(--celeste-oscuro);
-    }
-    
-    /* PANEL BLANCO DE CONTENIDO */
-    .dashboard-panel {
-      background: white;
-      border-radius: 0 0 12px 12px;
-      padding: 2rem;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
-    }
-    
-    /* ZONA DEL SELECTOR */
-    .filter-zone { 
+    .hero-content { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+    .hero-content h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 2.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .hero-content p { font-size: 1.1rem; font-weight: 300; color: #94a3b8; max-width: 700px; }
+
+    /* CONTENEDOR PRINCIPAL */
+    .main-container { max-width: 1200px; margin: 2.5rem auto 0 auto; padding: 0 1.5rem; }
+
+    /* FILTROS Y CONTROLES SUPERIORES */
+    .filter-zone-container {
       display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 2rem; 
-      background: #f8fafc; 
+      background: white; 
       padding: 1rem 1.5rem; 
-      border: 1px solid #e2e8f0; 
-      border-radius: 8px; 
+      border: 1px solid var(--borde); 
+      border-radius: 12px; 
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      align-items: center;
     }
-    
-    .filter-zone label {
-      font-weight: 600;
-      color: var(--gris-texto);
-      font-size: 0.95rem;
-    }
+
+    .filter-group { display: flex; align-items: center; gap: 0.5rem; }
+    .filter-group label { font-weight: 600; color: var(--gris-texto); font-size: 0.95rem; }
     
     .filter-select { 
-      padding: .5rem 2rem .5rem 1rem; 
-      font-family: inherit; 
-      font-size: 0.95rem; 
-      font-weight: 500;
-      color: var(--gris-oscuro);
-      border: 1px solid #cbd5e1; 
-      border-radius: 6px; 
-      background-color: #fff;
-      cursor: pointer;
-      outline: none;
-      transition: border-color 0.2s;
+      padding: .5rem 2.5rem .5rem 1rem; 
+      font-family: inherit; font-size: 0.95rem; font-weight: 500; color: var(--gris-oscuro);
+      border: 1px solid #cbd5e1; border-radius: 8px; background-color: #fff; cursor: pointer; outline: none; transition: all 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;
     }
-    
-    .filter-select:focus {
-      border-color: var(--celeste-principal);
-    }
+    .filter-select:focus { border-color: var(--celeste-principal); box-shadow: 0 0 0 3px rgba(0, 177, 234, 0.15); }
 
-    /* DISEÑO DE TARJETAS */
-    .grid-dos-columnas { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-      gap: 1.5rem; 
-      margin-bottom: 2.5rem; 
-    }
+    /* DISEÑO DE TARJETAS KPIs */
+    .grid-dos-columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
     
     .card { 
-      background: #fff; 
-      border: 1px solid #e2e8f0; 
-      border-left: 5px solid var(--celeste-principal);
-      border-radius: 8px; 
-      padding: 1.75rem; 
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 1.75rem; 
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.2s;
+      display: flex; flex-direction: column; justify-content: center; min-height: 120px;
     }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.05); border-color: var(--celeste-principal); }
+    .card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; color: var(--azul-acento); text-transform: uppercase; margin-bottom: 0.25rem; letter-spacing: 0.5px; }
+    .card p { font-size: 2.5rem; font-weight: 700; color: var(--gris-oscuro); font-family: 'Barlow Condensed', sans-serif; line-height: 1.1; }
     
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.08);
+    /* ESQUELETO ANIMADO (SKELETON LOADER) */
+    .skeleton-card h3, .skeleton-card .skeleton-num {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 70%);
+      background-size: 200% 100%; animation: shimmer 1.5s infinite linear; border-radius: 4px;
     }
-    
-    .card h3 { 
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem; 
-      color: var(--azul-acento); 
-      text-transform: uppercase; 
-      margin-bottom: 0.5rem; 
-      letter-spacing: 0.5px; 
-    }
-    
-    .card p { 
-      font-size: 2.2rem; 
-      font-weight: 700; 
-      color: var(--gris-oscuro); 
-    }
-    
-    /* DISTRIBUCIÓN GRÁFICO + MAPA (Asimétrica para favorecer al mapa) */
-    .visual-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1.3fr;
-      gap: 2rem;
-      margin-top: 1.5rem;
-    }
+    .skeleton-card h3 { width: 60%; height: 1.15rem; margin-bottom: 0.75rem; }
+    .skeleton-card .skeleton-num { width: 40%; height: 2.5rem; }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
-    @media (max-width: 900px) {
-      .visual-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    /* DISTRIBUCIÓN GRÁFICO + MAPA ASIMÉTRICO */
+    .visual-grid { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 2rem; margin-top: 1.5rem; }
+    @media (max-width: 960px) { .visual-grid { grid-template-columns: 1fr; } }
 
-    .section-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--gris-texto);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    
-    .section-title::before {
-      content: '';
-      display: inline-block;
-      width: 4px;
-      height: 18px;
-      background: var(--celeste-principal);
-      border-radius: 2px;
-    }
+    .section-title-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; min-height: 40px; }
+    .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; text-transform: uppercase; font-weight: 700; color: var(--gris-oscuro); display: flex; align-items: center; gap: 0.5rem; }
+    .section-title::before { content: ''; display: inline-block; width: 4px; height: 20px; background: var(--celeste-principal); border-radius: 2px; }
 
-    /* CONTENEDOR DEL IFRAME SIN DESPLAZAMIENTOS EXTRAÑOS */
-    .iframe-container {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      width: 100%;
-      overflow: hidden; /* Corta barras parasitarias */
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-      background: #f8fafc;
-      height: 520px;
+    .btn-iframe-control {
+      background: white; border: 1px solid var(--borde); width: 38px; height: 38px;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      color: var(--gris-texto); cursor: pointer; transition: all 0.2s;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
     }
+    .btn-iframe-control:hover { border-color: var(--celeste-principal); color: var(--celeste-principal); background: #f0fdfa; }
+    .btn-iframe-control svg { width: 18px; height: 18px; }
 
-    .chart-container {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-      background: white;
-      height: 520px;
-      position: relative;
+    .chart-container, .iframe-container {
+      border: 1px solid var(--borde); border-radius: 16px; padding: 1.25rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); background: white; height: 540px; position: relative;
     }
-
-    iframe { 
-      width: 100%; 
-      height: 100%; /* Toma todo el alto disponible del contenedor parent */
-      border: none; 
-      display: block; 
-      overflow: hidden;
-    }
+    .iframe-container { padding: 0.75rem; background: #f8fafc; }
+    iframe { width: 100%; height: 100%; border: none; display: block; border-radius: 10px; }
   </style>
 </head>
 <body>
 
-  <header class="hero-header">
-    <a href="Portada_comunas.html" style="text-decoration: none; color: inherit;">
-      <h1>Portal de Monitoreo Territorial</h1>
-    </a>
-    <p>Indicadores estadísticos dinámicos e información geográfica de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="Portada_comunas.html" class="brand">MONITOREO<span>TERRITORIAL</span></a>
+      <div class="nav-links">
+        <a href="Portada_comunas.html" class="nav-link">Inicio</a>
+        <a href="#" class="nav-link" onclick="navegarA('ocupacion')">Ocupación</a>
+        <a href="#" class="nav-link" onclick="navegarA('sociales')">Sociales</a>
+        <a href="#" class="nav-link" onclick="navegarA('demograficos')">Demografía</a>
+        <a href="#" class="nav-link" onclick="navegarA('fiscales')">Fiscales</a>
+        <a href="#" class="nav-link active" onclick="navegarA('inmobiliario')">Inmobiliario</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero-sub">
+    <div class="hero-content">
+      <h1>Evolución del Mercado Inmobiliario</h1>
+      <p>Análisis territorial de los valores de alquiler mensual solicitados para departamentos usados de 1, 2 y 3 ambientes en la Ciudad Autónoma de Buenos Aires.</p>
+    </div>
   </header>
 
   <main class="main-container">
     
-    <nav class="tabs-bar">
-      <a href="Portada_comunas.html" class="tab tab-home">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
-        Inicio
-      </a>
-      
-      <a href="#" class="tab" onclick="navegarA('ocupacion')">Ocupación e Ingresos</a>
-      <a href="#" class="tab" onclick="navegarA('sociales')">Indicadores Sociales</a>
-      <a href="#" class="tab" onclick="navegarA('demograficos')">Indicadores Demográficos</a>
-      <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
-      <a href="#" class="tab active" onclick="navegarA('inmobiliario')">Mercado Inmobiliario</a>
-    </nav>
-
-    <section class="dashboard-panel">
-      
-      <div class="filter-zone">
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-right: 1.5rem;">
-          <label for="escala-selector">Nivel de Análisis:</label>
-          <select id="escala-selector" class="filter-select" onchange="cambiarEscala(this.value)">
-            <option value="comuna">Por Comunas</option>
-            <option value="barrio">Por Barrios</option>
-          </select>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <label for="tipologia-selector">Tipología / Ambientes:</label>
-          <select id="tipologia-selector" class="filter-select" onchange="cambiarTipologia(this.value)">
-            <option value="alq_1amb_us">1 Ambiente (Usado)</option>
-            <option value="alq_2amb_us">2 Ambientes (Usados)</option>
-            <option value="alq_3amb_us">3 Ambientes (Usados)</option>
-          </select>
-        </div>
+    <div class="filter-zone-container">
+      <div class="filter-group">
+        <label for="escala-selector">Nivel de Análisis:</label>
+        <select id="escala-selector" class="filter-select" onchange="cambiarEscala(this.value)">
+          <option value="comuna">Por Comunas</option>
+          <option value="barrio">Por Barrios</option>
+        </select>
       </div>
 
-      <div class="grid-dos-columnas">
-        <div class="card">
-          <h3 id="titulo-card-max">Valor Máximo Registrado</h3>
-          <p id="val-max">$ —</p>
-        </div>
-        <div class="card">
-          <h3 id="titulo-card-min">Valor Mínimo Registrado</h3>
-          <p id="val-min">$ —</p>
-        </div>
+      <div class="filter-group">
+        <label for="tipologia-selector">Tipología / Ambientes:</label>
+        <select id="tipologia-selector" class="filter-select" onchange="cambiarTipologia(this.value)">
+          <option value="alq_1amb_us">1 Ambiente (Usado)</option>
+          <option value="alq_2amb_us">2 Ambientes (Usados)</option>
+          <option value="alq_3amb_us">3 Ambientes (Usados)</option>
+        </select>
       </div>
+    </div>
 
-      <div class="visual-grid">
-        
-        <div>
+    <div class="grid-dos-columnas">
+      <div class="card skeleton-card" id="card-max-container">
+        <h3 id="titulo-card-max"></h3>
+        <p id="val-max"></p>
+      </div>
+      <div class="card skeleton-card" id="card-min-container">
+        <h3 id="titulo-card-min"></h3>
+        <p id="val-min"></p>
+      </div>
+    </div>
+
+    <div class="visual-grid">
+      <div>
+        <div class="section-title-container">
           <h2 class="section-title">Ranking de Valores Mensuales</h2>
-          <div class="chart-container">
-            <canvas id="rankingChart"></canvas>
-          </div>
         </div>
-
-        <div>
-          <h2 class="section-title">Distribución Espacial en CABA</h2>
-          <div class="iframe-container">
-            <iframe id="mapa-inmobiliario-iframe" src="mapa_comuna_alq_1amb.html" scrolling="no"></iframe>
-          </div>
+        <div class="chart-container">
+          <canvas id="rankingChart"></canvas>
         </div>
-
       </div>
 
-    </section>
+      <div>
+        <div class="section-title-container">
+          <h2 class="section-title">Distribución Espacial en CABA</h2>
+          <button class="btn-iframe-control" onclick="abrirMapaPantallaCompleta()" title="Abrir mapa interactivo a pantalla completa">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </button>
+        </div>
+        <div class="iframe-container">
+          <iframe id="mapa-inmobiliario-iframe" src="mapa_comuna_alq_1amb.html" scrolling="no"></iframe>
+        </div>
+      </div>
+    </div>
+
   </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -407,15 +305,21 @@
 
     itemsProcesados.sort((a, b) => b.valor - a.valor);
 
+    // Apagar animaciones Skeleton de carga
+    document.getElementById('card-max-container').classList.remove('skeleton-card');
+    document.getElementById('card-min-container').classList.remove('skeleton-card');
+
     if(itemsProcesados.length > 0) {
       const maxItem = itemsProcesados[0];
       const minItem = itemsProcesados[itemsProcesados.length - 1];
       
+      const prefijoLabel = escalaActual === 'comuna' ? 'Comuna ' : '';
+      
       document.getElementById('val-max').textContent = `$ ${maxItem.valor.toLocaleString('es-AR')}`;
-      document.getElementById('titulo-card-max').textContent = `Máximo: ${maxItem.nombre}`;
+      document.getElementById('titulo-card-max').textContent = `Máximo: ${prefijoLabel}${maxItem.nombre}`;
       
       document.getElementById('val-min').textContent = `$ ${minItem.valor.toLocaleString('es-AR')}`;
-      document.getElementById('titulo-card-min').textContent = `Mínimo: ${minItem.nombre}`;
+      document.getElementById('titulo-card-min').textContent = `Mínimo: ${prefijoLabel}${minItem.nombre}`;
     } else {
       document.getElementById('val-max').textContent = '$ —';
       document.getElementById('val-min').textContent = '$ —';
@@ -427,7 +331,6 @@
 
   function renderizarGrafico(datos) {
     const ctx = document.getElementById('rankingChart').getContext('2d');
-    
     const labels = datos.map(d => escalaActual === 'comuna' ? `Comuna ${d.nombre}` : d.nombre);
     const valores = datos.map(d => d.valor);
 
@@ -440,12 +343,12 @@
       data: {
         labels: labels,
         datasets: [{
-          label: 'Alquiler Promedio ($)',
           data: valores,
           backgroundColor: '#00b1ea',
           hoverBackgroundColor: '#0f4c81',
-          borderRadius: 4,
-          borderWidth: 0
+          borderRadius: 6,
+          borderWidth: 0,
+          barThickness: escalaActual === 'comuna' ? 18 : 8
         }]
       },
       options: {
@@ -455,25 +358,27 @@
         plugins: {
           legend: { display: false },
           tooltip: {
+            backgroundColor: '#0f172a',
+            titleFont: { family: 'Inter', size: 12, weight: '600' },
+            bodyFont: { family: 'Inter', size: 13 },
+            padding: 10,
+            cornerRadius: 8,
             callbacks: {
-              label: context => ` Alquiler: $${context.raw.toLocaleString('es-AR')}`
+              label: context => ` Alquiler Promedio: $${context.raw.toLocaleString('es-AR')}`
             }
           }
         },
         scales: {
           x: {
             grid: { color: '#f1f5f9' },
-            ticks: { font: { family: 'Inter' }, callback: value => '$' + value.toLocaleString('es-AR') }
+            ticks: { font: { family: 'Inter', size: 11 }, callback: value => '$' + value.toLocaleString('es-AR') }
           },
           y: {
             grid: { display: false },
             ticks: { 
               autoSkip: false,
-              font: { 
-                family: 'Inter', 
-                size: 10,
-                weight: '600' 
-              } 
+              font: { family: 'Inter', size: 11, weight: '600' },
+              color: '#334155'
             }
           }
         }
@@ -483,7 +388,6 @@
 
   function actualizarMapa() {
     const iframe = document.getElementById('mapa-inmobiliario-iframe');
-    
     const matrizMapas = {
       comuna: {
         'alq_1amb_us': 'mapa_comuna_alq_1amb.html',
@@ -498,9 +402,12 @@
     };
 
     const mapaDestino = matrizMapas[escalaActual][tipologiaActual];
-    if(mapaDestino) {
-      iframe.src = mapaDestino;
-    }
+    if(mapaDestino) iframe.src = mapaDestino;
+  }
+
+  function abrirMapaPantallaCompleta() {
+    const srcMap = document.getElementById('mapa-inmobiliario-iframe').src;
+    window.open(srcMap, '_blank');
   }
 
   function cambiarEscala(nuevaEscala) {
@@ -519,12 +426,9 @@
       'sociales': 'Ind.Sociales.html',
       'demograficos': 'Ind.Demograficos.html',
       'fiscales': 'Ind.Fiscales.html',
-      'inmobiliario': 'Ind.Inmobiliario.html'
+      'inmobiliario': 'Mercado_inm.html'
     };
-
-    if (archivos[destino]) {
-      window.location.href = archivos[destino];
-    }
+    if (archivos[destino]) window.location.href = archivos[destino];
   }
 </script>
 </body>
