@@ -2,9 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Inicio - Portal de Monitoreo Territorial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal de Monitoreo Territorial - CABA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
@@ -12,299 +13,422 @@
       --celeste-principal: #00b1ea;
       --celeste-oscuro: #009cd1;
       --azul-acento: #0f4c81;
-      --gris-fondo: #f1f5f9;
+      --gris-fondo: #f8fafc;
       --gris-texto: #475569;
-      --gris-oscuro: #1e293b;
+      --gris-oscuro: #0f172a;
+      --borde: #e2e8f0;
     }
 
     body { 
       font-family: 'Inter', sans-serif; 
       background: var(--gris-fondo); 
       color: var(--gris-oscuro); 
-      padding-bottom: 4rem; 
+      line-height: 1.5;
     }
-    
-    /* PORTADA CELESTE PRINCIPAL */
-    .hero-header {
-      background: linear-gradient(135deg, var(--celeste-principal) 0%, #0084c2 100%);
-      color: white;
-      padding: 4rem 2rem 6rem 2rem;
-      text-align: center;
-      box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
+
+    /* BARRA DE NAVEGACIÓN SUPERIOR (ESTILO DATACP) */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--borde);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
     }
-    
-    .hero-header h1 {
+
+    .navbar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 700;
+      font-size: 1.5rem;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.75rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      letter-spacing: 0.5px;
+      color: var(--azul-acento);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    
-    .hero-header p {
-      font-size: 1.2rem;
-      opacity: 0.95;
-      font-weight: 400;
-      max-width: 700px;
+
+    .brand span {
+      color: var(--celeste-principal);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--gris-texto);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--celeste-principal);
+    }
+
+    /* SECCIÓN HERO IMPACTANTE */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Círculos decorativos de fondo abstractos */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,177,234,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 3.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(to right, var(--celeste-principal), #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: #94a3b8;
+      max-width: 650px;
       margin: 0 auto;
     }
 
-    /* CONTENEDOR PRINCIPAL FLOTANTE */
-    .main-container {
+    /* SECCIONES FLUIDAS DE CONTENIDO */
+    .section-container {
       max-width: 1200px;
-      margin: -3.5rem auto 0 auto;
-      padding: 0 1.5rem;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
     }
-    
-    /* BARRA DE PESTAÑAS Y HOME */
-    .tabs-bar { 
-      display: flex; 
-      background: #fff; 
-      border-radius: 12px 12px 0 0; 
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-      overflow-x: auto;
-      padding: 0 1rem;
-      align-items: center;
-    }
-    
-    .tab { 
-      padding: 1.25rem 1.5rem; 
-      cursor: pointer; 
-      text-decoration: none; 
-      color: var(--gris-texto); 
+
+    .section-title {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600; 
-      text-transform: uppercase; 
-      border-bottom: 4px solid transparent;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    
-    .tab:hover {
-      color: var(--celeste-principal);
-    }
-    
-    .tab.active { 
-      color: var(--celeste-principal); 
-      border-bottom-color: var(--celeste-principal); 
-    }
-
-    /* ESTILO ESPECÍFICO PARA EL BOTÓN DE HOME (ACTIVO EN INICIO) */
-    .tab-home {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--celeste-principal);
-      border-right: 1px solid #e2e8f0;
-      padding-right: 1.5rem;
-      background: #f8fafc;
-    }
-
-    .tab-home svg {
-      width: 18px;
-      height: 18px;
-      color: var(--celeste-principal);
-    }
-    
-    /* PANEL BLANCO DE CONTENIDO */
-    .dashboard-panel {
-      background: white;
-      border-radius: 0 0 12px 12px;
-      padding: 3rem 2.5rem;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
-    }
-
-    /* DESCRIPCIÓN DEL PORTAL */
-    .welcome-section {
-      margin-bottom: 3.5rem;
-    }
-
-    .welcome-section h2 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.8rem;
+      font-size: 2.2rem;
       text-transform: uppercase;
-      font-weight: 600;
-      color: var(--azul-acento);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--gris-oscuro);
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.5px;
+      position: relative;
     }
 
-    .welcome-section h2::before {
+    .section-title::after {
       content: '';
-      display: inline-block;
-      width: 4px;
-      height: 22px;
+      display: block;
+      width: 50px;
+      height: 4px;
       background: var(--celeste-principal);
+      margin-top: 0.5rem;
       border-radius: 2px;
     }
 
-    .welcome-section p {
-      font-size: 1.05rem;
-      line-height: 1.6;
-      color: var(--gris-texto);
+    /* GRID DE CATEGORÍAS (MÓDULOS DE DATOS) */
+    .grid-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
     }
-    
-    /* CUADRÍCULA DE CATEGORÍAS (BOTONES GRANDES) */
-    .categories-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-      gap: 1.5rem; 
-    }
-    
-    .category-btn { 
-      background: #fff; 
-      border: 1px solid #e2e8f0; 
-      border-left: 5px solid var(--celeste-principal);
-      border-radius: 8px; 
-      padding: 2rem 1.75rem; 
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+
+    .category-card {
+      background: white;
+      border: 1px solid var(--borde);
+      border-radius: 16px;
+      padding: 2.5rem;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
     }
-    
-    .category-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.1);
+
+    .category-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
       border-color: var(--celeste-principal);
-      background: #f8fafc;
-    }
-    
-    .category-btn h3 { 
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.4rem; 
-      color: var(--azul-acento); 
-      text-transform: uppercase; 
-      margin-bottom: 0.75rem; 
-      letter-spacing: 0.5px; 
-      transition: color 0.2s ease;
     }
 
-    .category-btn:hover h3 {
-      color: var(--celeste-oscuro);
-    }
-    
-    .category-btn p { 
-      font-size: 0.95rem; 
-      line-height: 1.4;
-      color: var(--gris-texto); 
-      margin-bottom: 1.25rem;
-    }
-
-    .category-btn .action-text {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      background: #f0fdfa;
       color: var(--celeste-principal);
+      border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s;
     }
 
-    .category-btn:hover .action-text {
+    .category-card:hover .card-icon {
+      background: var(--celeste-principal);
+      color: white;
+    }
+
+    .card-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .category-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      color: var(--gris-oscuro);
+      margin-bottom: 0.75rem;
+    }
+
+    .category-card p {
+      font-size: 0.95rem;
+      color: var(--gris-texto);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .card-footer {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
       color: var(--azul-acento);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* SECCIÓN DE INFORMES DESTACADOS (ESTILO REPORTES DATACP) */
+    .reports-bg {
+      background: white;
+      border-top: 1px solid var(--borde);
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .grid-reports {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .report-card {
+      background: var(--gris-fondo);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--borde);
+    }
+
+    .report-tag {
+      background: var(--azul-acento);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      width: fit-content;
+      margin-bottom: 1rem;
+    }
+
+    .report-body {
+      padding: 1.5rem;
+    }
+
+    .report-body h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--gris-oscuro);
+      margin-bottom: 0.5rem;
+    }
+
+    .report-body p {
+      font-size: 0.9rem;
+      color: var(--gris-texto);
+    }
+
+    /* FOOTER INSTITUCIONAL */
+    footer {
+      background: #0f172a;
+      color: #64748b;
+      padding: 3rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      border-top: 1px solid #1e293b;
     }
   </style>
 </head>
 <body>
 
-  <header class="hero-header">
-    <a href="Portada_comunas.html" style="text-decoration: none; color: inherit;">
-      <h1>Portal de Monitoreo Territorial</h1>
-    </a>
-    <p>Indicadores estadísticos dinámicos e información geográfica de las Comunas de la Ciudad Autónoma de Buenos Aires.</p>
+  <!-- MENÚ SUPERIOR ESTILO NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="Portada_comunas.html" class="brand">
+        MONITOREO<span>TERRITORIAL</span>
+      </a>
+      <div class="nav-links">
+        <a href="Portada_comunas.html" class="nav-link active">Inicio</a>
+        <a href="#" class="nav-link" onclick="navegarA('ocupacion')">Ocupación</a>
+        <a href="#" class="nav-link" onclick="navegarA('sociales')">Sociales</a>
+        <a href="#" class="nav-link" onclick="navegarA('demograficos')">Demografía</a>
+        <a href="#" class="nav-link" onclick="navegarA('fiscales')">Fiscales</a>
+        <a href="#" class="nav-link" onclick="navegarA('inmobiliario')">Inmobiliario</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SECCIÓN HERO PRINCIPAL -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Monitoreo de Datos e Indicadores de las <span>Comunas de CABA</span></h1>
+      <p>Una plataforma abierta orientada al análisis territorial, visualización cartográfica e investigación de la dinámica socioeconómica urbana.</p>
+    </div>
   </header>
 
-  <main class="main-container">
+  <!-- SECCIÓN 1: DIMENSIONES DE ANÁLISIS (CATEGORÍAS CON ÍCONOS NUEVOS) -->
+  <main class="section-container">
+    <h2 class="section-title">Dimensiones de Análisis</h2>
     
-    <nav class="tabs-bar">
-      <a href="Portada_comunas.html" class="tab tab-home active">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.68-8.69a2.25 2.25 0 00-3.18 0l-8.69 8.69a.75.75 0 001.06 1.06l8.69-8.69z" /><path d="M5.25 14.25v6a.75.75 0 00.75.75h3a.75.75 0 00.75-.75V16.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75v4.5a.75.75 0 00.75.75h3a.75.75 0 00.75-.75v-6a.75.75 0 00-.75-.75H6a.75.75 0 00-.75.75z" /></svg>
-        Inicio
+    <div class="grid-categories">
+      
+      <!-- Ocupación -->
+      <a href="#" class="category-card" onclick="navegarA('ocupacion')">
+        <div>
+          <div class="card-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <h3>Ocupación e Ingresos</h3>
+          <p>Evolución de las tasas de desempleo, subocupación e ingresos familiares bajo las líneas de pobreza y de indigencia comunal.</p>
+        </div>
+        <div class="card-footer">Explorar Datos →</div>
       </a>
-      
-      <a href="#" class="tab" onclick="navegarA('ocupacion')">Ocupación e Ingresos</a>
-      <a href="#" class="tab" onclick="navegarA('sociales')">Indicadores Sociales</a>
-      <a href="#" class="tab" onclick="navegarA('demograficos')">Indicadores Demográficos</a>
-      <a href="#" class="tab" onclick="navegarA('fiscales')">Indicadores Fiscales</a>
-      <a href="#" class="tab" onclick="navegarA('inmobiliario')">Mercado Inmobiliario</a>
-    </nav>
 
-    <section class="dashboard-panel">
-      
-      <!-- ESPACIO PARA DESCRIPCIÓN DEL PORTAL -->
-      <div class="welcome-section">
-        <h2>Sobre este Portal</h2>
-        <p>
-          Bienvenido al Portal de Monitoreo Territorial de la Ciudad Autónoma de Buenos Aires. Este espacio fue desarrollado para centralizar, visualizar y analizar datos socioeconómicos fundamentales desagregados por Comuna. A través de tableros interactivos alimentados en tiempo real y cartografía temática, buscamos proveer herramientas analíticas rigurosas para la toma de decisiones, la investigación urbana y el acceso público a la información de la Ciudad.
-        </p>
-      </div>
-
-      <!-- BOTONES DE ACCESO DIRECTO A LAS CATEGORÍAS -->
-      <div class="categories-grid">
-        
-        <!-- Botón 1: Ocupación -->
-        <a href="#" class="category-btn" onclick="navegarA('ocupacion')">
-          <div>
-            <h3>Ocupación e Ingresos</h3>
-            <p>Monitoreo de las tasas de desocupación y niveles socioeconómicos de la población bajo la línea de pobreza.</p>
+      <!-- Sociales -->
+      <a href="#" class="category-card" onclick="navegarA('sociales')">
+        <div>
+          <div class="card-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
           </div>
-          <span class="action-text">Ver indicadores →</span>
-        </a>
+          <h3>Indicadores Sociales</h3>
+          <p>Análisis territorializado de condiciones educativas, vulnerabilidad habitacional, acceso al sistema de salud pública y desarrollo humano.</p>
+        </div>
+        <div class="card-footer">Explorar Datos →</div>
+      </a>
 
-        <!-- Botón 2: Sociales -->
-        <a href="#" class="category-btn" onclick="navegarA('sociales')">
-          <div>
-            <h3>Indicadores Sociales</h3>
-            <p>Análisis de variables de vulnerabilidad, educación, salud y calidad de vida de los habitantes de la Ciudad.</p>
+      <!-- Demográficos -->
+      <a href="#" class="category-card" onclick="navegarA('demograficos')">
+        <div>
+          <div class="card-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
           </div>
-          <span class="action-text">Ver indicadores →</span>
-        </a>
+          <h3>Indicadores Demográficos</h3>
+          <p>Evolución censal, densidades demográficas reales, pirámides de edades complejas y flujos habitacionales en el territorio porteño.</p>
+        </div>
+        <div class="card-footer">Explorar Datos →</div>
+      </a>
 
-        <!-- Botón 3: Demográficos -->
-        <a href="#" class="category-btn" onclick="navegarA('demograficos')">
-          <div>
-            <h3>Indicadores Demográficos</h3>
-            <p>Evolución de la población, densidades habitacionales, pirámides de edades y distribución por Comunas.</p>
+      <!-- Fiscales -->
+      <a href="#" class="category-card" onclick="navegarA('fiscales')">
+        <div>
+          <div class="card-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
           </div>
-          <span class="action-text">Ver indicadores →</span>
-        </a>
+          <h3>Indicadores Fiscales</h3>
+          <p>Composición y origen del presupuesto de la ciudad, eficiencia de la recaudación tributaria local e inversiones directas en comunas.</p>
+        </div>
+        <div class="card-footer">Explorar Datos →</div>
+      </a>
 
-        <!-- Botón 4: Fiscales -->
-        <a href="#" class="category-btn" onclick="navegarA('fiscales')">
-          <div>
-            <h3>Indicadores Fiscales</h3>
-            <p>Estructura de recaudación territorial, presupuestos asignados e inversión pública descentralizada.</p>
+      <!-- Mercado Inmobiliario -->
+      <a href="#" class="category-card" onclick="navegarA('inmobiliario')">
+        <div>
+          <div class="card-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           </div>
-          <span class="action-text">Ver indicadores →</span>
-        </a>
+          <h3>Mercado Inmobiliario</h3>
+          <p>Seguimiento analítico del valor promedio del metro cuadrado, evolución locativa, volumen constructivo y permisologías de obras.</p>
+        </div>
+        <div class="card-footer">Explorar Datos →</div>
+      </a>
 
-        <!-- Botón 5: Mercado Inmobiliario -->
-        <a href="#" class="category-btn" onclick="navegarA('inmobiliario')">
-          <div>
-            <h3>Mercado Inmobiliario</h3>
-            <p>Seguimiento del valor del suelo, precios de alquileres, oferta constructiva y dinámicas de vivienda.</p>
-          </div>
-          <span class="action-text">Ver indicadores →</span>
-        </a>
-
-      </div>
-
-    </section>
+    </div>
   </main>
 
+  <!-- SECCIÓN 2: INFORMES Y REPORTE RECIENTES (ESTILO BLOG/DATA RELEASES DE DATACP) -->
+  <div class="reports-bg">
+    <section class="section-container">
+      <h2 class="section-title">Informes de Monitoreo Recientes</h2>
+      
+      <div class="grid-reports">
+        <div class="report-card">
+          <div class="report-body">
+            <div class="report-tag">Informe Trimestral</div>
+            <h4>Evolución del mercado de alquileres en el sur de CABA</h4>
+            <p>Análisis crítico de los desfasajes de precios y dinámicas de oferta constructiva registrados durante el último año.</p>
+          </div>
+        </div>
+        
+        <div class="report-card">
+          <div class="report-body">
+            <div class="report-tag">Dinámica Social</div>
+            <h4>Asimetrías educativas y brechas de conectividad</h4>
+            <p>Monitoreo específico de la infraestructura tecnológica disponible por estudiante en las Comunas 4, 8 y 9.</p>
+          </div>
+        </div>
+
+        <div class="report-card">
+          <div class="report-body">
+            <div class="report-tag">Cartografía</div>
+            <h4>Actualización de mapas interactivos de pobreza estructural</h4>
+            <p>Incorporación de las últimas bases normalizadas del panel de ingresos a la plataforma geoespacial.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Portal de Monitoreo Territorial CABA. Datos abiertos para la investigación y el desarrollo urbano.</p>
+  </footer>
+
 <script>
-  // Enrutador unificado para las pestañas superiores y las tarjetas de acceso directo
   function navegarA(destino) {
     let nombreArchivo = "";
 
@@ -317,10 +441,9 @@
     } else if (destino === 'fiscales') {
       nombreArchivo = "Ind.Fiscales.html";
     } else if (destino === 'inmobiliario') {
-      nombreArchivo = "Mercado_inm.html"; // Mantiene la corrección de tu archivo real
+      nombreArchivo = "Mercado_inm.html";
     }
 
-    // Como es el Inicio, por defecto no arrastra comuna inicial a menos que lo abras desde otra solapa
     const urlParams = new URLSearchParams(window.location.search);
     const comunaActual = urlParams.get('comuna') || 'todas';
 
