@@ -15,3 +15,4 @@ Portal de informes y visualizaciones interactivas.
 | Fiscales | [Ind.Fiscales.html](https://matiaspiccolo.github.io/Comunas_CABA/Ind.Fiscales.html) |
 | Mercado Inmobiliario | [Mercado Inmboliario.html](https://matiaspiccolo.github.io/Comunas_CABA/Mercado_inm.html) |
 | Salud | [Ind.Salud.html](https://matiaspiccolo.github.io/Comunas_CABA/Ind.Salud.html) |
+| Seguridad | [Ind.Seguridad.html](https://matiaspiccolo.github.io/Comunas_CABA/Ind.Seguridad.html) |
