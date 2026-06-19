@@ -96,7 +96,7 @@
     }
     .filter-select:focus { border-color: var(--celeste-principal); box-shadow: 0 0 0 3px rgba(0, 177, 234, 0.15); }
 
-    /* CARD STATUS / PANTALLA CARGANDO */
+    /* MONITOR CARGANDO */
     #loading-overlay {
       background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--borde);
       text-align: center; font-weight: 600; color: var(--gris-texto); margin-bottom: 2rem;
@@ -114,7 +114,7 @@
     .card h3 { font-size: 0.85rem; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; margin-bottom: 0.35rem; letter-spacing: 0.5px; }
     .card p { font-size: 2.1rem; font-weight: 800; color: var(--gris-oscuro); font-family: 'Encode Sans Expanded', sans-serif; line-height: 1.1; letter-spacing: -0.5px; }
 
-    /* VISUALIZACIONES ASIMÉTRICAS */
+    /* GRID VISUALIZACIONES */
     .visual-grid { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 2rem; display: none; }
     @media (max-width: 960px) { .visual-grid { grid-template-columns: 1fr; } }
 
@@ -239,15 +239,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // URLs de los CSV compartidos provistos
   const URL_SEGURIDAD = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=559190406&single=true&output=csv";
   const URL_GENERO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=937956706&single=true&output=csv";
 
-  // Estructura maestra que se llenará con el fetch directo
   let MODELO_DATOS = {
     comunasOrdered: ['Comuna 1', 'Comuna 2', 'Comuna 3', 'Comuna 4', 'Comuna 5', 'Comuna 6', 'Comuna 7', 'Comuna 8', 'Comuna 9', 'Comuna 10', 'Comuna 11', 'Comuna 12', 'Comuna 13', 'Comuna 14', 'Comuna 15'],
     seguridad: {},
-    genero: {}
+    genero: {},
+    totalesGlobales: {
+      seguridad: { delitos: 0, robo_diario: 0, hurto_diario: 0 },
+      genero: { ovd: 0, fiscalia: 0 }
+    }
   };
 
   const CONFIG_TEMATICA = {
@@ -261,15 +263,12 @@
     inicializarYAsignarDatos();
   });
 
-  // PARSER DE CSV NATIVO (Sin librerías externas para evitar bloqueos)
   function parsearCSV(texto) {
     const lineas = texto.split(/\r?\n/);
     if(lineas.length === 0) return [];
     
-    // Detectar separador (coma o punto y coma)
     const encabezado = lineas[0];
     const separador = encabezado.includes(';') ? ';' : ',';
-    
     const camposEncabezado = encabezado.split(separador).map(c => c.replace(/^"|"$/g, '').trim());
     
     return lineas.slice(1).filter(linea => linea.trim() !== '').map(linea => {
@@ -298,7 +297,6 @@
     });
   }
 
-  // CAPTURA ASÍNCRONA DE LOS DOS GOOGLE SHEETS
   async function inicializarYAsignarDatos() {
     try {
       const [resSeguridad, resGenero] = await Promise.all([
@@ -309,34 +307,47 @@
       const datosSeguridad = parsearCSV(resSeguridad);
       const datosGenero = parsearCSV(resGenero);
 
-      // Procesar e indexar hoja de Seguridad
+      // Procesar hoja de Seguridad
       datosSeguridad.forEach(row => {
-        let comKey = normalizarNombreComuna(row["comuna"]);
-        if(comKey) {
-          MODELO_DATOS.seguridad[comKey] = {
-            robo_diario: parseFloat(row["robo_diario"]) || 0,
-            hurto_diario: parseFloat(row["hurto_diario"]) || 0,
-            homicidios_pct: parseFloat(row["homicidios (%)"]) || 0,
+        let comunaRaw = row["comuna"] ? row["comuna"].trim().toLowerCase() : "";
+        if (comunaRaw === "todas") {
+          MODELO_DATOS.totalesGlobales.seguridad = {
             delitos: parseInt(row["delitos"]) || 0,
-            delitos_pct: parseFloat(row["%_delitos"]) || 0,
-            contravesiones: parseInt(row["contravesiones"]) || 0,
-            contravenciones_pct: parseFloat(row["%_contravensiones"]) || 0
+            robo_diario: parseFloat(row["robo_diario"]) || 0,
+            hurto_diario: parseFloat(row["hurto_diario"]) || 0
           };
+        } else {
+          let comKey = normalizarNombreComuna(row["comuna"]);
+          if(comKey) {
+            MODELO_DATOS.seguridad[comKey] = {
+              robo_diario: parseFloat(row["robo_diario"]) || 0,
+              hurto_diario: parseFloat(row["hurto_diario"]) || 0,
+              delitos: parseInt(row["delitos"]) || 0,
+              delitos_pct: parseFloat(row["%_delitos"]) || 0
+            };
+          }
         }
       });
 
-      // Procesar e indexar hoja de Género (claves largas exactas)
+      // Procesar hoja de Género
       datosGenero.forEach(row => {
-        let comKey = normalizarNombreComuna(row["comuna"]);
-        if(comKey) {
-          MODELO_DATOS.genero[comKey] = {
+        let comunaRaw = row["comuna"] ? row["comuna"].trim().toLowerCase() : "";
+        if (comunaRaw === "todas") {
+          MODELO_DATOS.totalesGlobales.genero = {
             ovd: parseInt(row["Personas afectadas por hechos de violencia doméstica registradas por la Oficina de Violencia Doméstica de la Corte Suprema de Justicia de la Nación (OVD)"]) || 0,
             fiscalia: parseInt(row["Casos contravencionales con presencia de indicadores de violencia de género, y/o doméstica ingresados a las fiscalías del Fuero Penal, Contravencional y de Faltas de CABA"]) || 0
           };
+        } else {
+          let comKey = normalizarNombreComuna(row["comuna"]);
+          if(comKey) {
+            MODELO_DATOS.genero[comKey] = {
+              ovd: parseInt(row["Personas afectadas por hechos de violencia doméstica registradas por la Oficina de Violencia Doméstica de la Corte Suprema de Justicia de la Nación (OVD)"]) || 0,
+              fiscalia: parseInt(row["Casos contravencionales con presencia de indicadores de violencia de género, y/o doméstica ingresados a las fiscalías del Fuero Penal, Contravencional y de Faltas de CABA"]) || 0
+            };
+          }
         }
       });
 
-      // Ocultar cargando y renderizar interfaz completa
       document.getElementById('loading-overlay').style.display = 'none';
       document.getElementById('kpi-section').style.display = 'grid';
       document.getElementById('visual-section').style.display = 'grid';
@@ -345,40 +356,23 @@
 
     } catch (error) {
       console.error(error);
-      document.getElementById('loading-overlay').textContent = "❌ Error crítico: No se pudieron leer las planillas en la nube. Verifica que estén publicadas como web.";
+      document.getElementById('loading-overlay').textContent = "❌ Error crítico al sincronizar con Google Sheets.";
     }
   }
 
   function normalizarNombreComuna(texto) {
     if(!texto) return null;
     let n = texto.trim().toLowerCase();
+    if(n === "sin datos" || n === "todas") return null;
     let match = n.match(/\d+/);
     return match ? "Comuna " + match[0] : null;
   }
 
-  // CÁLCULOS DINÁMICOS SOBRE LAS VARIABLES DEL GOOGLE SHEET
   function actualizarCuadroMando() {
     const enfoque = document.getElementById('enfoque-selector').value;
     const comunaSel = document.getElementById('comuna-selector').value; 
     
     renderizarGraficoHorizontal(enfoque, comunaSel);
-
-    // Totales Agregados CABA dinámicos
-    let totalDelitosCABA = 0;
-    let totalRobosDiariosCABA = 0;
-    let totalOvdCABA = 0;
-    let totalFiscaliasCABA = 0;
-
-    MODELO_DATOS.comunasOrdered.forEach(c => {
-      if(MODELO_DATOS.seguridad[c]) {
-        totalDelitosCABA += MODELO_DATOS.seguridad[c].delitos;
-        totalRobosDiariosCABA += MODELO_DATOS.seguridad[c].robo_diario;
-      }
-      if(MODELO_DATOS.genero[c]) {
-        totalOvdCABA += MODELO_DATOS.genero[c].ovd;
-        totalFiscaliasCABA += MODELO_DATOS.genero[c].fiscalia;
-      }
-    });
 
     if (enfoque === 'seguridad_general') {
       document.getElementById('label-kpi-1').textContent = "Total Delitos Registrados";
@@ -387,10 +381,11 @@
       document.getElementById('label-kpi-4').textContent = "Hurtos Promedio Diario";
 
       if (comunaSel === 'todas') {
-        document.getElementById('kpi-1').textContent = totalDelitosCABA.toLocaleString('es-AR');
+        let tSeg = MODELO_DATOS.totalesGlobales.seguridad;
+        document.getElementById('kpi-1').textContent = tSeg.delitos.toLocaleString('es-AR');
         document.getElementById('kpi-2').textContent = "100%";
-        document.getElementById('kpi-3').textContent = totalRobosDiariosCABA.toFixed(1);
-        document.getElementById('kpi-4').textContent = (totalDelitosCABA / 365).toFixed(1);
+        document.getElementById('kpi-3').textContent = tSeg.robo_diario.toFixed(1);
+        document.getElementById('kpi-4').textContent = tSeg.hurto_diario.toFixed(1);
       } else {
         const dSeg = MODELO_DATOS.seguridad[comunaSel] || { delitos: 0, delitos_pct: 0, robo_diario: 0, hurto_diario: 0 };
         document.getElementById('kpi-1').textContent = dSeg.delitos.toLocaleString('es-AR');
@@ -405,19 +400,22 @@
       document.getElementById('label-kpi-4').textContent = "Efectores de Apoyo";
 
       if (comunaSel === 'todas') {
-        document.getElementById('kpi-1').textContent = totalOvdCABA.toLocaleString('es-AR');
-        document.getElementById('kpi-2').textContent = totalFiscaliasCABA.toLocaleString('es-AR');
-        document.getElementById('kpi-3').textContent = "Alta Demanda";
+        let tGen = MODELO_DATOS.totalesGlobales.genero;
+        document.getElementById('kpi-1').textContent = tGen.ovd.toLocaleString('es-AR');
+        document.getElementById('kpi-2').textContent = tGen.fiscalia.toLocaleString('es-AR');
+        document.getElementById('kpi-3').textContent = "Línea Base Global";
         document.getElementById('kpi-4').textContent = "14 CIM Activos";
       } else {
         const dGen = MODELO_DATOS.genero[comunaSel] || { ovd: 0, fiscalia: 0 };
-        // Recuento de CIMs aproximado
+        let tGen = MODELO_DATOS.totalesGlobales.genero;
+        
         const cimCuenta = { 'Comuna 4': 2, 'Comuna 15': 0 };
         const cuentaCim = cimCuenta[comunaSel] !== undefined ? cimCuenta[comunaSel] : 1;
 
         document.getElementById('kpi-1').textContent = dGen.ovd.toLocaleString('es-AR');
         document.getElementById('kpi-2').textContent = dGen.fiscalia.toLocaleString('es-AR');
-        document.getElementById('kpi-3').textContent = ((dGen.ovd / totalOvdCABA) * 100).toFixed(1) + "%";
+        let pctRelacion = tGen.ovd > 0 ? ((dGen.ovd / tGen.ovd) * 100).toFixed(1) : 0;
+        document.getElementById('kpi-3').textContent = pctRelacion + "%";
         document.getElementById('kpi-4').textContent = cuentaCim + (cuentaCim === 1 ? " Centro" : " Centros");
       }
     }
@@ -427,7 +425,6 @@
     const ctx = document.getElementById('seguridadChart').getContext('2d');
     const configActual = CONFIG_TEMATICA[enfoque];
     
-    // Mapeo dinámico desde las variables leídas del CSV
     const dataValores = MODELO_DATOS.comunasOrdered.map(c => {
       if (enfoque === 'seguridad_general') {
         return MODELO_DATOS.seguridad[c] ? MODELO_DATOS.seguridad[c].delitos_pct : 0;
@@ -436,7 +433,7 @@
       }
     });
     
-    const backgroundColors = MODELO_DATOS.comunasOrdered.map((c, index) => {
+    const backgroundColors = MODELO_DATOS.comunasOrdered.map(c => {
       if (comunaSeleccionada === 'todas') return configActual.color;
       return c === comunaSeleccionada ? configActual.color : '#e2e8f0';
     });
@@ -459,7 +456,7 @@
         }]
       },
       options: {
-        indexAxis: 'y', // Diseño de Ranking Horizontal
+        indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
