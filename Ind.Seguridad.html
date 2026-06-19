@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seguridad Ciudadana y Género - Monitoreo CABA</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght=600;700;800&family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght=700;800&family=Encode+Sans:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
@@ -21,14 +23,14 @@
     }
 
     body { 
-      font-family: 'Inter', sans-serif; 
+      font-family: 'Encode Sans', sans-serif; 
       background: var(--gris-fondo); 
       color: var(--gris-oscuro); 
       line-height: 1.5;
       padding-bottom: 4rem; 
     }
 
-    /* BARRA DE NAVEGACIÓN SUPERIOR UNIFICADA */
+    /* NAV BAR */
     .navbar {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
@@ -48,24 +50,21 @@
     }
 
     .brand {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.5rem;
+      font-family: 'Encode Sans Expanded', sans-serif;
+      font-size: 1.3rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: -0.5px;
       color: var(--azul-acento);
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
     .brand span { color: var(--celeste-principal); }
-    .nav-links { display: flex; gap: 1.5rem; }
-    .nav-link { text-decoration: none; color: var(--gris-texto); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links { display: flex; gap: 1.25rem; }
+    .nav-link { text-decoration: none; color: var(--gris-texto); font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
     .nav-link:hover, .nav-link.active { color: var(--celeste-principal); }
 
-    /* SECCIÓN HERO COMPACTA */
+    /* HERO */
     .hero-sub {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: white;
@@ -73,23 +72,23 @@
     }
 
     .hero-content { max-width: 1200px; margin: 0 auto; }
-    .hero-content h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 2.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; }
-    .hero-content p { font-size: 1.1rem; font-weight: 300; color: #94a3b8; max-width: 700px; }
+    .hero-content h1 { font-family: 'Encode Sans Expanded', sans-serif; font-size: 2.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+    .hero-content p { font-size: 1rem; font-weight: 300; color: #94a3b8; max-width: 700px; }
 
-    /* CONTENEDOR PRINCIPAL */
+    /* CONTENEDOR */
     .main-container { max-width: 1200px; margin: 2.5rem auto 0 auto; padding: 0 1.5rem; }
 
-    /* ZONA DE FILTROS EN PARALELO (TEMÁTICA Y COMUNA) */
+    /* FILTROS */
     .filter-zone-container {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); background: white; 
       padding: 1rem 1.5rem; border: 1px solid var(--borde); border-radius: 12px; 
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05); gap: 1.5rem; margin-bottom: 2rem;
     }
     .filter-group { display: flex; align-items: center; gap: 0.75rem; }
-    .filter-group label { font-weight: 600; color: var(--gris-texto); font-size: 0.95rem; white-space: nowrap; }
+    .filter-group label { font-weight: 700; color: var(--gris-texto); font-size: 0.9rem; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px; }
     
     .filter-select { 
-      width: 100%; padding: .5rem 2.5rem .5rem 1rem; font-family: inherit; font-size: 0.95rem; font-weight: 500;
+      width: 100%; padding: .6rem 2.5rem .6rem 1rem; font-family: inherit; font-size: 0.9rem; font-weight: 500;
       color: var(--gris-oscuro); border: 1px solid #cbd5e1; border-radius: 8px; background-color: #fff; cursor: pointer; outline: none;
       appearance: none; transition: all 0.2s;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -97,8 +96,14 @@
     }
     .filter-select:focus { border-color: var(--celeste-principal); box-shadow: 0 0 0 3px rgba(0, 177, 234, 0.15); }
 
-    /* BLOQUE DE TARJETAS KPIs */
-    .grid-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+    /* CARD STATUS / PANTALLA CARGANDO */
+    #loading-overlay {
+      background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--borde);
+      text-align: center; font-weight: 600; color: var(--gris-texto); margin-bottom: 2rem;
+    }
+
+    /* KPIs */
+    .grid-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; display: none; }
     .card { background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 1.25rem; min-height: 105px; transition: transform 0.2s; }
     .card:hover { transform: translateY(-2px); }
     .card.total-delitos { border-left: 5px solid var(--azul-nocturno); }
@@ -106,16 +111,16 @@
     .card.ovd-casos { border-left: 5px solid var(--violeta-genero); }
     .card.infra-cim { border-left: 5px solid var(--azul-acento); }
     
-    .card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--gris-texto); text-transform: uppercase; margin-bottom: 0.25rem; letter-spacing: 0.5px; }
-    .card p { font-size: 2.3rem; font-weight: 700; color: var(--gris-oscuro); font-family: 'Barlow Condensed', sans-serif; line-height: 1.1; }
+    .card h3 { font-size: 0.85rem; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; margin-bottom: 0.35rem; letter-spacing: 0.5px; }
+    .card p { font-size: 2.1rem; font-weight: 800; color: var(--gris-oscuro); font-family: 'Encode Sans Expanded', sans-serif; line-height: 1.1; letter-spacing: -0.5px; }
 
-    /* LAYOUT ASIMÉTRICO */
-    .visual-grid { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 2rem; }
+    /* VISUALIZACIONES ASIMÉTRICAS */
+    .visual-grid { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 2rem; display: none; }
     @media (max-width: 960px) { .visual-grid { grid-template-columns: 1fr; } }
 
     .section-title-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; min-height: 40px; }
-    .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.5rem; text-transform: uppercase; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
-    .section-title::before { content: ''; display: inline-block; width: 4px; height: 20px; background: var(--celeste-principal); border-radius: 2px; }
+    .section-title { font-family: 'Encode Sans Expanded', sans-serif; font-size: 1.3rem; text-transform: uppercase; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; letter-spacing: -0.5px; }
+    .section-title::before { content: ''; display: inline-block; width: 4px; height: 18px; background: var(--celeste-principal); border-radius: 2px; }
 
     .chart-container, .iframe-container { border: 1px solid var(--borde); border-radius: 16px; padding: 1.25rem; background: white; height: 560px; position: relative; }
     .iframe-container { padding: 0.5rem; background: #f8fafc; }
@@ -148,7 +153,7 @@
   <header class="hero-sub">
     <div class="hero-content">
       <h1>Seguridad Ciudadana y Enfoque de Género</h1>
-      <p>Estadísticas territoriales sobre índices delictivos generales, tasas de participación por comuna y monitoreo de la infraestructura de asistencia y denuncias por violencia de género.</p>
+      <p>Estadísticas territoriales dinámicas conectadas a bases de datos públicas. Monitoreo de índices delictivos generales e indicadores de violencia de género por comuna.</p>
     </div>
   </header>
 
@@ -167,48 +172,50 @@
         <label for="comuna-selector">Filtrar Territorio:</label>
         <select id="comuna-selector" class="filter-select" onchange="actualizarCuadroMando()">
           <option value="todas">Todas las Comunas (Vista CABA)</option>
-          <option value="0">Comuna 1</option>
-          <option value="1">Comuna 2</option>
-          <option value="2">Comuna 3</option>
-          <option value="3">Comuna 4</option>
-          <option value="4">Comuna 5</option>
-          <option value="5">Comuna 6</option>
-          <option value="6">Comuna 7</option>
-          <option value="7">Comuna 8</option>
-          <option value="8">Comuna 9</option>
-          <option value="9">Comuna 10</option>
-          <option value="10">Comuna 11</option>
-          <option value="11">Comuna 12</option>
-          <option value="12">Comuna 13</option>
-          <option value="13">Comuna 14</option>
-          <option value="14">Comuna 15</option>
+          <option value="Comuna 1">Comuna 1</option>
+          <option value="Comuna 2">Comuna 2</option>
+          <option value="Comuna 3">Comuna 3</option>
+          <option value="Comuna 4">Comuna 4</option>
+          <option value="Comuna 5">Comuna 5</option>
+          <option value="Comuna 6">Comuna 6</option>
+          <option value="Comuna 7">Comuna 7</option>
+          <option value="Comuna 8">Comuna 8</option>
+          <option value="Comuna 9">Comuna 9</option>
+          <option value="Comuna 10">Comuna 10</option>
+          <option value="Comuna 11">Comuna 11</option>
+          <option value="Comuna 12">Comuna 12</option>
+          <option value="Comuna 13">Comuna 13</option>
+          <option value="Comuna 14">Comuna 14</option>
+          <option value="Comuna 15">Comuna 15</option>
         </select>
       </div>
     </div>
 
-    <div class="grid-kpis">
+    <div id="loading-overlay">⏳ Sincronizando datos con Google Sheets de Seguridad y Género...</div>
+
+    <div class="grid-kpis" id="kpi-section">
       <div class="card total-delitos">
-        <h3 id="label-kpi-1">Total Delitos Anuales</h3>
-        <p id="kpi-1">114.280</p>
+        <h3 id="label-kpi-1">-</h3>
+        <p id="kpi-1">-</p>
       </div>
       <div class="card robo-hurto">
-        <h3 id="label-kpi-2">Robos Diarios</h3>
-        <p id="kpi-2">164.2</p>
+        <h3 id="label-kpi-2">-</h3>
+        <p id="kpi-2">-</p>
       </div>
       <div class="card ovd-casos">
-        <h3 id="label-kpi-3">Casos OVD CABA</h3>
-        <p id="kpi-3">14.850</p>
+        <h3 id="label-kpi-3">-</h3>
+        <p id="kpi-3">-</p>
       </div>
       <div class="card infra-cim">
-        <h3 id="label-kpi-4">Efectores de Asistencia</h3>
-        <p id="kpi-4">15 CIM</p>
+        <h3 id="label-kpi-4">-</h3>
+        <p id="kpi-4">-</p>
       </div>
     </div>
 
-    <div class="visual-grid">
+    <div class="visual-grid" id="visual-section">
       <div>
         <div class="section-title-container">
-          <h2 class="section-title" id="titulo-grafico">Ranking Territorial por Comuna</h2>
+          <h2 class="section-title" id="titulo-grafico">-</h2>
         </div>
         <div class="chart-container">
           <canvas id="seguridadChart"></canvas>
@@ -232,16 +239,15 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Matriz estadística base extraída de tus archivos y estructurada para interactividad cruzada
-  const DATA_ESTADISTICA = {
-    labels: ['Comuna 1', 'Comuna 2', 'Comuna 3', 'Comuna 4', 'Comuna 5', 'Comuna 6', 'Comuna 7', 'Comuna 8', 'Comuna 9', 'Comuna 10', 'Comuna 11', 'Comuna 12', 'Comuna 13', 'Comuna 14', 'Comuna 15'],
-    // Variables de Seguridad General
-    porcentaje_delitos: [14.2, 5.1, 8.4, 10.2, 5.8, 4.3, 6.9, 6.1, 7.3, 4.5, 4.8, 5.2, 4.9, 6.5, 5.8],
-    robos_absolutos: [16200, 5800, 9600, 11600, 6600, 4900, 7800, 6900, 8300, 5100, 5400, 5900, 5600, 7400, 6600],
-    // Variables de Género
-    casos_ovd: [890, 420, 950, 1680, 740, 510, 1120, 1450, 1290, 810, 780, 690, 540, 610, 870],
-    casos_fiscalia: [410, 190, 480, 820, 390, 220, 540, 710, 630, 380, 340, 310, 240, 290, 410],
-    cim_cuenta: [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0] // Cantidad física local por territorio
+  // URLs de los CSV compartidos provistos
+  const URL_SEGURIDAD = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=559190406&single=true&output=csv";
+  const URL_GENERO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=937956706&single=true&output=csv";
+
+  // Estructura maestra que se llenará con el fetch directo
+  let MODELO_DATOS = {
+    comunasOrdered: ['Comuna 1', 'Comuna 2', 'Comuna 3', 'Comuna 4', 'Comuna 5', 'Comuna 6', 'Comuna 7', 'Comuna 8', 'Comuna 9', 'Comuna 10', 'Comuna 11', 'Comuna 12', 'Comuna 13', 'Comuna 14', 'Comuna 15'],
+    seguridad: {},
+    genero: {}
   };
 
   const CONFIG_TEMATICA = {
@@ -252,52 +258,167 @@
   let chartSeguridad = null;
 
   window.addEventListener('DOMContentLoaded', () => {
-    actualizarCuadroMando();
+    inicializarYAsignarDatos();
   });
 
+  // PARSER DE CSV NATIVO (Sin librerías externas para evitar bloqueos)
+  function parsearCSV(texto) {
+    const lineas = texto.split(/\r?\n/);
+    if(lineas.length === 0) return [];
+    
+    // Detectar separador (coma o punto y coma)
+    const encabezado = lineas[0];
+    const separador = encabezado.includes(';') ? ';' : ',';
+    
+    const camposEncabezado = encabezado.split(separador).map(c => c.replace(/^"|"$/g, '').trim());
+    
+    return lineas.slice(1).filter(linea => linea.trim() !== '').map(linea => {
+      let fila = [];
+      let dentroComillas = false;
+      let entradaActual = '';
+      
+      for (let i = 0; i < linea.length; i++) {
+        let char = linea[i];
+        if (char === '"') {
+          dentroComillas = !dentroComillas;
+        } else if (char === separador && !dentroComillas) {
+          fila.push(entradaActual.trim().replace(/^"|"$/g, ''));
+          entradaActual = '';
+        } else {
+          entradaActual += char;
+        }
+      }
+      fila.push(entradaActual.trim().replace(/^"|"$/g, ''));
+      
+      let objetoFila = {};
+      camposEncabezado.forEach((campo, index) => {
+        objetoFila[campo] = fila[index] || "";
+      });
+      return objetoFila;
+    });
+  }
+
+  // CAPTURA ASÍNCRONA DE LOS DOS GOOGLE SHEETS
+  async function inicializarYAsignarDatos() {
+    try {
+      const [resSeguridad, resGenero] = await Promise.all([
+        fetch(URL_SEGURIDAD).then(r => r.text()),
+        fetch(URL_GENERO).then(r => r.text())
+      ]);
+
+      const datosSeguridad = parsearCSV(resSeguridad);
+      const datosGenero = parsearCSV(resGenero);
+
+      // Procesar e indexar hoja de Seguridad
+      datosSeguridad.forEach(row => {
+        let comKey = normalizarNombreComuna(row["comuna"]);
+        if(comKey) {
+          MODELO_DATOS.seguridad[comKey] = {
+            robo_diario: parseFloat(row["robo_diario"]) || 0,
+            hurto_diario: parseFloat(row["hurto_diario"]) || 0,
+            homicidios_pct: parseFloat(row["homicidios (%)"]) || 0,
+            delitos: parseInt(row["delitos"]) || 0,
+            delitos_pct: parseFloat(row["%_delitos"]) || 0,
+            contravesiones: parseInt(row["contravesiones"]) || 0,
+            contravenciones_pct: parseFloat(row["%_contravensiones"]) || 0
+          };
+        }
+      });
+
+      // Procesar e indexar hoja de Género (claves largas exactas)
+      datosGenero.forEach(row => {
+        let comKey = normalizarNombreComuna(row["comuna"]);
+        if(comKey) {
+          MODELO_DATOS.genero[comKey] = {
+            ovd: parseInt(row["Personas afectadas por hechos de violencia doméstica registradas por la Oficina de Violencia Doméstica de la Corte Suprema de Justicia de la Nación (OVD)"]) || 0,
+            fiscalia: parseInt(row["Casos contravencionales con presencia de indicadores de violencia de género, y/o doméstica ingresados a las fiscalías del Fuero Penal, Contravencional y de Faltas de CABA"]) || 0
+          };
+        }
+      });
+
+      // Ocultar cargando y renderizar interfaz completa
+      document.getElementById('loading-overlay').style.display = 'none';
+      document.getElementById('kpi-section').style.display = 'grid';
+      document.getElementById('visual-section').style.display = 'grid';
+
+      actualizarCuadroMando();
+
+    } catch (error) {
+      console.error(error);
+      document.getElementById('loading-overlay').textContent = "❌ Error crítico: No se pudieron leer las planillas en la nube. Verifica que estén publicadas como web.";
+    }
+  }
+
+  function normalizarNombreComuna(texto) {
+    if(!texto) return null;
+    let n = texto.trim().toLowerCase();
+    let match = n.match(/\d+/);
+    return match ? "Comuna " + match[0] : null;
+  }
+
+  // CÁLCULOS DINÁMICOS SOBRE LAS VARIABLES DEL GOOGLE SHEET
   function actualizarCuadroMando() {
     const enfoque = document.getElementById('enfoque-selector').value;
-    const comunaIdx = document.getElementById('comuna-selector').value; // 'todas' o índice 0-14
+    const comunaSel = document.getElementById('comuna-selector').value; 
     
-    // 1. ACTUALIZAR GRÁFICO HORIZONTAL (Mantiene las 15 comunas pero destaca la seleccionada)
-    renderizarGraficoHorizontal(enfoque, comunaIdx);
+    renderizarGraficoHorizontal(enfoque, comunaSel);
 
-    // 2. ACTUALIZAR KPIs DINÁMICAMENTE SEGÚN COMUNA Y ENFOQUE
+    // Totales Agregados CABA dinámicos
+    let totalDelitosCABA = 0;
+    let totalRobosDiariosCABA = 0;
+    let totalOvdCABA = 0;
+    let totalFiscaliasCABA = 0;
+
+    MODELO_DATOS.comunasOrdered.forEach(c => {
+      if(MODELO_DATOS.seguridad[c]) {
+        totalDelitosCABA += MODELO_DATOS.seguridad[c].delitos;
+        totalRobosDiariosCABA += MODELO_DATOS.seguridad[c].robo_diario;
+      }
+      if(MODELO_DATOS.genero[c]) {
+        totalOvdCABA += MODELO_DATOS.genero[c].ovd;
+        totalFiscaliasCABA += MODELO_DATOS.genero[c].fiscalia;
+      }
+    });
+
     if (enfoque === 'seguridad_general') {
       document.getElementById('label-kpi-1').textContent = "Total Delitos Registrados";
-      document.getElementById('label-kpi-2').textContent = "Aporte al total del mapa";
-      document.getElementById('label-kpi-3').textContent = "Incidentes Prom. Diario";
-      document.getElementById('label-kpi-4').textContent = "Comisarías / Efectores";
+      document.getElementById('label-kpi-2').textContent = "Aporte al total global";
+      document.getElementById('label-kpi-3').textContent = "Robos Promedio Diario";
+      document.getElementById('label-kpi-4').textContent = "Hurtos Promedio Diario";
 
-      if (comunaIdx === 'todas') {
-        document.getElementById('kpi-1').textContent = "114.280";
+      if (comunaSel === 'todas') {
+        document.getElementById('kpi-1').textContent = totalDelitosCABA.toLocaleString('es-AR');
         document.getElementById('kpi-2').textContent = "100%";
-        document.getElementById('kpi-3').textContent = "313.1";
-        document.getElementById('kpi-4').textContent = "15 Comunas";
+        document.getElementById('kpi-3').textContent = totalRobosDiariosCABA.toFixed(1);
+        document.getElementById('kpi-4').textContent = (totalDelitosCABA / 365).toFixed(1);
       } else {
-        const idx = parseInt(comunaIdx);
-        document.getElementById('kpi-1').textContent = DATA_ESTADISTICA.robos_absolutos[idx].toLocaleString('es-AR');
-        document.getElementById('kpi-2').textContent = DATA_ESTADISTICA.porcentaje_delitos[idx] + "%";
-        document.getElementById('kpi-3').textContent = (DATA_ESTADISTICA.robos_absolutos[idx] / 365).toFixed(1);
-        document.getElementById('kpi-4').textContent = "Activas";
+        const dSeg = MODELO_DATOS.seguridad[comunaSel] || { delitos: 0, delitos_pct: 0, robo_diario: 0, hurto_diario: 0 };
+        document.getElementById('kpi-1').textContent = dSeg.delitos.toLocaleString('es-AR');
+        document.getElementById('kpi-2').textContent = dSeg.delitos_pct + "%";
+        document.getElementById('kpi-3').textContent = dSeg.robo_diario.toFixed(1);
+        document.getElementById('kpi-4').textContent = dSeg.hurto_diario.toFixed(1);
       }
     } else {
       document.getElementById('label-kpi-1').textContent = "Hechos Reportados OVD";
       document.getElementById('label-kpi-2').textContent = "Casos Fiscalías CABA";
-      document.getElementById('label-kpi-3').textContent = "Tendencia de Afectación";
-      document.getElementById('label-kpi-4').textContent = "Centros CIM en Territorio";
+      document.getElementById('label-kpi-3').textContent = "Relación Casos CABA";
+      document.getElementById('label-kpi-4').textContent = "Efectores de Apoyo";
 
-      if (comunaIdx === 'todas') {
-        document.getElementById('kpi-1').textContent = "14.850";
-        document.getElementById('kpi-2').textContent = "5.960";
-        document.getElementById('kpi-3').textContent = "Alta";
-        document.getElementById('kpi-4').textContent = "15 CIM";
+      if (comunaSel === 'todas') {
+        document.getElementById('kpi-1').textContent = totalOvdCABA.toLocaleString('es-AR');
+        document.getElementById('kpi-2').textContent = totalFiscaliasCABA.toLocaleString('es-AR');
+        document.getElementById('kpi-3').textContent = "Alta Demanda";
+        document.getElementById('kpi-4').textContent = "14 CIM Activos";
       } else {
-        const idx = parseInt(comunaIdx);
-        document.getElementById('kpi-1').textContent = DATA_ESTADISTICA.casos_ovd[idx].toLocaleString('es-AR');
-        document.getElementById('kpi-2').textContent = DATA_ESTADISTICA.casos_fiscalia[idx].toLocaleString('es-AR');
-        document.getElementById('kpi-3').textContent = DATA_ESTADISTICA.casos_ovd[idx] > 1000 ? "Crítica" : "Moderada";
-        document.getElementById('kpi-4').textContent = DATA_ESTADISTICA.cim_cuenta[idx] + (DATA_ESTADISTICA.cim_cuenta[idx] === 1 ? " Centro" : " Centros");
+        const dGen = MODELO_DATOS.genero[comunaSel] || { ovd: 0, fiscalia: 0 };
+        // Recuento de CIMs aproximado
+        const cimCuenta = { 'Comuna 4': 2, 'Comuna 15': 0 };
+        const cuentaCim = cimCuenta[comunaSel] !== undefined ? cimCuenta[comunaSel] : 1;
+
+        document.getElementById('kpi-1').textContent = dGen.ovd.toLocaleString('es-AR');
+        document.getElementById('kpi-2').textContent = dGen.fiscalia.toLocaleString('es-AR');
+        document.getElementById('kpi-3').textContent = ((dGen.ovd / totalOvdCABA) * 100).toFixed(1) + "%";
+        document.getElementById('kpi-4').textContent = cuentaCim + (cuentaCim === 1 ? " Centro" : " Centros");
       }
     }
   }
@@ -305,15 +426,19 @@
   function renderizarGraficoHorizontal(enfoque, comunaSeleccionada) {
     const ctx = document.getElementById('seguridadChart').getContext('2d');
     const configActual = CONFIG_TEMATICA[enfoque];
-    const dataValores = enfoque === 'seguridad_general' ? DATA_ESTADISTICA.porcentaje_delitos : DATA_ESTADISTICA.casos_ovd;
     
-    // Lógica inteligente de resaltado de barra
-    const backgroundColors = dataValores.map((val, index) => {
-      if (comunaSeleccionada === 'todas') {
-        return configActual.color; // Todas las barras iguales
+    // Mapeo dinámico desde las variables leídas del CSV
+    const dataValores = MODELO_DATOS.comunasOrdered.map(c => {
+      if (enfoque === 'seguridad_general') {
+        return MODELO_DATOS.seguridad[c] ? MODELO_DATOS.seguridad[c].delitos_pct : 0;
+      } else {
+        return MODELO_DATOS.genero[c] ? MODELO_DATOS.genero[c].ovd : 0;
       }
-      // Si hay comuna seleccionada, pintamos solo esa con color vivo y las demás opacas
-      return index === parseInt(comunaSeleccionada) ? configActual.color : '#e2e8f0';
+    });
+    
+    const backgroundColors = MODELO_DATOS.comunasOrdered.map((c, index) => {
+      if (comunaSeleccionada === 'todas') return configActual.color;
+      return c === comunaSeleccionada ? configActual.color : '#e2e8f0';
     });
 
     if (chartSeguridad) {
@@ -325,7 +450,7 @@
     chartSeguridad = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: DATA_ESTADISTICA.labels,
+        labels: MODELO_DATOS.comunasOrdered,
         datasets: [{
           data: dataValores,
           backgroundColor: backgroundColors,
@@ -334,21 +459,21 @@
         }]
       },
       options: {
-        indexAxis: 'y', // VOLVIÓ A BARRAS HORIZONTALES POR RANKING
+        indexAxis: 'y', // Diseño de Ranking Horizontal
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
           tooltip: {
             backgroundColor: '#0f172a',
-            titleFont: { family: 'Inter', size: 12, weight: '600' },
-            bodyFont: { family: 'Inter', size: 13 },
+            titleFont: { family: 'Encode Sans', size: 12, weight: '600' },
+            bodyFont: { family: 'Encode Sans', size: 13 },
             padding: 10,
             cornerRadius: 8,
             displayColors: false,
             callbacks: {
               label: function(context) {
-                return ' ' + context.parsed.x + configActual.suffix;
+                return ' ' + context.parsed.x.toLocaleString('es-AR') + configActual.suffix;
               }
             }
           }
@@ -356,11 +481,11 @@
         scales: {
           x: {
             grid: { color: '#f1f5f9' },
-            ticks: { font: { family: 'Inter', size: 11 }, color: '#64748b' }
+            ticks: { font: { family: 'Encode Sans', size: 11 }, color: '#64748b' }
           },
           y: {
             grid: { display: false },
-            ticks: { font: { family: 'Inter', size: 11, weight: '600' }, color: '#334155' }
+            ticks: { font: { family: 'Encode Sans', size: 11, weight: '600' }, color: '#334155' }
           }
         }
       }
