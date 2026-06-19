@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ocupación e Ingresos - Monitoreo CABA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --celeste-principal: #00b1ea;
+      --celeste-oscuro: #009cd1;
+      --azul-acento: #0f4c81;
+      --gris-fondo: #f8fafc;
+      --gris-texto: #475569;
+      --gris-oscuro: #0f172a;
+      --borde: #e2e8f0;
+      
+      /* Colores para Badges dinámicos */
+      --color-alerta: #ef4444;
+      --color-alerta-bg: #fef2f2;
+      --color-exito: #22c55e;
+      --color-exito-bg: #f0fdf4;
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: var(--gris-fondo); 
+      color: var(--gris-oscuro); 
+      line-height: 1.5;
+      padding-bottom: 4rem; 
+    }
+
+    /* BARRA DE NAVEGACIÓN SUPERIOR */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--borde);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+    }
+
+    .navbar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--azul-acento);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand span { color: var(--celeste-principal); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-link { text-decoration: none; color: var(--gris-texto); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover, .nav-link.active { color: var(--celeste-principal); }
+
+    /* SECCIÓN HERO COMPACTA */
+    .hero-sub {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      padding: 3.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .hero-content { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+    .hero-content h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 2.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .hero-content p { font-size: 1.1rem; font-weight: 300; color: #94a3b8; max-width: 700px; }
+
+    /* CONTENEDOR PRINCIPAL */
+    .main-container { max-width: 1200px; margin: 2.5rem auto 0 auto; padding: 0 1.5rem; }
+
+    /* FILTROS Y CONTROLES SUPERIORES */
+    .top-controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-zone { 
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: white; 
+      padding: 0.75rem 1.5rem; 
+      border: 1px solid var(--borde); 
+      border-radius: 12px; 
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    }
+    
+    .filter-zone label { font-weight: 600; color: var(--gris-texto); font-size: 0.95rem; }
+    
+    .filter-select { 
+      padding: .5rem 2.5rem .5rem 1rem; 
+      font-family: inherit; font-size: 0.95rem; font-weight: 500; color: var(--gris-oscuro);
+      border: 1px solid #cbd5e1; border-radius: 8px; background-color: #fff; cursor: pointer; outline: none; transition: all 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;
+    }
+    .filter-select:focus { border-color: var(--celeste-principal); box-shadow: 0 0 0 3px rgba(0, 177, 234, 0.15); }
+
+    /* BOTÓN DESCARGAR DATAAbierta CSV */
+    .btn-download-data {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      border: 1px solid var(--borde);
+      padding: 0.75rem 1.2rem;
+      border-radius: 12px;
+      color: var(--gris-texto);
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    }
+    .btn-download-data:hover {
+      border-color: var(--azul-acento);
+      color: var(--azul-acento);
+      background: #f8fafc;
+    }
+
+    /* GRID DE TARJETAS INDICADORES */
+    .grid-dos-columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    
+    .card { 
+      background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 2rem; 
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.2s; position: relative;
+      display: flex; flex-direction: column; justify-content: space-between; min-height: 150px;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.05); border-color: var(--celeste-principal); }
+    .card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; color: var(--azul-acento); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.5px; }
+    
+    /* Estilos para valores numéricos */
+    .card .value-wrapper { display: flex; align-items: baseline; gap: 1rem; margin-top: auto; }
+    .card p.metric-value { font-size: 3.2rem; font-weight: 700; color: var(--gris-oscuro); font-family: 'Barlow Condensed', sans-serif; line-height: 1; }
+
+    /* ESTILOS MINI KPI BADGES (DINÁMICOS) */
+    .kpi-badge {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      font-size: 0.8rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 20px;
+      white-space: nowrap;
+    }
+    .kpi-badge.alerta { color: var(--color-alerta); background: var(--color-alerta-bg); }
+    .kpi-badge.exito { color: var(--color-exito); background: var(--color-exito-bg); }
+    .kpi-badge.neutro { color: var(--gris-texto); background: var(--gris-fondo); }
+
+    /* NUEVO: ESQUELETO ANIMADO (SKELETON LOADER) */
+    .skeleton-card h3, .skeleton-card .skeleton-num, .skeleton-card .skeleton-badge {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite linear;
+      border-radius: 4px;
+    }
+    .skeleton-card h3 { width: 70%; height: 1.2rem; margin-bottom: 1.5rem; }
+    .skeleton-card .skeleton-num { width: 40%; height: 3.2rem; }
+    .skeleton-card .skeleton-badge { width: 25%; height: 1.5rem; margin-left: 1rem; border-radius: 20px; }
+    
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+    /* MAPA INTERACTIVO Y CONTROLES INTEGRADOS DE IFRAME */
+    .map-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .map-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; text-transform: uppercase; font-weight: 700; color: var(--gris-oscuro); display: flex; align-items: center; gap: 0.6rem; }
+    .map-title::before { content: ''; display: inline-block; width: 5px; height: 24px; background: var(--celeste-principal); border-radius: 3px; }
+
+    .map-actions-wrapper { display: flex; align-items: center; gap: 0.75rem; }
+
+    /* Botón de descarga de mapa / controles de iframe */
+    .btn-iframe-control {
+      background: white; border: 1px solid var(--borde); width: 40px; height: 40px;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      color: var(--gris-texto); cursor: pointer; transition: all 0.2s;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+    }
+    .btn-iframe-control:hover { border-color: var(--celeste-principal); color: var(--celeste-principal); background: #f0fdfa; }
+    .btn-iframe-control svg { width: 20px; height: 20px; }
+
+    .iframe-container { background: white; border: 1px solid var(--borde); border-radius: 16px; max-width: 850px; margin: 0 auto; overflow: hidden; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.02); padding: 1rem; }
+    iframe { width: 100%; height: 620px; border: none; display: block; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="Portada_comunas.html" class="brand">MONITOREO<span>TERRITORIAL</span></a>
+      <div class="nav-links">
+        <a href="Portada_comunas.html" class="nav-link">Inicio</a>
+        <a href="#" class="nav-link active" onclick="navegarA('ocupacion')">Ocupación</a>
+        <a href="#" class="nav-link" onclick="navegarA('sociales')">Sociales</a>
+        <a href="#" class="nav-link" onclick="navegarA('demograficos')">Demografía</a>
+        <a href="#" class="nav-link" onclick="navegarA('fiscales')">Fiscales</a>
+        <a href="#" class="nav-link" onclick="navegarA('inmobiliario')">Inmobiliario</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero-sub">
+    <div class="hero-content">
+      <h1>Ocupación e Ingresos</h1>
+      <p>Monitoreo continuo de las tasas de empleo, desocupación, niveles de ingresos y canastas básicas distribuidas territorialmente por comunas.</p>
+    </div>
+  </header>
+
+  <main class="main-container">
+    
+    <!-- BARRA SUPERIOR DE FILTROS Y BOTÓN CSV (Propuesta 3) -->
+    <div class="top-controls-bar">
+      <div class="filter-zone">
+        <label for="comuna-selector">Visualizar Territorio:</label>
+        <select id="comuna-selector" class="filter-select" onchange="cambiarComuna(this.value)">
+          <option value="todas">Todas las Comunas (General CABA)</option>
+          <option value="1">Comuna 1</option>
+          <option value="2">Comuna 2</option>
+          <option value="3">Comuna 3</option>
+          <option value="4">Comuna 4</option>
+          <option value="5">Comuna 5</option>
+          <option value="6">Comuna 6</option>
+          <option value="7">Comuna 7</option>
+          <option value="8">Comuna 8</option>
+          <option value="9">Comuna 9</option>
+          <option value="10">Comuna 10</option>
+          <option value="11">Comuna 11</option>
+          <option value="12">Comuna 12</option>
+          <option value="13">Comuna 13</option>
+          <option value="14">Comuna 14</option>
+          <option value="15">Comuna 15</option>
+        </select>
+      </div>
+
+      <!-- BOTÓN DESCARGAR DATOS ABIERTOS CSV -->
+      <a id="download-csv-btn" href="#" target="_blank" class="btn-download-data" title="Descargar datos crudos en formato plano">
+        <svg style="width:18px;height:18px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        Descargar Datos Abiertos (.CSV)
+      </a>
+    </div>
+
+    <!-- CARDS CON ESQUELETO PREVIO INCORPORADO (Propuesta 2) -->
+    <div class="grid-dos-columnas" id="cards-wrapper">
+      
+      <!-- Card 1 (Modo Inicial: Esqueleto) -->
+      <div class="card skeleton-card" id="card-1">
+        <h3></h3>
+        <div class="value-wrapper">
+          <div class="skeleton-num"></div>
+          <div class="skeleton-badge"></div>
+        </div>
+      </div>
+
+      <!-- Card 2 (Modo Inicial: Esqueleto) -->
+      <div class="card skeleton-card" id="card-2">
+        <h3></h3>
+        <div class="value-wrapper">
+          <div class="skeleton-num"></div>
+          <div class="skeleton-badge"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CONTROL DE MAPAS E IFRAME INTEGRADO (Propuesta 1) -->
+    <div class="map-section-header">
+      <h2 class="map-title">Mapa Temático Territorial</h2>
+      
+      <div class="map-actions-wrapper">
+        <div class="filter-zone" style="padding: 0.4rem 1rem;">
+          <label for="mapa-selector">Capa:</label>
+          <select id="mapa-selector" class="filter-select" onchange="cambiarMapa(this.value)">
+            <option value="pobreza">Población bajo línea de pobreza</option>
+            <option value="desocupacion">Tasa de Desocupación</option>
+          </select>
+        </div>
+
+        <!-- BOTÓN DE ACCIÓN / DESCARGAR MAPA ACTUAL -->
+        <button class="btn-iframe-control" onclick="abrirMapaNuevoTab()" title="Abrir mapa en pantalla completa / Guardar archivo">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="iframe-container">
+      <iframe id="mapa-iframe" src="mapa_pob_ingresos_pobr.html"></iframe>
+    </div>
+
+  </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+  const EXCEL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=2062996270&single=true&output=csv"; 
+  
+  let datosComunas = {};
+  let comunaActual = 'todas';
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    // Configurar automáticamente el link del botón de descarga CSV abierto
+    document.getElementById('download-csv-btn').href = EXCEL_CSV_URL;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    comunaActual = urlParams.get('comuna') || 'todas';
+    document.getElementById('comuna-selector').value = comunaActual;
+
+    await cargarExcel();
+    renderizarDatos();
+  });
+
+  async function cargarExcel() {
+    try {
+      const res = await fetch(EXCEL_CSV_URL);
+      const textoCsv = await res.text();
+      return new Promise((resolve) => {
+        Papa.parse(textoCsv, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            results.data.forEach(fila => {
+              if(fila.comuna) {
+                datosComunas[fila.comuna.trim().toLowerCase()] = fila;
+              }
+            });
+            resolve();
+          }
+        });
+      });
+    } catch (err) {
+      console.error("Error al conectar con Google Sheets.", err);
+    }
+  }
+
+  function renderizarDatos() {
+    const registro = datosComunas[comunaActual];
+    const registroMedia = datosComunas['todas']; // Usado como la referencia promedio general CABA
+
+    if(registro && registroMedia) {
+      const colPobreza = "pob_ingresos_pobr"; 
+      const colDesocup = "tasa_desocup"; 
+
+      // Remover animaciones de esqueleto una vez que los datos cargan
+      document.getElementById('card-1').classList.remove('skeleton-card');
+      document.getElementById('card-2').classList.remove('skeleton-card');
+
+      // Inyección de Contenido Estructural Limpio
+      document.getElementById('card-1').innerHTML = `
+        <h3>Población Bajo la Línea de Pobreza (%)</h3>
+        <div class="value-wrapper">
+          <p class="metric-value">${registro[colPobreza] || '—'}%</p>
+          ${generarBadgeKPI(registro[colPobreza], registroMedia[colPobreza], true)}
+        </div>
+      `;
+
+      document.getElementById('card-2').innerHTML = `
+        <h3>Tasa de Desocupación (%)</h3>
+        <div class="value-wrapper">
+          <p class="metric-value">${registro[colDesocup] || '—'}%</p>
+          ${generarBadgeKPI(registro[colDesocup], registroMedia[colDesocup], true)}
+        </div>
+      `;
+    }
+  }
+
+  // LÓGICA MINI KPI BADGES AUTOMÁTICOS 
+  // Compara el valor actual contra el promedio y determina si el desvío es positivo o negativo
+  function generarBadgeKPI(valorComuna, valorMedia, esInverso = true) {
+    if (comunaActual === 'todas' || !valorComuna || !valorMedia) {
+      return `<span class="kpi-badge neutro">Promedio CABA</span>`;
+    }
+
+    const valCom = parseFloat(valorComuna.replace(',', '.'));
+    const valMed = parseFloat(valorMedia.replace(',', '.'));
+    
+    if (isNaN(valCom) ||  isNaN(valMed)) return '';
+
+    const diferencia = (valCom - valMed).toFixed(1);
+    const signo = diferencia > 0 ? '+' : '';
+
+    // Si 'esInverso' es true significa que un número más alto es PEOR (Pobreza y Desocupación)
+    if (esInverso) {
+      if (diferencia > 0) {
+        return `<span class="kpi-badge alerta">↑ ${signo}${diferencia}% vs Media</span>`;
+      } else if (diferencia < 0) {
+        return `<span class="kpi-badge exito">↓ ${diferencia}% vs Media</span>`;
+      }
+    } else {
+      // Para casos futuros donde un número alto sea MEJOR (ej: Ingresos o PBI)
+      if (diferencia > 0) {
+        return `<span class="kpi-badge exito">↑ ${signo}${diferencia}% vs Media</span>`;
+      } else if (diferencia < 0) {
+        return `<span class="kpi-badge alerta">↓ ${diferencia}% vs Media</span>`;
+      }
+    }
+    return `<span class="kpi-badge neutro">= Igual a la Media</span>`;
+  }
+
+  function cambiarComuna(nuevaComuna) {
+    comunaActual = nuevaComuna.toLowerCase();
+    renderizarDatos();
+  }
+
+  function cambiarMapa(indicadorMapa) {
+    const iframe = document.getElementById('mapa-iframe');
+    const mapas = {
+      'pobreza': 'mapa_pob_ingresos_pobr.html',
+      'desocupacion': 'mapa_tasa_desocup.html'
+    };
+    if (mapas[indicadorMapa]) iframe.src = mapas[indicadorMapa];
+  }
+
+  // NUEVO: CONTROLES DE IFRAME INTEGRADOS (Abrir/Descargar)
+  function abrirMapaNuevoTab() {
+    const iframeUrl = document.getElementById('mapa-iframe').src;
+    // Abre el sub-mapa html en pestaña limpia para permitir impresión nativa o guardado
+    window.open(iframeUrl, '_blank');
+  }
+
+  function navegarA(destino) {
+    let nombreArchivo = "";
+    if (destino === 'ocupacion') nombreArchivo = "Ind.Ocup.html"; 
+    else if (destino === 'sociales') nombreArchivo = "Ind.Sociales.html";
+    else if (destino === 'demograficos') nombreArchivo = "Ind.Demograficos.html";
+    else if (destino === 'fiscales') nombreArchivo = "Ind.Fiscales.html";
+    else if (destino === 'inmobiliario') nombreArchivo = "Mercado_inm.html";
+
+    if (window.location.protocol === 'file:') {
+      window.location.href = nombreArchivo;
+    } else {
+      window.location.href = `${nombreArchivo}?comuna=${comunaActual}`;
+    }
+  }
+</script>
+</body>
+</html>
