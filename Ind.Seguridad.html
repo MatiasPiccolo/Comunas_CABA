@@ -104,15 +104,15 @@
 
     /* KPIs */
     .grid-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; display: none; }
-    .card { background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 1.25rem; min-height: 105px; transition: transform 0.2s; }
+    .card { background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 1.25rem; min-height: 105px; transition: transform 0.2s; display: flex; flex-direction: column; justify-content: center; }
     .card:hover { transform: translateY(-2px); }
     .card.total-delitos { border-left: 5px solid var(--azul-nocturno); }
     .card.robo-hurto { border-left: 5px solid var(--celeste-principal); }
     .card.ovd-casos { border-left: 5px solid var(--violeta-genero); }
     .card.infra-cim { border-left: 5px solid var(--azul-acento); }
     
-    .card h3 { font-size: 0.85rem; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; margin-bottom: 0.35rem; letter-spacing: 0.5px; }
-    .card p { font-size: 2.1rem; font-weight: 800; color: var(--gris-oscuro); font-family: 'Encode Sans Expanded', sans-serif; line-height: 1.1; letter-spacing: -0.5px; }
+    .card h3 { font-size: 0.8rem; font-weight: 700; color: var(--gris-texto); text-transform: uppercase; margin-bottom: 0.4rem; letter-spacing: 0.5px; line-height: 1.3; }
+    .card p { font-size: 1.9rem; font-weight: 800; color: var(--gris-oscuro); font-family: 'Encode Sans Expanded', sans-serif; line-height: 1.1; letter-spacing: -0.5px; }
 
     /* GRID VISUALIZACIONES */
     .visual-grid { display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 2rem; display: none; }
@@ -263,6 +263,19 @@
     inicializarYAsignarDatos();
   });
 
+  // Limpiador y convertidor estricto de números con comas decimales regionales
+  function limpiarYParsearNumero(valorRaw) {
+    if (!valorRaw) return 0;
+    let str = valorRaw.trim();
+    // Si contiene comas, reemplaza la coma decimal por punto para que JS lo entienda de forma nativa
+    if (str.includes(',')) {
+      // Caso común: "14,2" -> "14.2"
+      str = str.replace(',', '.');
+    }
+    let num = parseFloat(str);
+    return isNaN(num) ? 0 : num;
+  }
+
   function parsearCSV(texto) {
     const lineas = texto.split(/\r?\n/);
     if(lineas.length === 0) return [];
@@ -313,17 +326,17 @@
         if (comunaRaw === "todas") {
           MODELO_DATOS.totalesGlobales.seguridad = {
             delitos: parseInt(row["delitos"]) || 0,
-            robo_diario: parseFloat(row["robo_diario"]) || 0,
-            hurto_diario: parseFloat(row["hurto_diario"]) || 0
+            robo_diario: limpiarYParsearNumero(row["robo_diario"]),
+            hurto_diario: limpiarYParsearNumero(row["hurto_diario"])
           };
         } else {
           let comKey = normalizarNombreComuna(row["comuna"]);
           if(comKey) {
             MODELO_DATOS.seguridad[comKey] = {
-              robo_diario: parseFloat(row["robo_diario"]) || 0,
-              hurto_diario: parseFloat(row["hurto_diario"]) || 0,
+              robo_diario: limpiarYParsearNumero(row["robo_diario"]),
+              hurto_diario: limpiarYParsearNumero(row["hurto_diario"]),
               delitos: parseInt(row["delitos"]) || 0,
-              delitos_pct: parseFloat(row["%_delitos"]) || 0
+              delitos_pct: limpiarYParsearNumero(row["%_delitos"])
             };
           }
         }
@@ -384,18 +397,18 @@
         let tSeg = MODELO_DATOS.totalesGlobales.seguridad;
         document.getElementById('kpi-1').textContent = tSeg.delitos.toLocaleString('es-AR');
         document.getElementById('kpi-2').textContent = "100%";
-        document.getElementById('kpi-3').textContent = tSeg.robo_diario.toFixed(1);
-        document.getElementById('kpi-4').textContent = tSeg.hurto_diario.toFixed(1);
+        document.getElementById('kpi-3').textContent = tSeg.robo_diario.toLocaleString('es-AR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        document.getElementById('kpi-4').textContent = tSeg.hurto_diario.toLocaleString('es-AR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
       } else {
         const dSeg = MODELO_DATOS.seguridad[comunaSel] || { delitos: 0, delitos_pct: 0, robo_diario: 0, hurto_diario: 0 };
         document.getElementById('kpi-1').textContent = dSeg.delitos.toLocaleString('es-AR');
-        document.getElementById('kpi-2').textContent = dSeg.delitos_pct + "%";
-        document.getElementById('kpi-3').textContent = dSeg.robo_diario.toFixed(1);
-        document.getElementById('kpi-4').textContent = dSeg.hurto_diario.toFixed(1);
+        document.getElementById('kpi-2').textContent = dSeg.delitos_pct.toLocaleString('es-AR') + "%";
+        document.getElementById('kpi-3').textContent = dSeg.robo_diario.toLocaleString('es-AR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        document.getElementById('kpi-4').textContent = dSeg.hurto_diario.toLocaleString('es-AR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
       }
     } else {
       document.getElementById('label-kpi-1').textContent = "Hechos Reportados OVD";
-      document.getElementById('label-kpi-2').textContent = "Casos Fiscalías CABA";
+      document.getElementById('label-kpi-2').textContent = "Casos contravencionales con presencia de indicadores de violencia de género";
       document.getElementById('label-kpi-3').textContent = "Relación Casos CABA";
       document.getElementById('label-kpi-4').textContent = "Efectores de Apoyo";
 
@@ -414,8 +427,8 @@
 
         document.getElementById('kpi-1').textContent = dGen.ovd.toLocaleString('es-AR');
         document.getElementById('kpi-2').textContent = dGen.fiscalia.toLocaleString('es-AR');
-        let pctRelacion = tGen.ovd > 0 ? ((dGen.ovd / tGen.ovd) * 100).toFixed(1) : 0;
-        document.getElementById('kpi-3').textContent = pctRelacion + "%";
+        let pctRelacion = tGen.ovd > 0 ? ((dGen.ovd / tGen.ovd) * 100) : 0;
+        document.getElementById('kpi-3').textContent = pctRelacion.toLocaleString('es-AR', { maximumFractionDigits: 1 }) + "%";
         document.getElementById('kpi-4').textContent = cuentaCim + (cuentaCim === 1 ? " Centro" : " Centros");
       }
     }
@@ -444,6 +457,7 @@
 
     document.getElementById('titulo-grafico').textContent = configActual.label;
 
+    // Configuración con inyección explícita de tipografía Encode Sans en cada objeto visible
     chartSeguridad = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -478,11 +492,17 @@
         scales: {
           x: {
             grid: { color: '#f1f5f9' },
-            ticks: { font: { family: 'Encode Sans', size: 11 }, color: '#64748b' }
+            ticks: { 
+              font: { family: 'Encode Sans', size: 11 }, 
+              color: '#64748b' 
+            }
           },
           y: {
             grid: { display: false },
-            ticks: { font: { family: 'Encode Sans', size: 11, weight: '600' }, color: '#334155' }
+            ticks: { 
+              font: { family: 'Encode Sans', size: 11, weight: '600' }, 
+              color: '#334155' 
+            }
           }
         }
       }
