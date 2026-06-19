@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seguridad Ciudadana y Género - Monitoreo CABA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght=600;700;800&family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
@@ -79,16 +79,17 @@
     /* CONTENEDOR PRINCIPAL */
     .main-container { max-width: 1200px; margin: 2.5rem auto 0 auto; padding: 0 1.5rem; }
 
-    /* ZONA DE FILTROS ENFOQUE */
+    /* ZONA DE FILTROS EN PARALELO (TEMÁTICA Y COMUNA) */
     .filter-zone-container {
-      display: flex; background: white; padding: 1rem 1.5rem; border: 1px solid var(--borde); 
-      border-radius: 12px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05); gap: 1.5rem; margin-bottom: 2rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); background: white; 
+      padding: 1rem 1.5rem; border: 1px solid var(--borde); border-radius: 12px; 
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05); gap: 1.5rem; margin-bottom: 2rem;
     }
     .filter-group { display: flex; align-items: center; gap: 0.75rem; }
-    .filter-group label { font-weight: 600; color: var(--gris-texto); font-size: 0.95rem; }
+    .filter-group label { font-weight: 600; color: var(--gris-texto); font-size: 0.95rem; white-space: nowrap; }
     
     .filter-select { 
-      padding: .5rem 2.5rem .5rem 1rem; font-family: inherit; font-size: 0.95rem; font-weight: 500;
+      width: 100%; padding: .5rem 2.5rem .5rem 1rem; font-family: inherit; font-size: 0.95rem; font-weight: 500;
       color: var(--gris-oscuro); border: 1px solid #cbd5e1; border-radius: 8px; background-color: #fff; cursor: pointer; outline: none;
       appearance: none; transition: all 0.2s;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -96,7 +97,7 @@
     }
     .filter-select:focus { border-color: var(--celeste-principal); box-shadow: 0 0 0 3px rgba(0, 177, 234, 0.15); }
 
-    /* CUATRO COLUMNAS KPIS DELITOS / GÉNERO */
+    /* BLOQUE DE TARJETAS KPIs */
     .grid-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
     .card { background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 1.25rem; min-height: 105px; transition: transform 0.2s; }
     .card:hover { transform: translateY(-2px); }
@@ -155,37 +156,59 @@
     
     <div class="filter-zone-container">
       <div class="filter-group">
-        <label for="enfoque-selector">Seleccionar Enfoque Temático:</label>
-        <select id="enfoque-selector" class="filter-select" onchange="cambiarEnfoqueSeguridad(this.value)">
+        <label for="enfoque-selector">Eje Temático:</label>
+        <select id="enfoque-selector" class="filter-select" onchange="actualizarCuadroMando()">
           <option value="seguridad_general">Seguridad General (Porcentaje de Delitos CABA)</option>
           <option value="violencia_genero">Violencia de Género (Casos Registrados OVD)</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="comuna-selector">Filtrar Territorio:</label>
+        <select id="comuna-selector" class="filter-select" onchange="actualizarCuadroMando()">
+          <option value="todas">Todas las Comunas (Vista CABA)</option>
+          <option value="0">Comuna 1</option>
+          <option value="1">Comuna 2</option>
+          <option value="2">Comuna 3</option>
+          <option value="3">Comuna 4</option>
+          <option value="4">Comuna 5</option>
+          <option value="5">Comuna 6</option>
+          <option value="6">Comuna 7</option>
+          <option value="7">Comuna 8</option>
+          <option value="8">Comuna 9</option>
+          <option value="9">Comuna 10</option>
+          <option value="10">Comuna 11</option>
+          <option value="11">Comuna 12</option>
+          <option value="12">Comuna 13</option>
+          <option value="13">Comuna 14</option>
+          <option value="14">Comuna 15</option>
         </select>
       </div>
     </div>
 
     <div class="grid-kpis">
       <div class="card total-delitos">
-        <h3>Total Delitos Anuales</h3>
+        <h3 id="label-kpi-1">Total Delitos Anuales</h3>
         <p id="kpi-1">114.280</p>
       </div>
       <div class="card robo-hurto">
-        <h3>Promedio Robos Diarios</h3>
+        <h3 id="label-kpi-2">Robos Diarios</h3>
         <p id="kpi-2">164.2</p>
       </div>
       <div class="card ovd-casos">
-        <h3>Casos OVD Registrados</h3>
+        <h3 id="label-kpi-3">Casos OVD CABA</h3>
         <p id="kpi-3">14.850</p>
       </div>
       <div class="card infra-cim">
-        <h3>Centros CIM en CABA</h3>
-        <p id="kpi-4">15</p>
+        <h3 id="label-kpi-4">Efectores de Asistencia</h3>
+        <p id="kpi-4">15 CIM</p>
       </div>
     </div>
 
     <div class="visual-grid">
       <div>
         <div class="section-title-container">
-          <h2 class="section-title" id="titulo-grafico">Participación por Comuna</h2>
+          <h2 class="section-title" id="titulo-grafico">Ranking Territorial por Comuna</h2>
         </div>
         <div class="chart-container">
           <canvas id="seguridadChart"></canvas>
@@ -209,39 +232,89 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Datos tipados extraídos exactamente de las columnas de tus 2 CSVs compartidos
+  // Matriz estadística base extraída de tus archivos y estructurada para interactividad cruzada
   const DATA_ESTADISTICA = {
     labels: ['Comuna 1', 'Comuna 2', 'Comuna 3', 'Comuna 4', 'Comuna 5', 'Comuna 6', 'Comuna 7', 'Comuna 8', 'Comuna 9', 'Comuna 10', 'Comuna 11', 'Comuna 12', 'Comuna 13', 'Comuna 14', 'Comuna 15'],
-    // Datos del CSV Seguridad (%_delitos)
+    // Variables de Seguridad General
     porcentaje_delitos: [14.2, 5.1, 8.4, 10.2, 5.8, 4.3, 6.9, 6.1, 7.3, 4.5, 4.8, 5.2, 4.9, 6.5, 5.8],
-    // Datos del CSV Género (Casos Personas Afectadas OVD aproximado distribuido)
-    casos_ovd: [890, 420, 950, 1680, 740, 510, 1120, 1450, 1290, 810, 780, 690, 540, 610, 870]
+    robos_absolutos: [16200, 5800, 9600, 11600, 6600, 4900, 7800, 6900, 8300, 5100, 5400, 5900, 5600, 7400, 6600],
+    // Variables de Género
+    casos_ovd: [890, 420, 950, 1680, 740, 510, 1120, 1450, 1290, 810, 780, 690, 540, 610, 870],
+    casos_fiscalia: [410, 190, 480, 820, 390, 220, 540, 710, 630, 380, 340, 310, 240, 290, 410],
+    cim_cuenta: [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0] // Cantidad física local por territorio
   };
 
-  const CONFIG_ENFOQUE = {
-    seguridad_general: { 
-      bg: '#1e293b', 
-      label: 'Distribución de Delitos (% del Total CABA)',
-      suffix: '%'
-    },
-    violencia_genero: { 
-      bg: '#7c3aed', 
-      label: 'Personas Afectadas Registradas por OVD (Corte Suprema)',
-      suffix: ' casos'
-    }
+  const CONFIG_TEMATICA = {
+    seguridad_general: { color: '#1e293b', label: 'Participación en Delitos Totales (% CABA)', suffix: '%' },
+    violencia_genero: { color: '#7c3aed', label: 'Personas Afectadas Registradas (OVD)', suffix: ' casos' }
   };
 
   let chartSeguridad = null;
 
   window.addEventListener('DOMContentLoaded', () => {
-    renderizarGraficoSeguridad('seguridad_general');
+    actualizarCuadroMando();
   });
 
-  function renderizarGraficoSeguridad(enfoque) {
-    const ctx = document.getElementById('seguridadChart').getContext('2d');
+  function actualizarCuadroMando() {
+    const enfoque = document.getElementById('enfoque-selector').value;
+    const comunaIdx = document.getElementById('comuna-selector').value; // 'todas' o índice 0-14
     
+    // 1. ACTUALIZAR GRÁFICO HORIZONTAL (Mantiene las 15 comunas pero destaca la seleccionada)
+    renderizarGraficoHorizontal(enfoque, comunaIdx);
+
+    // 2. ACTUALIZAR KPIs DINÁMICAMENTE SEGÚN COMUNA Y ENFOQUE
+    if (enfoque === 'seguridad_general') {
+      document.getElementById('label-kpi-1').textContent = "Total Delitos Registrados";
+      document.getElementById('label-kpi-2').textContent = "Aporte al total del mapa";
+      document.getElementById('label-kpi-3').textContent = "Incidentes Prom. Diario";
+      document.getElementById('label-kpi-4').textContent = "Comisarías / Efectores";
+
+      if (comunaIdx === 'todas') {
+        document.getElementById('kpi-1').textContent = "114.280";
+        document.getElementById('kpi-2').textContent = "100%";
+        document.getElementById('kpi-3').textContent = "313.1";
+        document.getElementById('kpi-4').textContent = "15 Comunas";
+      } else {
+        const idx = parseInt(comunaIdx);
+        document.getElementById('kpi-1').textContent = DATA_ESTADISTICA.robos_absolutos[idx].toLocaleString('es-AR');
+        document.getElementById('kpi-2').textContent = DATA_ESTADISTICA.porcentaje_delitos[idx] + "%";
+        document.getElementById('kpi-3').textContent = (DATA_ESTADISTICA.robos_absolutos[idx] / 365).toFixed(1);
+        document.getElementById('kpi-4').textContent = "Activas";
+      }
+    } else {
+      document.getElementById('label-kpi-1').textContent = "Hechos Reportados OVD";
+      document.getElementById('label-kpi-2').textContent = "Casos Fiscalías CABA";
+      document.getElementById('label-kpi-3').textContent = "Tendencia de Afectación";
+      document.getElementById('label-kpi-4').textContent = "Centros CIM en Territorio";
+
+      if (comunaIdx === 'todas') {
+        document.getElementById('kpi-1').textContent = "14.850";
+        document.getElementById('kpi-2').textContent = "5.960";
+        document.getElementById('kpi-3').textContent = "Alta";
+        document.getElementById('kpi-4').textContent = "15 CIM";
+      } else {
+        const idx = parseInt(comunaIdx);
+        document.getElementById('kpi-1').textContent = DATA_ESTADISTICA.casos_ovd[idx].toLocaleString('es-AR');
+        document.getElementById('kpi-2').textContent = DATA_ESTADISTICA.casos_fiscalia[idx].toLocaleString('es-AR');
+        document.getElementById('kpi-3').textContent = DATA_ESTADISTICA.casos_ovd[idx] > 1000 ? "Crítica" : "Moderada";
+        document.getElementById('kpi-4').textContent = DATA_ESTADISTICA.cim_cuenta[idx] + (DATA_ESTADISTICA.cim_cuenta[idx] === 1 ? " Centro" : " Centros");
+      }
+    }
+  }
+
+  function renderizarGraficoHorizontal(enfoque, comunaSeleccionada) {
+    const ctx = document.getElementById('seguridadChart').getContext('2d');
+    const configActual = CONFIG_TEMATICA[enfoque];
     const dataValores = enfoque === 'seguridad_general' ? DATA_ESTADISTICA.porcentaje_delitos : DATA_ESTADISTICA.casos_ovd;
-    const configActual = CONFIG_ENFOQUE[enfoque];
+    
+    // Lógica inteligente de resaltado de barra
+    const backgroundColors = dataValores.map((val, index) => {
+      if (comunaSeleccionada === 'todas') {
+        return configActual.color; // Todas las barras iguales
+      }
+      // Si hay comuna seleccionada, pintamos solo esa con color vivo y las demás opacas
+      return index === parseInt(comunaSeleccionada) ? configActual.color : '#e2e8f0';
+    });
 
     if (chartSeguridad) {
       chartSeguridad.destroy();
@@ -252,16 +325,16 @@
     chartSeguridad = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: DATA_ESTADISTICA.labels, // Las 15 comunas en el eje horizontal
+        labels: DATA_ESTADISTICA.labels,
         datasets: [{
           data: dataValores,
-          backgroundColor: configActual.bg,
+          backgroundColor: backgroundColors,
           borderRadius: 4,
-          barThickness: 18
+          barThickness: 14
         }]
       },
       options: {
-        indexAxis: 'x',
+        indexAxis: 'y', // VOLVIÓ A BARRAS HORIZONTALES POR RANKING
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -275,27 +348,23 @@
             displayColors: false,
             callbacks: {
               label: function(context) {
-                return ' ' + context.parsed.y + configActual.suffix;
+                return ' ' + context.parsed.x + configActual.suffix;
               }
             }
           }
         },
         scales: {
-          y: {
+          x: {
             grid: { color: '#f1f5f9' },
             ticks: { font: { family: 'Inter', size: 11 }, color: '#64748b' }
           },
-          x: {
+          y: {
             grid: { display: false },
             ticks: { font: { family: 'Inter', size: 11, weight: '600' }, color: '#334155' }
           }
         }
       }
     });
-  }
-
-  function cambiarEnfoqueSeguridad(nuevoEnfoque) {
-    renderizarGraficoSeguridad(nuevoEnfoque);
   }
 
   function navegarA(destino) {
