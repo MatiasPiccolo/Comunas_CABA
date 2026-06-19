@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seguridad Ciudadana y Género - Monitoreo CABA</title>
   
+  <!-- FUENTE ENCODE SANS (Regular y Expanded para títulos institucionales) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght=700;800&family=Encode+Sans:wght=300;400;500;600;700&display=swap" rel="stylesheet">
   
@@ -104,7 +105,7 @@
 
     /* KPIs */
     .grid-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; display: none; }
-    .card { background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 1.25rem; min-height: 105px; transition: transform 0.2s; display: flex; flex-direction: column; justify-content: center; }
+    .card { background: #fff; border: 1px solid var(--borde); border-radius: 16px; padding: 1.25rem; min-height: 105px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.2s; }
     .card:hover { transform: translateY(-2px); }
     .card.total-delitos { border-left: 5px solid var(--azul-nocturno); }
     .card.robo-hurto { border-left: 5px solid var(--celeste-principal); }
@@ -159,6 +160,7 @@
 
   <main class="main-container">
     
+    <!-- CONMUTADORES -->
     <div class="filter-zone-container">
       <div class="filter-group">
         <label for="enfoque-selector">Eje Temático:</label>
@@ -191,8 +193,10 @@
       </div>
     </div>
 
+    <!-- CARGANDO GOOGLE SHEETS -->
     <div id="loading-overlay">⏳ Sincronizando datos con Google Sheets de Seguridad y Género...</div>
 
+    <!-- TARJETAS KPIs -->
     <div class="grid-kpis" id="kpi-section">
       <div class="card total-delitos">
         <h3 id="label-kpi-1">-</h3>
@@ -212,6 +216,7 @@
       </div>
     </div>
 
+    <!-- GRÁFICOS -->
     <div class="visual-grid" id="visual-section">
       <div>
         <div class="section-title-container">
@@ -239,6 +244,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  // Configuración global por defecto de Chart.js antes del renderizado
+  Chart.defaults.font.family = 'Encode Sans';
+  Chart.defaults.font.size = 11;
+
   const URL_SEGURIDAD = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=559190406&single=true&output=csv";
   const URL_GENERO = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQ8sATZf_5Ow9EM4fnHqrFsKxgPJcIFCuOJPdgUG0_Mgoft7nQvY6HH-sE86qSAeXJVVE5bXCJURnb/pub?gid=937956706&single=true&output=csv";
 
@@ -263,13 +272,10 @@
     inicializarYAsignarDatos();
   });
 
-  // Limpiador y convertidor estricto de números con comas decimales regionales
   function limpiarYParsearNumero(valorRaw) {
     if (!valorRaw) return 0;
     let str = valorRaw.trim();
-    // Si contiene comas, reemplaza la coma decimal por punto para que JS lo entienda de forma nativa
     if (str.includes(',')) {
-      // Caso común: "14,2" -> "14.2"
       str = str.replace(',', '.');
     }
     let num = parseFloat(str);
@@ -342,20 +348,40 @@
         }
       });
 
+      // Búsqueda robusta por coincidencia de subcadenas para esquivar problemas de comas/comillas
+      let colOVD = "";
+      let colFiscalia = "";
+      
+      if (datosGenero.length > 0) {
+        Object.keys(datosGenero[0]).forEach(key => {
+          let lowerKey = key.toLowerCase();
+          if (lowerKey.includes("ovd") || (lowerKey.includes("hechos") && lowerKey.includes("violencia"))) {
+            colOVD = key;
+          }
+          // El fragmento "presencia de indicadores" identifica de forma inequívoca la columna larga
+          if (lowerKey.includes("presencia de indicadores") || lowerKey.includes("contravencionales")) {
+            colFiscalia = key;
+          }
+        });
+      }
+
       // Procesar hoja de Género
       datosGenero.forEach(row => {
         let comunaRaw = row["comuna"] ? row["comuna"].trim().toLowerCase() : "";
+        let valOVD = colOVD ? parseInt(row[colOVD]) || 0 : 0;
+        let valFiscalia = colFiscalia ? parseInt(row[colFiscalia]) || 0 : 0;
+
         if (comunaRaw === "todas") {
           MODELO_DATOS.totalesGlobales.genero = {
-            ovd: parseInt(row["Personas afectadas por hechos de violencia doméstica registradas por la Oficina de Violencia Doméstica de la Corte Suprema de Justicia de la Nación (OVD)"]) || 0,
-            fiscalia: parseInt(row["Casos contravencionales con presencia de indicadores de violencia de género, y/o doméstica ingresados a las fiscalías del Fuero Penal, Contravencional y de Faltas de CABA"]) || 0
+            ovd: valOVD,
+            fiscalia: valFiscalia
           };
         } else {
           let comKey = normalizarNombreComuna(row["comuna"]);
           if(comKey) {
             MODELO_DATOS.genero[comKey] = {
-              ovd: parseInt(row["Personas afectadas por hechos de violencia doméstica registradas por la Oficina de Violencia Doméstica de la Corte Suprema de Justicia de la Nación (OVD)"]) || 0,
-              fiscalia: parseInt(row["Casos contravencionales con presencia de indicadores de violencia de género, y/o doméstica ingresados a las fiscalías del Fuero Penal, Contravencional y de Faltas de CABA"]) || 0
+              ovd: valOVD,
+              fiscalia: valFiscalia
             };
           }
         }
@@ -407,7 +433,7 @@
         document.getElementById('kpi-4').textContent = dSeg.hurto_diario.toLocaleString('es-AR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
       }
     } else {
-      document.getElementById('label-kpi-1').textContent = "Hechos Reportados OVD";
+      document.getElementById('label-kpi-1').textContent = "Personas afectadas por hechos de violencia doméstica";
       document.getElementById('label-kpi-2').textContent = "Casos contravencionales con presencia de indicadores de violencia de género";
       document.getElementById('label-kpi-3').textContent = "Relación Casos CABA";
       document.getElementById('label-kpi-4').textContent = "Efectores de Apoyo";
@@ -457,7 +483,6 @@
 
     document.getElementById('titulo-grafico').textContent = configActual.label;
 
-    // Configuración con inyección explícita de tipografía Encode Sans en cada objeto visible
     chartSeguridad = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -477,8 +502,6 @@
           legend: { display: false },
           tooltip: {
             backgroundColor: '#0f172a',
-            titleFont: { family: 'Encode Sans', size: 12, weight: '600' },
-            bodyFont: { family: 'Encode Sans', size: 13 },
             padding: 10,
             cornerRadius: 8,
             displayColors: false,
@@ -492,17 +515,11 @@
         scales: {
           x: {
             grid: { color: '#f1f5f9' },
-            ticks: { 
-              font: { family: 'Encode Sans', size: 11 }, 
-              color: '#64748b' 
-            }
+            ticks: { color: '#64748b' }
           },
           y: {
             grid: { display: false },
-            ticks: { 
-              font: { family: 'Encode Sans', size: 11, weight: '600' }, 
-              color: '#334155' 
-            }
+            ticks: { font: { weight: '600' }, color: '#334155' }
           }
         }
       }
